@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/profile_page.dart';
+import 'package:poly_brewers/recipe_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,6 +11,7 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   int currentPage = 0;
+  final pages = [const RecipePage(), const ProfilePage()];
 
   @override 
   Widget build(BuildContext context) {
@@ -26,6 +29,9 @@ class HomePageState extends State<HomePage> {
         hoverColor: Colors.purple,
         
       ),
+
+      body: pages[currentPage],
+
       
       bottomNavigationBar: NavigationBar(
         destinations: const [
