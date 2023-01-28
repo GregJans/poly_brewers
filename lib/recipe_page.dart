@@ -4,12 +4,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
 
-class RecipePage extends StatefulWidget {
-  const RecipePage({Key? key}) : super(key: key);
-  State<RecipePage> createState() => RecipePageState();
-}
 
-class RecipePageState extends State<RecipePage> {
+class RecipePage extends StatelessWidget {
+  const RecipePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
