@@ -12,8 +12,9 @@ class RecipeState extends State<Recipe> {
   @override
   Widget build(BuildContext context) {
     return Card(
-            elevation: 50,
-            color: Colors.green,
+            elevation: 2,
+            color: Colors.white54,
+            margin: const EdgeInsets.all(8),
 
             child: SizedBox(
               width: 300,
