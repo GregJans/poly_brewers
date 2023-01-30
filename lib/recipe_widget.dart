@@ -12,13 +12,17 @@ class RecipeState extends State<Recipe> {
   @override
   Widget build(BuildContext context) {
     return Card(
-            elevation: 2,
-            color: Colors.white54,
+            elevation: 5,
+            color: Colors.white,
             margin: const EdgeInsets.all(8),
+            shape: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: const BorderSide(color: Colors.transparent),
+            ),
 
-            child: SizedBox(
-              width: 300,
-              height: 300,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              width: 250,
 
               child: Column(
                 children: const [
@@ -31,7 +35,7 @@ class RecipeState extends State<Recipe> {
                     ),
 
                   SizedBox(
-                    height: 100,
+                    height: 50,
                   ),
 
                   Text("This is a description"),
