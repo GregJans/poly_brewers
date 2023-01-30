@@ -1,3 +1,4 @@
+import 'dart:html';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -30,19 +31,54 @@ final String name;
               endIndent: 5,
           ),
 
-          SizedBox(
-            height: 300,
-            child: ScrollConfiguration(
-              behavior: MyCustomScrollBehavior(),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index ) {
-                  return const Recipe();
-                }
+          Row(
+            children: [
+              InkWell(
+                onTap: () { 
+                  //_animateToIndex(5);
+                  // here when i press this i want to make horizontal list of specific index to scroll
+                },
+                child: const SizedBox(
+                  height: 140,
+                  width: 40,
+                  child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.grey
+                  ),
+                ),
               ),
-            ),
-          ),
+
+              SizedBox(
+                height: 300,
+                width: MediaQuery.of(context).size.width - 110, //removing 110 to accomodate arrows
+                child: ScrollConfiguration(
+                  behavior: MyCustomScrollBehavior(),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 10,
+                    itemBuilder: (BuildContext context, int index ) {
+                      return const Recipe();
+                    }
+                  ),
+                ),
+              ),
+
+              InkWell(
+                onTap: () { 
+                  //_animateToIndex(5);
+                  // here when i press this i want to make horizontal list of specific index to scroll
+                },
+                child: const SizedBox(
+                  height: 140,
+                  width: 40,
+                  child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey
+                  ),
+                ),
+              ),
+            ],
+          ), 
         ]
       ),
     );
