@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "97582202787",
+    "project_id": "poly-brewers",
+    "storage_bucket": "poly-brewers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97582202787:android:7d42ff115eb81c8c3f6416",
+        "android_client_info": {
+          "package_name": "com.example.poly_brewers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97582202787-4b6n1ml9ue9stkb6v1bu5mmc4c3unq0h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbAAVWRYO1oxCzjcyHW0G1wQJS1qPCaYc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97582202787-4b6n1ml9ue9stkb6v1bu5mmc4c3unq0h.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "97582202787-temaek9fjegjct7kv7588m1r5vg3a2uc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.polyBrewers"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
