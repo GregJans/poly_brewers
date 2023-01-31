@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Poly-Brewers',
       theme: ThemeData(
-        primarySwatch: Colors.brown,
+        primarySwatch: Colors.brown
       ),
       debugShowCheckedModeBanner: false,
       home: const HomePage(),

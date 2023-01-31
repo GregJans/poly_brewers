@@ -49,7 +49,7 @@ final String name;
               ),
 
               SizedBox(
-                height: 300,
+                height: 250,
                 width: MediaQuery.of(context).size.width - 110, //removing 110 to accomodate arrows
                 child: ScrollConfiguration(
                   behavior: MyCustomScrollBehavior(),

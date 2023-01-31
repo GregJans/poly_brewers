@@ -76,7 +76,7 @@ class HomePageState extends State<HomePage> {
         onPressed: (){
           debugPrint("Button pressed");
         },
-        hoverColor: Colors.purple,
+        hoverColor: const Color(0xFFBE25AF),
         
       ),
 
