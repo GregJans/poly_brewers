@@ -112,7 +112,6 @@ class RecipeState extends State<Recipe> {
         ),
       ),
     );
-
   }
 }
 
