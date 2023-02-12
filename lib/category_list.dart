@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,77 +9,52 @@ final String name;
 
   @override
   Widget build(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+          child: Text(
             name,
             style: const TextStyle(
-              fontSize: 50,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
+              fontSize: 22,
+              color: Color.fromARGB(255, 87, 99, 108)
             ),
           ),
-
-          const Divider(
-              color: Colors.black,
-              height: 25,
-              thickness: 2,
-              indent: 5,
-              endIndent: 5,
+        ),
+        const Padding(
+          padding:
+              EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
+          child: Text(
+            'Over 30 cattegories',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 14,
+              color: Color.fromARGB(255, 87, 99, 108)
+            ),
           ),
-
-          Row(
-            children: [
-              InkWell(
-                onTap: () { 
-                  //_animateToIndex(5);
-                  // here when i press this i want to make horizontal list of specific index to scroll
-                },
-                child: const SizedBox(
-                  height: 140,
-                  width: 40,
-                  child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.grey
-                  ),
-                ),
-              ),
-
-              SizedBox(
-                height: 250,
-                width: MediaQuery.of(context).size.width - 110, //removing 110 to accomodate arrows
-                child: ScrollConfiguration(
-                  behavior: MyCustomScrollBehavior(),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 10,
-                    itemBuilder: (BuildContext context, int index ) {
-                      return const Recipe();
-                    }
-                  ),
-                ),
-              ),
-
-              InkWell(
-                onTap: () { 
-                  //_animateToIndex(5);
-                  // here when i press this i want to make horizontal list of specific index to scroll
-                },
-                child: const SizedBox(
-                  height: 140,
-                  width: 40,
-                  child: Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.grey
-                  ),
-                ),
-              ),
-            ],
-          ), 
-        ]
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 206,
+            decoration: const BoxDecoration(
+              color: Color.fromARGB(255, 241, 244, 248),
+            ),
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              primary: false,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: 5,
+              itemBuilder: (context, index) => const Recipe(),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
