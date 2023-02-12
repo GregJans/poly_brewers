@@ -34,8 +34,8 @@ class ProfilePageState extends State<ProfilePage> {
                   child: Text(
                     'Want more from Poly Brewers?',
                     style: TextStyle(
-                          //fontFamily: 'Roboto',
                           fontSize: 50,
+                          color: Color.fromARGB(255, 16, 18, 19)
                         ),
                   ),
                 ),
@@ -44,8 +44,8 @@ class ProfilePageState extends State<ProfilePage> {
                   child: Text(
                     'Sign in or create an account to unlock all functionality',
                     style: TextStyle(
-                          //fontFamily: 'Poppins',
                           fontSize: 25,
+                          color: Color.fromARGB(255, 16, 18, 19)
                         ),
                   ),
                 ),
@@ -71,7 +71,10 @@ class ProfilePageState extends State<ProfilePage> {
                         obscureText: false,
                         decoration: InputDecoration(
                           labelText: 'Your email address',
-                          //labelStyle: FlutterFlowTheme.of(context).bodyText2,
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 87, 99, 108),  
+                            fontSize: 14,
+                          ),
                           //hintStyle: FlutterFlowTheme.of(context).bodyText2,
                           enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
@@ -133,8 +136,14 @@ class ProfilePageState extends State<ProfilePage> {
                         obscureText: !passwordVisibility,
                         decoration: InputDecoration(
                           labelText: 'Password',
-                          //labelStyle: FlutterFlowTheme.of(context).bodyText2,
-                          //hintStyle: FlutterFlowTheme.of(context).bodyText2,
+                          labelStyle: const TextStyle(
+                            color: Color.fromARGB(255, 87, 99, 108),  
+                            fontSize: 14,
+                          ),
+                          hintStyle: const TextStyle(
+                            color: Color.fromARGB(255, 87, 99, 108),  
+                            fontSize: 14,
+                          ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: const  BorderSide(
                               color: Color(0x00000000),
@@ -204,6 +213,14 @@ class ProfilePageState extends State<ProfilePage> {
                             child: Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                               child: TextButton(
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.hovered))
+                                      return Color.fromARGB(255, 16, 18, 19);
+                                  return Colors.grey; // null throus error in flutter 2.2+.
+                                  }),
+                                ),
                                 onPressed: (){
                                   debugPrint("Sign in");
                                 },
@@ -211,7 +228,6 @@ class ProfilePageState extends State<ProfilePage> {
                                   'Sign In',
                                   style: TextStyle(
                                     fontSize: 20,
-                                    color: Colors.black,
                                   ),
                                 ),
                               ),
@@ -226,14 +242,20 @@ class ProfilePageState extends State<ProfilePage> {
                             child: Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                               child: TextButton(
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.hovered))
+                                      return Color.fromARGB(255, 16, 18, 19);
+                                  return Colors.grey; // null throus error in flutter 2.2+.
+                                  }),
+                                ),
                                 onPressed: () {
                                   debugPrint("Sign Up");
                                 },
                                 child: const Text(
                                   'Sign Up',
                                   style: TextStyle(
-                                    //fontFamily: 'Poppins',
-                                    color: Colors.black,
                                     fontSize: 20,
                                   ),
                                 ),
