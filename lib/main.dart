@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/home_page.dart';
 import 'package:poly_brewers/recipe_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() {
   runApp(const MyApp());
