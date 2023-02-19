@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:poly_brewers/recipe_widget.dart';
 
 class CategoryList extends StatelessWidget {
-const CategoryList({ Key? key, required this.name}) : super(key: key);
-final String name;
+  const CategoryList({ Key? key, required this.name, required this.amount}) : super(key: key);
+  final String name;
+  final int amount;
 
   @override
   Widget build(BuildContext context){
+
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -24,12 +26,11 @@ final String name;
             ),
           ),
         ),
-        const Padding(
-          padding:
-              EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
           child: Text(
-            'Over 30 cattegories',
-            style: TextStyle(
+            'Over $amount brews',
+            style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14,
               color: Color.fromARGB(255, 87, 99, 108)
@@ -37,21 +38,24 @@ final String name;
           ),
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 50),
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: 206,
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 241, 244, 248),
             ),
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              primary: false,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (context, index) => const Recipe(),
-            ),
+            child: ScrollConfiguration(
+              behavior: MyCustomScrollBehavior(),
+              child: ListView.builder(
+                padding: EdgeInsets.zero,
+                primary: false,
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: amount,
+                itemBuilder: (context, index) => const Recipe(name: "Beer name", rating: 4.5,),
+              ),
+            )
           ),
         ),
       ],
