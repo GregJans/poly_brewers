@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/individual_page.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Recipe extends StatefulWidget {
   //make parameters for name and rating
-  const Recipe({Key? key, required}) : super(key: key);
+  const Recipe({Key? key, required this.name, required this.rating}) : super(key: key);
+  final String name;
+  final double rating;
 
   @override
   State<Recipe> createState() => RecipeState();
 } 
 
 class RecipeState extends State<Recipe> {
+  Color buttonColor = const Color.fromARGB(255, 16, 18, 19);
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +60,9 @@ class RecipeState extends State<Recipe> {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Beer Name',
-                        style: TextStyle(
+                      Text(
+                        widget.name,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                           color: Color.fromARGB(255, 16, 18, 19)
@@ -68,56 +73,22 @@ class RecipeState extends State<Recipe> {
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            /*
                             RatingBarIndicator(
-                              itemBuilder: (context, index) => Icon(
+                              itemBuilder: (context, index) => const Icon(
                                 Icons.sports_bar_rounded,
                                 color: Color(0xFF7A5C17),
                               ),
                               direction: Axis.horizontal,
-                              rating: 4,
-                              unratedColor: Color(0xFFABA6A6),
+                              rating: widget.rating,
+                              unratedColor: const Color(0xFFABA6A6),
                               itemCount: 5,
                               itemSize: 16,
                             ),
-                            */
-                            Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: const [
-                                Icon(
-                                  Icons.sports_bar_rounded,
-                                  color: Color(0xFF7A5C17),
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.sports_bar_rounded,
-                                  color: Color(0xFF7A5C17),
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.sports_bar_rounded,
-                                  color: Color(0xFF7A5C17),
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.sports_bar_rounded,
-                                  color: Color(0xFFABA6A6),
-                                  size: 16,
-                                ),
-                                Icon(
-                                  Icons.sports_bar_rounded,
-                                  color: Color(0xFFABA6A6),
-                                  size: 16,
-                                ),
-                              ],
-                            ),
-                            const Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                               child: Text(
-                                '4.7',
-                                style: TextStyle(
+                                widget.rating.toString(),
+                                style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 87, 99, 108),
@@ -132,12 +103,25 @@ class RecipeState extends State<Recipe> {
                   ),
                   InkWell(
                     onTap: () {
-                      debugPrint("View");
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const IndividualPageWidget()));
+                    },
+                    onHover: (bool hovered) {
+                      if (hovered) {
+                        setState(() {
+                        buttonColor = Colors.purple;
+                      });
+                      }
+                      else {
+                        setState(() {
+                          buttonColor = const Color.fromARGB(255, 16, 18, 19);
+                        });
+                      }
+                      
                     },
                     child: Container(
                       height: 32,
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 16, 18, 19),
+                        color: buttonColor,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       alignment: const AlignmentDirectional(0, 0),

@@ -150,7 +150,6 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                               padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
                               child: Container(
                                 width: double.infinity,
-                                height: 700,
                                 decoration: const BoxDecoration(
                                   color: Color.fromARGB(255, 241, 244, 248),
                                   borderRadius: BorderRadius.only(
@@ -162,8 +161,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 16),
-                                  child: SingleChildScrollView(
-                                    child: Column(
+                                  child: Column(
                                       children: const [
                                         Divider(
                                           height: 8,
@@ -172,11 +170,10 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                           endIndent: 140,
                                           //color: FlutterFlowTheme.of(context).lineColor,
                                         ),
-                                        CategoryList(name: "IPA"),
-                                        CategoryList(name: "Lagers"),
-                                        CategoryList(name: "Others")
-                                      ],
-                                    ),
+                                        CategoryList(name: "IPA", amount: 4,),
+                                        CategoryList(name: "Lagers", amount: 7,),
+                                        CategoryList(name: "Others", amount: 14,)
+                                    ],
                                   ),
                                 ),
                               ),
