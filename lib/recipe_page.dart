@@ -72,7 +72,8 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Expanded(
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width - 50,
                                     child: TextFormField(
                                       controller: textController,
                                       obscureText: false,
