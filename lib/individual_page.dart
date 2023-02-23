@@ -592,7 +592,6 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     ),
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                      child: Expanded(
                       child: Text(
                         'The brew was decent with notes of caramel, lemongrass, slight hit of berry.\n',
                         textAlign: TextAlign.start,
@@ -600,7 +599,6 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           fontSize: 18,
                           color: Color.fromARGB(255, 16, 18, 19)
                         ),
-                      ),
                       ),
                     ),
                   ],
