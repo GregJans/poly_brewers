@@ -47,7 +47,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                     Align(
                       alignment: const AlignmentDirectional(0.05, -1),
                       child: Image.asset(
-                        'assets/beer-glasses-bartop.jpg',
+                        'beer-glasses-bartop.jpg',
                         width: double.infinity,
                         height: 500,
                         fit: BoxFit.cover,
@@ -74,7 +74,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                 children: [
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width - 50,
-                                    child: TextFormField(
+                                    child: TextField(
                                       controller: textController,
                                       obscureText: false,
                                       decoration: InputDecoration(
@@ -123,6 +123,11 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                           color: Color.fromARGB(255, 16, 18, 19),
                                           size: 16,
                                         ),
+                                        suffixIcon: IconButton(
+                                          icon: const Icon(Icons.filter_alt_rounded),
+                                          onPressed: () => debugPrint("filter"),
+                                        ),
+                                        
                                       ),
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w600,

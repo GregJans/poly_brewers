@@ -29,7 +29,7 @@ class CategoryList extends StatelessWidget {
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
           child: Text(
-            'Over $amount brews',
+            'Found $amount brews',
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 14,
