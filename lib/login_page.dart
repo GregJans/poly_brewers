@@ -1,10 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/profile_page.dart';
 
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final Function() notifyParent;
+  const LoginPage({Key? key, required this.notifyParent}) : super(key: key);
 
   @override
   State<LoginPage> createState() => LoginPageState();
@@ -12,7 +14,6 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   bool passwordVisibility = false;
-  bool loggedIn = true;
 
   @override
   Widget build(BuildContext context) {
@@ -217,7 +218,7 @@ class LoginPageState extends State<LoginPage> {
                               }),
                             ),
                             onPressed: (){
-                              debugPrint("Sign in");
+                              widget.notifyParent();
                             },
                             child: const Text(
                               'Sign In',

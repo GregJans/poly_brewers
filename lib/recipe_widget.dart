@@ -44,7 +44,7 @@ class RecipeState extends State<Recipe> {
                 topRight: Radius.circular(12),
               ),
               child: Image.asset(
-                'assets/beer-glasses-bartop.jpg',
+                'beer-glasses-bartop.jpg',
                 width: double.infinity,
                 height: 110,
                 fit: BoxFit.cover,
