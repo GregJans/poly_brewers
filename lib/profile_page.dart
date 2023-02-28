@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/brew_form.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/login_page.dart';
 
@@ -136,37 +137,42 @@ class ProfilePageState extends State<ProfilePage> {
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: const [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                            child: Text(
-                              'Submit A New Recipe',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 16, 18, 19)
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const BrewForm()));
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.rectangle,
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: const [
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                              child: Text(
+                                'Submit A New Recipe',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Color.fromARGB(255, 16, 18, 19)
+                                ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: AlignmentDirectional(0.9, 0),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color(0xFF95A1AC),
-                                size: 18,
+                            Expanded(
+                              child: Align(
+                                alignment: AlignmentDirectional(0.9, 0),
+                                child: Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Color(0xFF95A1AC),
+                                  size: 18,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
