@@ -270,7 +270,7 @@ class LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                           child: IconButton(
                             icon: Image.asset(
-                              'google_logo.png',
+                              'images/google_logo.png',
                               fit:BoxFit.fill,
                             ),
 

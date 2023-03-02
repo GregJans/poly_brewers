@@ -15,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 
 class ProfilePageState extends State<ProfilePage> {
   static bool loggedIn = false;
-  Color logoutButtonColor = Colors.white;
+  var buttonColor = [Colors.white, Colors.white, Colors.white];
 
   refresh() {
     setState(() {
@@ -55,7 +55,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 Align(
                                   alignment: const AlignmentDirectional(0, 0),
                                   child: Image.asset(
-                                    'taps.jpg',
+                                    'images/taps.jpg',
                                     width: MediaQuery.of(context).size.width,
                                     height: 130,
                                     fit: BoxFit.cover,
@@ -139,13 +139,48 @@ class ProfilePageState extends State<ProfilePage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const BrewForm()));
+                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const BrewForm()));
+                        showDialog(
+                          context: context, 
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Stack(
+                                children: [
+                                  const BrewForm(),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: IconButton(
+                                      hoverColor: Color.fromARGB(0, 241, 241, 241),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      icon: Icon(Icons.close),  
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          }
+                        );
+                      },
+                      onHover: (bool hovered) {
+                        if (hovered) {
+                          setState(() {
+                          buttonColor[0] = Color.fromARGB(255, 243, 243, 243);
+                        });
+                        }
+                        else {
+                          setState(() {
+                            buttonColor[0] = Colors.white;
+                          });
+                        }
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
                         height: 50,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: buttonColor[0],
                           shape: BoxShape.rectangle,
                         ),
                         child: Row(
@@ -225,12 +260,12 @@ class ProfilePageState extends State<ProfilePage> {
                   onHover: (bool hovered) {
                       if (hovered) {
                         setState(() {
-                        logoutButtonColor = const Color.fromARGB(255, 255, 96, 96);
+                        buttonColor[2] = const Color.fromARGB(255, 255, 96, 96);
                       });
                       }
                       else {
                         setState(() {
-                          logoutButtonColor = Colors.white;
+                          buttonColor[2] = Colors.white;
                         });
                       }
                   },
@@ -243,7 +278,7 @@ class ProfilePageState extends State<ProfilePage> {
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: logoutButtonColor,
+                            color: buttonColor[2],
                             shape: BoxShape.rectangle,
                           ),
                           child: Row(
