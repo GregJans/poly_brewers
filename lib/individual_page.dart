@@ -30,7 +30,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     Align(
                       alignment: const AlignmentDirectional(0, 0),
                       child: Image.asset(
-                        'assets/beer-glasses-bartop.jpg',
+                        'images/beer-glasses-bartop.jpg',
                         width: MediaQuery.of(context).size.width,
                         height: 240,
                         fit: BoxFit.cover,

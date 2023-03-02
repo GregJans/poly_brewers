@@ -62,8 +62,8 @@ flutter:
   fonts:
       - family: Poppins
         fonts:
-          - asset: assets/Poppins-SemiBold.ttf
-          - asset: assets/Poppins-SemiBoldItalic.ttf
+          - asset: assets/fonts/Poppins-SemiBold.ttf
+          - asset: assets/fonts/Poppins-SemiBoldItalic.ttf
             style: italic
 
   # The following line ensures that the Material Icons font is

@@ -28,6 +28,20 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     super.dispose();
   }
 
+  void _showOverlay(BuildContext context) async {
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(builder: (context) {
+        
+      // You can return any widget you like here
+      // to be displayed on the Overlay
+      return Container();
+    });
+  
+    // Inserting the OverlayEntry into the Overlay
+    overlayState.insert(overlayEntry);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +61,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                     Align(
                       alignment: const AlignmentDirectional(0.05, -1),
                       child: Image.asset(
-                        'beer-glasses-bartop.jpg',
+                        'images/beer-glasses-bartop.jpg',
                         width: double.infinity,
                         height: 500,
                         fit: BoxFit.cover,
@@ -125,7 +139,9 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                         ),
                                         suffixIcon: IconButton(
                                           icon: const Icon(Icons.filter_alt_rounded),
-                                          onPressed: () => debugPrint("filter"),
+                                          onPressed: () {
+                                            _showOverlay(context);
+                                          },
                                         ),
                                         
                                       ),
@@ -168,17 +184,17 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 16),
                                   child: Column(
-                                      children: const [
-                                        Divider(
-                                          height: 8,
-                                          thickness: 4,
-                                          indent: 140,
-                                          endIndent: 140,
-                                          //color: FlutterFlowTheme.of(context).lineColor,
-                                        ),
-                                        CategoryList(name: "IPA", amount: 4,),
-                                        CategoryList(name: "Lagers", amount: 7,),
-                                        CategoryList(name: "Others", amount: 14,)
+                                    children: const [
+                                      Divider(
+                                        height: 8,
+                                        thickness: 4,
+                                        indent: 140,
+                                        endIndent: 140,
+                                        //color: FlutterFlowTheme.of(context).lineColor,
+                                      ),
+                                      CategoryList(name: "IPA", amount: 4,),
+                                      CategoryList(name: "Lagers", amount: 7,),
+                                      CategoryList(name: "Others", amount: 14,)
                                     ],
                                   ),
                                 ),
