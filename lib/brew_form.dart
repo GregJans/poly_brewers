@@ -26,20 +26,26 @@ class BrewFormState extends State<BrewForm> {
 
   int step = 1;
   
-  refresh() {
-    if (step < 3) {
+  refresh({bool prev = false}) {
+    if (step < 3 && !prev) {
       setState(() {
         step++;
       });
     }
+    else if (step > 1 && prev) {
+      setState(() {
+        step--;
+      });
+    }
   }
+  
 
   @override
   Widget build(BuildContext context) {
     var steps = [
       FormPage1(notifyParent: refresh,),
       FormPage2(notifyParent: refresh,),
-      FormPage3(notifyParent: refresh)
+      FormPage3(notifyParent: refresh,)
     ];
     
     return SingleChildScrollView(

@@ -214,53 +214,66 @@ class ProfilePageState extends State<ProfilePage> {
                 ),
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                              child: Text(
-                                'Edit Profile',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 16, 18, 19)
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFF95A1AC),
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                  child: InkWell(
+                    onTap: () {
+                      debugPrint("edit profile");
+                    },
+                    onHover: (bool hovered) {
+                      if (hovered) {
+                        setState(() {
+                        buttonColor[1] = Color.fromARGB(255, 243, 243, 243);
+                      });
+                      }
+                      else {
+                        setState(() {
+                          buttonColor[1] = Colors.white;
+                        });
+                      }
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: buttonColor[1],
+                        shape: BoxShape.rectangle,
                       ),
-                    ],
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                            child: Text(
+                              'Edit Profile',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 16, 18, 19)
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Align(
+                              alignment: AlignmentDirectional(0.9, 0),
+                              child: Icon(
+                                Icons.arrow_forward_ios,
+                                color: Color(0xFF95A1AC),
+                                size: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 InkWell(
                   onTap: () => setState(() {
                     loggedIn = false;
+                    buttonColor[2] = Colors.white;
                   }),
                   onHover: (bool hovered) {
                       if (hovered) {
                         setState(() {
-                        buttonColor[2] = const Color.fromARGB(255, 255, 96, 96);
+                        buttonColor[2] = Color.fromARGB(144, 255, 96, 96);
                       });
                       }
                       else {

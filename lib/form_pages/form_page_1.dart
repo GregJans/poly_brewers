@@ -19,7 +19,7 @@ class FormPage1State extends State<FormPage1> {
   final _formKey = GlobalKey<FormState>();
   String? difficultyValue;
   String? styleValue;
-  bool isChecked = false;
+  var isChecked = [false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +37,18 @@ class FormPage1State extends State<FormPage1> {
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(25))
                 ),
-                child: LinearProgressIndicator(
+                child: const LinearProgressIndicator(
                   value: 1 / 3,
                   semanticsLabel: "Progress of form completion",
-                  backgroundColor: const Color(0xFFE7E7E7),
-                  color: const Color(0xFF6FF163),
+                  backgroundColor: Color(0xFFE7E7E7),
+                  color: Color(0xFF6FF163),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
                 child: Text(
                   "Step 1 of 3",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
                     color: Color(0xFF95A1AC),
                     fontStyle: FontStyle.italic
@@ -63,7 +63,7 @@ class FormPage1State extends State<FormPage1> {
                       "Name:",
                       style: TextStyle(
                         color: Color.fromARGB(255, 16, 18, 19),
-                        fontSize: 18
+                        fontSize: 14
                       ),
                     ),
                   ],
@@ -73,6 +73,7 @@ class FormPage1State extends State<FormPage1> {
                 //height: 45,
                 child: TextFormField(
                   decoration: InputDecoration(
+                    isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -89,7 +90,7 @@ class FormPage1State extends State<FormPage1> {
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return 'Please enter a name';
                     }
                     return null;
                   },
@@ -98,79 +99,102 @@ class FormPage1State extends State<FormPage1> {
               Padding(
                 padding: EdgeInsets.only(top: 50),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Text(
-                        "Difficulty:",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 16, 18, 19),
-                          fontSize: 18
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text(
+                            "Difficulty:",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 16, 18, 19),
+                              fontSize: 14
+                            ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Color.fromARGB(134, 218, 218, 218),
+                          ),
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                          child: DropdownButton<String>(
+                            value: difficultyValue,
+                            icon: const Icon(Icons.arrow_drop_down_rounded),
+                            hint: const Text("Please select one"),
+                            focusColor: Colors.transparent,
+                            //elevation: 16,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            underline: Container(
+                              height: 0,
+                            ),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                difficultyValue = value!;
+                              });
+                            },
+                            items: difficultyList.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),  
+                      ],
                     ),
-                    
-                    DropdownButton<String>(
-                      value: difficultyValue,
-                      icon: const Icon(Icons.arrow_downward),
-                      hint: const Text("Please select one"),
-                      //elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          difficultyValue = value!;
-                        });
-                      },
-                      items: difficultyList.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(width: MediaQuery.of(context).size.width / 4,),
-                    Padding(
-                      padding: EdgeInsets.only(right: 20),
-                      child: Text(
-                        "Style:",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 16, 18, 19),
-                          fontSize: 18
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 20),
+                          child: Text(
+                            "Style:",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 16, 18, 19),
+                              fontSize: 14
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    
-                    DropdownButton<String>(
-                      value: styleValue,
-                      icon: const Icon(Icons.arrow_downward),
-                      hint: const Text("Please select one"),
-                      //elevation: 16,
-                      style: const TextStyle(color: Colors.deepPurple),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
-                      ),
-                      onChanged: (String? value) {
-                        // This is called when the user selects an item.
-                        setState(() {
-                          styleValue = value!;
-                        });
-                      },
-                      items: categoryList.map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
+                        Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Color.fromARGB(134, 218, 218, 218),
+                          ),
+                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                          child: DropdownButton<String>(
+                            value: styleValue,
+                            icon: const Icon(Icons.arrow_drop_down_rounded),
+                            hint: const Text("Please select one"),
+                            //elevation: 16,
+                            focusColor: Colors.transparent,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            underline: Container(
+                              height: 0,
+                            ),
+                            onChanged: (String? value) {
+                              // This is called when the user selects an item.
+                              setState(() {
+                                styleValue = value!;
+                              });
+                            },
+                            items: categoryList.map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        
+                      ],
                     ),
                   ],
                 ),
               ),
+                    //SizedBox(width: MediaQuery.of(context).size.width / 4,),
+                    
               Padding(
                 padding: EdgeInsets.only(top: 50),
                 child: Row(
@@ -181,7 +205,7 @@ class FormPage1State extends State<FormPage1> {
                         "Bitterness:",
                         style: TextStyle(
                           color: Color.fromARGB(255, 16, 18, 19),
-                          fontSize: 18
+                          fontSize: 14
                         ),
                       ),
                     ),
@@ -189,6 +213,7 @@ class FormPage1State extends State<FormPage1> {
                       width: 150,
                       child: TextFormField(
                         decoration: InputDecoration(
+                          isDense: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -205,7 +230,7 @@ class FormPage1State extends State<FormPage1> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter some text';
+                            return 'Please enter IBU';
                           }
                           return null;
                         },
@@ -217,7 +242,7 @@ class FormPage1State extends State<FormPage1> {
                         "IBU",
                         style: TextStyle(
                           color: Color.fromARGB(255, 16, 18, 19),
-                          fontSize: 18
+                          fontSize: 14
                         ),
                       ),
                     ),
@@ -232,7 +257,7 @@ class FormPage1State extends State<FormPage1> {
                       "Required Equipment:",
                       style: TextStyle(
                         color: Color.fromARGB(255, 16, 18, 19),
-                        fontSize: 18
+                        fontSize: 14
                       ),
                     ),
                   ],
@@ -244,10 +269,10 @@ class FormPage1State extends State<FormPage1> {
                   Row(
                     children: [
                       Checkbox(
-                        value: isChecked, 
+                        value: isChecked[0], 
                         onChanged: (bool? value) {
                           setState(() {
-                            isChecked = value!;
+                            isChecked[0] = value!;
                           });
                         }
                       ),
@@ -258,10 +283,10 @@ class FormPage1State extends State<FormPage1> {
                   Row(
                     children: [
                       Checkbox(
-                        value: isChecked, 
+                        value: isChecked[1], 
                         onChanged: (bool? value) {
                           setState(() {
-                            isChecked = value!;
+                            isChecked[1] = value!;
                           });
                         }
                       ),
@@ -272,10 +297,10 @@ class FormPage1State extends State<FormPage1> {
                   Row(
                     children: [
                       Checkbox(
-                        value: isChecked, 
+                        value: isChecked[2], 
                         onChanged: (bool? value) {
                           setState(() {
-                            isChecked = value!;
+                            isChecked[2] = value!;
                           });
                         }
                       ),
@@ -286,10 +311,10 @@ class FormPage1State extends State<FormPage1> {
                   Row(
                     children: [
                       Checkbox(
-                        value: isChecked, 
+                        value: isChecked[3], 
                         onChanged: (bool? value) {
                           setState(() {
-                            isChecked = value!;
+                            isChecked[3] = value!;
                           });
                         }
                       ),
@@ -300,10 +325,10 @@ class FormPage1State extends State<FormPage1> {
                   Row(
                     children: [
                       Checkbox(
-                        value: isChecked, 
+                        value: isChecked[4], 
                         onChanged: (bool? value) {
                           setState(() {
-                            isChecked = value!;
+                            isChecked[4] = value!;
                           });
                         }
                       ),

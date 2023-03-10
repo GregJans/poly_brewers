@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/recipe_widget.dart';
@@ -7,9 +8,12 @@ class CategoryList extends StatelessWidget {
   const CategoryList({ Key? key, required this.name, required this.amount}) : super(key: key);
   final String name;
   final int amount;
+  
 
   @override
   Widget build(BuildContext context){
+
+    int displayed = min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -45,29 +49,29 @@ class CategoryList extends StatelessWidget {
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 241, 244, 248),
             ),
-            child: ScrollConfiguration(
-              behavior: MyCustomScrollBehavior(),
-              child: ListView.builder(
-                padding: EdgeInsets.zero,
-                primary: false,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemCount: amount,
-                itemBuilder: (context, index) => const Recipe(name: "Beer name", rating: 4.5,),
-              ),
-            )
+            child: Row(
+              children: [
+                ListView.builder(
+                  padding: EdgeInsets.zero,
+                  primary: false,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: displayed,
+                  itemBuilder: (context, index) => const Recipe(name: "Beer name", rating: 4.5,),
+                ),
+                if (amount > displayed)
+                  IconButton(
+                    onPressed: () {
+                      // when pressed, wipe screen and only show these (same as if they searched in the bar for this category)
+                      debugPrint("viewing all");
+                    }, 
+                    icon: const Icon(Icons.arrow_forward_ios_rounded),
+                  ), 
+              ],
+            ),
           ),
         ),
       ],
     );
   }
-}
-
-class MyCustomScrollBehavior extends MaterialScrollBehavior {
-  // Override behavior methods and getters like dragDevices
-  @override
-  Set<PointerDeviceKind> get dragDevices => { 
-    PointerDeviceKind.touch,
-    PointerDeviceKind.mouse,
-  };
 }
