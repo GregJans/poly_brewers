@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
+import 'package:poly_brewers/filter_overlay.dart';
 
 
 class MainRecipePageWidget extends StatefulWidget {
@@ -11,9 +14,17 @@ class MainRecipePageWidget extends StatefulWidget {
 
 class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     with TickerProviderStateMixin {
+
+
   TextEditingController? textController;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
+  GlobalKey _key = LabeledGlobalKey("button_icon");
+  late OverlayEntry _overlayEntry;
+  late Size buttonSize;
+  late Offset buttonPosition;
+  bool isMenuOpen = false;
 
   @override
   void initState() {
@@ -28,18 +39,44 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     super.dispose();
   }
 
-  void _showOverlay(BuildContext context) async {
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry;
-    overlayEntry = OverlayEntry(builder: (context) {
-        
-      // You can return any widget you like here
-      // to be displayed on the Overlay
-      return Container();
-    });
+  findButton() {
+    RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
+    buttonSize = renderBox.size;
+    buttonPosition = renderBox.localToGlobal(Offset(-widgetWidth, 15));
+  }
+
   
-    // Inserting the OverlayEntry into the Overlay
-    overlayState.insert(overlayEntry);
+
+  OverlayEntry _overlayEntryBuilder() {
+    return OverlayEntry(builder: (context) {
+      return Positioned(
+        top: buttonPosition.dy + buttonSize.height,
+        left: buttonPosition.dx,
+        width: widgetWidth,
+        child: Material(
+          color: Colors.transparent,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: ClipPath(
+                  clipper: ArrowClipper(),
+                  child: Container(
+                    width: 17,
+                    height: 17,
+                    color: Color.fromARGB(150, 255, 255, 255),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 17.0),
+                child: FilterOverlay()
+              ),  
+            ],
+          ),      
+        ),
+      );
+    });
   }
 
   @override
@@ -138,9 +175,19 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                           size: 16,
                                         ),
                                         suffixIcon: IconButton(
+                                          key: _key,
                                           icon: const Icon(Icons.filter_alt_rounded),
                                           onPressed: () {
-                                            _showOverlay(context);
+                                            if (isMenuOpen) {
+                                              _overlayEntry.remove();
+                                              isMenuOpen = !isMenuOpen;
+                                            } 
+                                            else {
+                                              findButton();
+                                              _overlayEntry = _overlayEntryBuilder();
+                                              Overlay.of(context)!.insert(_overlayEntry);
+                                              isMenuOpen = !isMenuOpen;
+                                            }
                                           },
                                         ),
                                         
@@ -150,7 +197,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                         fontSize: 14,
                                         color: Color.fromARGB(255, 16, 18, 19)
                                       ),
-                                      maxLines: null,
+                                      maxLines: 1,
                                     ),
                                   ),
                                 ],
@@ -212,5 +259,21 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
         ),
       ),
     );
+  }
+}
+
+class ArrowClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(0, size.height);
+    path.lineTo(size.width / 2, size.height / 2);
+    path.lineTo(size.width, size.height);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
   }
 }
