@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 double widgetWidth = 200;
-
 
 class FilterOverlay extends StatefulWidget {
   const FilterOverlay({super.key});
@@ -13,8 +13,13 @@ class FilterOverlay extends StatefulWidget {
 }
 
 class _FilterOverlayState extends State<FilterOverlay> {
-
-  static var equipList = [["1-Gal", false], ["2-Gal", false], ["5-Gal", false], ["Keg", false], ["Bottles", false]];
+  static var equipList = [
+    ["1-Gal", false],
+    ["2-Gal", false],
+    ["5-Gal", false],
+    ["Keg", false],
+    ["Bottles", false]
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +43,20 @@ class _FilterOverlayState extends State<FilterOverlay> {
           Wrap(
             alignment: WrapAlignment.start,
             direction: Axis.horizontal,
-            children:List.generate(
+            children: List.generate(
               equipList.length,
-              (index){
+              (index) {
                 return SizedBox(
                   width: 110,
                   child: CheckboxListTile(
                     title: Text(
                       equipList[index][0] as String,
                       style: TextStyle(fontSize: 10),
-                      ),
+                    ),
                     value: equipList[index][1] as bool,
                     dense: true,
-                    visualDensity: VisualDensity(horizontal: -4.0, vertical: -4.0),
+                    visualDensity:
+                        VisualDensity(horizontal: -4.0, vertical: -4.0),
                     onChanged: (value) {
                       setState(() {
                         equipList[index][1] = value!;

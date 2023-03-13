@@ -1,10 +1,15 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/brew_form.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/login_page.dart';
-
+import 'package:json_annotation/json_annotation.dart';
+import 'package:poly_brewers/services/firestore.dart';
+import 'package:poly_brewers/services/auth.dart';
+import 'package:poly_brewers/services/models.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -15,6 +20,7 @@ class ProfilePage extends StatefulWidget {
 
 class ProfilePageState extends State<ProfilePage> {
   static bool loggedIn = false;
+
   var buttonColor = [Colors.white, Colors.white, Colors.white];
 
   refresh() {
@@ -25,43 +31,50 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var userInfo = Provider.of<UserData>(context);
+    var user = AuthService().user;
 
-    return (!loggedIn) ? LoginPage(notifyParent: refresh,) :
-     Scaffold(
-      backgroundColor: const Color.fromARGB(255, 241, 244, 248),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Row(
+    return (!loggedIn)
+        ? LoginPage(
+            notifyParent: refresh,
+          )
+        : Scaffold(
+            backgroundColor: const Color.fromARGB(255, 241, 244, 248),
+            body: SingleChildScrollView(
+                child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 210,
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Row(
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 210,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Column(
                         mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                Align(
-                                  alignment: const AlignmentDirectional(0, 0),
-                                  child: Image.asset(
-                                    'images/taps.jpg',
-                                    width: MediaQuery.of(context).size.width,
-                                    height: 130,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                /* Can be used for a profile picture if wanted
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Stack(
+                                  children: [
+                                    Align(
+                                      alignment:
+                                          const AlignmentDirectional(0, 0),
+                                      child: Image.asset(
+                                        'images/taps.jpg',
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height: 130,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    /* Can be used for a profile picture if wanted
                                 Align(
                                   alignment: const AlignmentDirectional(0.85, 0),
                                   child: Padding(
@@ -80,130 +93,246 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 */
-                                const Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(24, 140, 0, 0),
-                                  child: Text(
-                                    '[User Name Here]',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      color: Color.fromARGB(255, 87, 99, 108)
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24, 140, 0, 0),
+                                      child: Text(
+                                        "name",
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            color: Color.fromARGB(
+                                                255, 87, 99, 108)),
+                                      ),
                                     ),
+                                    Align(
+                                      alignment: AlignmentDirectional(-1, 0),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            24, 174, 0, 0),
+                                        child: Text(
+                                          user?.email ?? 'uemail',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: Color.fromARGB(
+                                                  255, 87, 99, 108)),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: const [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(24, 12, 0, 12),
+                      child: Text(
+                        'Account Settings',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 87, 99, 108)),
+                      ),
+                    ),
+                  ],
+                ),
+                ListView(
+                  padding: EdgeInsets.zero,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            //Navigator.push(context, MaterialPageRoute(builder: (context) => const BrewForm()));
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Stack(
+                                      children: [
+                                        const BrewForm(),
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: IconButton(
+                                            hoverColor: Color.fromARGB(
+                                                0, 241, 241, 241),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            icon: Icon(Icons.close),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          },
+                          onHover: (bool hovered) {
+                            if (hovered) {
+                              setState(() {
+                                buttonColor[0] =
+                                    Color.fromARGB(255, 243, 243, 243);
+                              });
+                            } else {
+                              setState(() {
+                                buttonColor[0] = Colors.white;
+                              });
+                            }
+                          },
+                          child: Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              color: buttonColor[0],
+                              shape: BoxShape.rectangle,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: const [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      24, 0, 0, 0),
+                                  child: Text(
+                                    'Submit A New Recipe',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Color.fromARGB(255, 16, 18, 19)),
                                   ),
                                 ),
-                                const Align(
-                                  alignment: AlignmentDirectional(-1, 0),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(24, 174, 0, 0),
-                                    child: Text(
-                                      'username@domain.com',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Color.fromARGB(255, 87, 99, 108)
-                                      ),
+                                Expanded(
+                                  child: Align(
+                                    alignment: AlignmentDirectional(0.9, 0),
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Color(0xFF95A1AC),
+                                      size: 18,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: const [
-                Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(24, 12, 0, 12),
-                  child: Text(
-                    'Account Settings',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Color.fromARGB(255, 87, 99, 108)
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-            ListView(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        //Navigator.push(context, MaterialPageRoute(builder: (context) => const BrewForm()));
-                        showDialog(
-                          context: context, 
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              content: Stack(
-                                children: [
-                                  const BrewForm(),
-                                  Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: IconButton(
-                                      hoverColor: Color.fromARGB(0, 241, 241, 241),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      icon: Icon(Icons.close),  
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
+                    Padding(
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
+                      child: InkWell(
+                        onTap: () {
+                          debugPrint("edit profile");
+                        },
+                        onHover: (bool hovered) {
+                          if (hovered) {
+                            setState(() {
+                              buttonColor[1] =
+                                  Color.fromARGB(255, 243, 243, 243);
+                            });
+                          } else {
+                            setState(() {
+                              buttonColor[1] = Colors.white;
+                            });
                           }
-                        );
-                      },
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: buttonColor[1],
+                            shape: BoxShape.rectangle,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: const [
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                                child: Text(
+                                  'Edit Profile',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Color.fromARGB(255, 16, 18, 19)),
+                                ),
+                              ),
+                              Expanded(
+                                child: Align(
+                                  alignment: AlignmentDirectional(0.9, 0),
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Color(0xFF95A1AC),
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => setState(() {
+                        loggedIn = false;
+                        buttonColor[2] = Colors.white;
+                      }),
                       onHover: (bool hovered) {
                         if (hovered) {
                           setState(() {
-                          buttonColor[0] = Color.fromARGB(255, 243, 243, 243);
-                        });
-                        }
-                        else {
+                            buttonColor[2] = Color.fromARGB(144, 255, 96, 96);
+                          });
+                        } else {
                           setState(() {
-                            buttonColor[0] = Colors.white;
+                            buttonColor[2] = Colors.white;
                           });
                         }
                       },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: buttonColor[0],
-                          shape: BoxShape.rectangle,
-                        ),
+                      child: Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
-                          children: const [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                              child: Text(
-                                'Submit A New Recipe',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 16, 18, 19)
-                                ),
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: buttonColor[2],
+                                shape: BoxShape.rectangle,
                               ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Color(0xFF95A1AC),
-                                  size: 18,
-                                ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        24, 0, 0, 0),
+                                    child: Text(
+                                      'Log Out',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          color:
+                                              Color.fromARGB(255, 16, 18, 19)),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: AlignmentDirectional(0.9, 0),
+                                      child: Icon(
+                                        Icons.logout_rounded,
+                                        color: Color(0xFF95A1AC),
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -212,126 +341,12 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-                  child: InkWell(
-                    onTap: () {
-                      debugPrint("edit profile");
-                    },
-                    onHover: (bool hovered) {
-                      if (hovered) {
-                        setState(() {
-                        buttonColor[1] = Color.fromARGB(255, 243, 243, 243);
-                      });
-                      }
-                      else {
-                        setState(() {
-                          buttonColor[1] = Colors.white;
-                        });
-                      }
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: buttonColor[1],
-                        shape: BoxShape.rectangle,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: const [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                            child: Text(
-                              'Edit Profile',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 16, 18, 19)
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Align(
-                              alignment: AlignmentDirectional(0.9, 0),
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Color(0xFF95A1AC),
-                                size: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                const SizedBox(
+                  height: 100,
                 ),
-                InkWell(
-                  onTap: () => setState(() {
-                    loggedIn = false;
-                    buttonColor[2] = Colors.white;
-                  }),
-                  onHover: (bool hovered) {
-                      if (hovered) {
-                        setState(() {
-                        buttonColor[2] = Color.fromARGB(144, 255, 96, 96);
-                      });
-                      }
-                      else {
-                        setState(() {
-                          buttonColor[2] = Colors.white;
-                        });
-                      }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: buttonColor[2],
-                            shape: BoxShape.rectangle,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: const [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
-                                child: Text(
-                                  'Log Out',
-                                  style: TextStyle(
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 16, 18, 19)
-                                ),
-                                ),
-                              ),
-                              Expanded(
-                              child: Align(
-                                alignment: AlignmentDirectional(0.9, 0),
-                                child: Icon(
-                                  Icons.logout_rounded,
-                                  color: Color(0xFF95A1AC),
-                                  size: 18,
-                                ),
-                              ),
-                            ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                const CategoryList(name: "Saved Brews", amount: 5),
+                const CategoryList(name: "My Brews", amount: 4)
               ],
-            ),
-            const SizedBox(height: 100,),
-            const CategoryList(name: "Saved Brews", amount: 5),
-            const CategoryList(name: "My Brews", amount: 4)
-          ],
-        )
-      )
-    );
+            )));
   }
 }

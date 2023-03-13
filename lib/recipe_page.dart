@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/filter_overlay.dart';
-
+import 'package:json_annotation/json_annotation.dart';
 
 class MainRecipePageWidget extends StatefulWidget {
   const MainRecipePageWidget({Key? key}) : super(key: key);
@@ -14,8 +14,6 @@ class MainRecipePageWidget extends StatefulWidget {
 
 class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     with TickerProviderStateMixin {
-
-
   TextEditingController? textController;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -45,8 +43,6 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     buttonPosition = renderBox.localToGlobal(Offset(-widgetWidth, 15));
   }
 
-  
-
   OverlayEntry _overlayEntryBuilder() {
     return OverlayEntry(builder: (context) {
       return Positioned(
@@ -69,11 +65,10 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 17.0),
-                child: FilterOverlay()
-              ),  
+                  padding: const EdgeInsets.only(top: 17.0),
+                  child: FilterOverlay()),
             ],
-          ),      
+          ),
         ),
       );
     });
@@ -119,22 +114,24 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(16, 60, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 60, 16, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width - 50,
+                                    width:
+                                        MediaQuery.of(context).size.width - 50,
                                     child: TextField(
                                       controller: textController,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelText: 'Find brews...',
                                         labelStyle: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 87, 99, 108)
-                                        ),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color.fromARGB(
+                                                255, 87, 99, 108)),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                             color: Color(0x00000000),
@@ -168,35 +165,38 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                               BorderRadius.circular(16),
                                         ),
                                         filled: true,
-                                        fillColor: const Color.fromARGB(255, 241, 244, 248),
+                                        fillColor: const Color.fromARGB(
+                                            255, 241, 244, 248),
                                         prefixIcon: const Icon(
                                           Icons.search,
-                                          color: Color.fromARGB(255, 16, 18, 19),
+                                          color:
+                                              Color.fromARGB(255, 16, 18, 19),
                                           size: 16,
                                         ),
                                         suffixIcon: IconButton(
                                           key: _key,
-                                          icon: const Icon(Icons.filter_alt_rounded),
+                                          icon: const Icon(
+                                              Icons.filter_alt_rounded),
                                           onPressed: () {
                                             if (isMenuOpen) {
                                               _overlayEntry.remove();
                                               isMenuOpen = !isMenuOpen;
-                                            } 
-                                            else {
+                                            } else {
                                               findButton();
-                                              _overlayEntry = _overlayEntryBuilder();
-                                              Overlay.of(context)!.insert(_overlayEntry);
+                                              _overlayEntry =
+                                                  _overlayEntryBuilder();
+                                              Overlay.of(context)!
+                                                  .insert(_overlayEntry);
                                               isMenuOpen = !isMenuOpen;
                                             }
                                           },
                                         ),
-                                        
                                       ),
                                       style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                        color: Color.fromARGB(255, 16, 18, 19)
-                                      ),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                          color:
+                                              Color.fromARGB(255, 16, 18, 19)),
                                       maxLines: 1,
                                     ),
                                   ),
@@ -204,19 +204,20 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                               ),
                             ),
                             const Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(16, 24, 16, 44),
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16, 24, 16, 44),
                               child: Text(
                                 'Explore new brews from around the world.',
                                 style: TextStyle(
-                                  fontSize: 24, 
+                                  fontSize: 24,
                                   color: Color.fromARGB(255, 241, 244, 248),
                                   fontWeight: FontWeight.w600,
-                                ), 
-                                    
+                                ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 32, 0, 0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
@@ -229,7 +230,8 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 16),
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 8, 0, 16),
                                   child: Column(
                                     children: const [
                                       Divider(
@@ -239,9 +241,18 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                         endIndent: 140,
                                         //color: FlutterFlowTheme.of(context).lineColor,
                                       ),
-                                      CategoryList(name: "IPA", amount: 4,),
-                                      CategoryList(name: "Lagers", amount: 7,),
-                                      CategoryList(name: "Others", amount: 14,)
+                                      CategoryList(
+                                        name: "IPA",
+                                        amount: 4,
+                                      ),
+                                      CategoryList(
+                                        name: "Lagers",
+                                        amount: 7,
+                                      ),
+                                      CategoryList(
+                                        name: "Others",
+                                        amount: 14,
+                                      )
                                     ],
                                   ),
                                 ),
