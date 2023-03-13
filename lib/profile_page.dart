@@ -283,6 +283,7 @@ class ProfilePageState extends State<ProfilePage> {
                       onTap: () => setState(() {
                         loggedIn = false;
                         buttonColor[2] = Colors.white;
+                        AuthService().signOut();
                       }),
                       onHover: (bool hovered) {
                         if (hovered) {
