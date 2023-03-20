@@ -264,7 +264,9 @@ class LoginPageState extends State<LoginPage> {
                                     try {
                                       AuthService.emailPasswordLogin(
                                           emailAddress, password);
-                                      widget.notifyParent();
+                                      user = AuthService().user;
+                                      if (user != null) {
+                                        widget.notifyParent();
                                     } on Exception catch (err) {
                                       print(err);
                                     }
