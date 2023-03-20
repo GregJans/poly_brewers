@@ -1,11 +1,9 @@
 import 'dart:math';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/brew_form.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/login_page.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
@@ -33,6 +31,8 @@ class ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     var userInfo = Provider.of<UserData>(context);
     var user = AuthService().user;
+
+    String uemail = user?.email ?? "uemail";
 
     return (!loggedIn)
         ? LoginPage(
@@ -93,7 +93,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 */
-                                    Padding(
+                                    const Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           24, 140, 0, 0),
                                       child: Text(
@@ -105,14 +105,15 @@ class ProfilePageState extends State<ProfilePage> {
                                       ),
                                     ),
                                     Align(
-                                      alignment: AlignmentDirectional(-1, 0),
+                                      alignment:
+                                          const AlignmentDirectional(-1, 0),
                                       child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            24, 174, 0, 0),
+                                        padding: const EdgeInsetsDirectional
+                                            .fromSTEB(24, 174, 0, 0),
                                         child: Text(
-                                          user?.email ?? 'uemail',
+                                          uemail,
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 14,
                                               color: Color.fromARGB(
                                                   255, 87, 99, 108)),
