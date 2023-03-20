@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
-
+import 'package:poly_brewers/filter_overlay.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class MainRecipePageWidget extends StatefulWidget {
   const MainRecipePageWidget({Key? key}) : super(key: key);
@@ -15,6 +18,12 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
+  GlobalKey _key = LabeledGlobalKey("button_icon");
+  late OverlayEntry _overlayEntry;
+  late Size buttonSize;
+  late Offset buttonPosition;
+  bool isMenuOpen = false;
+
   @override
   void initState() {
     super.initState();
@@ -28,18 +37,41 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     super.dispose();
   }
 
-  void _showOverlay(BuildContext context) async {
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry;
-    overlayEntry = OverlayEntry(builder: (context) {
-        
-      // You can return any widget you like here
-      // to be displayed on the Overlay
-      return Container();
+  findButton() {
+    RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
+    buttonSize = renderBox.size;
+    buttonPosition = renderBox.localToGlobal(Offset(-widgetWidth, 15));
+  }
+
+  OverlayEntry _overlayEntryBuilder() {
+    return OverlayEntry(builder: (context) {
+      return Positioned(
+        top: buttonPosition.dy + buttonSize.height,
+        left: buttonPosition.dx,
+        width: widgetWidth,
+        child: Material(
+          color: Colors.transparent,
+          child: Stack(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: ClipPath(
+                  clipper: ArrowClipper(),
+                  child: Container(
+                    width: 17,
+                    height: 17,
+                    color: Color.fromARGB(150, 255, 255, 255),
+                  ),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 17.0),
+                  child: FilterOverlay()),
+            ],
+          ),
+        ),
+      );
     });
-  
-    // Inserting the OverlayEntry into the Overlay
-    overlayState.insert(overlayEntry);
   }
 
   @override
@@ -82,22 +114,24 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(16, 60, 16, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  16, 60, 16, 0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   SizedBox(
-                                    width: MediaQuery.of(context).size.width - 50,
+                                    width:
+                                        MediaQuery.of(context).size.width - 50,
                                     child: TextField(
                                       controller: textController,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelText: 'Find brews...',
                                         labelStyle: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                          color: Color.fromARGB(255, 87, 99, 108)
-                                        ),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color.fromARGB(
+                                                255, 87, 99, 108)),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: const BorderSide(
                                             color: Color(0x00000000),
@@ -131,45 +165,59 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                               BorderRadius.circular(16),
                                         ),
                                         filled: true,
-                                        fillColor: const Color.fromARGB(255, 241, 244, 248),
+                                        fillColor: const Color.fromARGB(
+                                            255, 241, 244, 248),
                                         prefixIcon: const Icon(
                                           Icons.search,
-                                          color: Color.fromARGB(255, 16, 18, 19),
+                                          color:
+                                              Color.fromARGB(255, 16, 18, 19),
                                           size: 16,
                                         ),
                                         suffixIcon: IconButton(
-                                          icon: const Icon(Icons.filter_alt_rounded),
+                                          key: _key,
+                                          icon: const Icon(
+                                              Icons.filter_alt_rounded),
                                           onPressed: () {
-                                            _showOverlay(context);
+                                            if (isMenuOpen) {
+                                              _overlayEntry.remove();
+                                              isMenuOpen = !isMenuOpen;
+                                            } else {
+                                              findButton();
+                                              _overlayEntry =
+                                                  _overlayEntryBuilder();
+                                              Overlay.of(context)!
+                                                  .insert(_overlayEntry);
+                                              isMenuOpen = !isMenuOpen;
+                                            }
                                           },
                                         ),
-                                        
                                       ),
                                       style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                        color: Color.fromARGB(255, 16, 18, 19)
-                                      ),
-                                      maxLines: null,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                          color:
+                                              Color.fromARGB(255, 16, 18, 19)),
+                                      maxLines: 1,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             const Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(16, 24, 16, 44),
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  16, 24, 16, 44),
                               child: Text(
                                 'Explore new brews from around the world.',
                                 style: TextStyle(
-                                  fontSize: 24, 
+                                  fontSize: 24,
                                   color: Color.fromARGB(255, 241, 244, 248),
                                   fontWeight: FontWeight.w600,
-                                ), 
-                                    
+                                ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(0, 32, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0, 32, 0, 0),
                               child: Container(
                                 width: double.infinity,
                                 decoration: const BoxDecoration(
@@ -182,7 +230,8 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 16),
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      0, 8, 0, 16),
                                   child: Column(
                                     children: const [
                                       Divider(
@@ -192,9 +241,18 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                         endIndent: 140,
                                         //color: FlutterFlowTheme.of(context).lineColor,
                                       ),
-                                      CategoryList(name: "IPA", amount: 4,),
-                                      CategoryList(name: "Lagers", amount: 7,),
-                                      CategoryList(name: "Others", amount: 14,)
+                                      CategoryList(
+                                        name: "IPA",
+                                        amount: 4,
+                                      ),
+                                      CategoryList(
+                                        name: "Lagers",
+                                        amount: 7,
+                                      ),
+                                      CategoryList(
+                                        name: "Others",
+                                        amount: 14,
+                                      )
                                     ],
                                   ),
                                 ),
@@ -212,5 +270,21 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
         ),
       ),
     );
+  }
+}
+
+class ArrowClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(0, size.height);
+    path.lineTo(size.width / 2, size.height / 2);
+    path.lineTo(size.width, size.height);
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

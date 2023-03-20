@@ -1,8 +1,10 @@
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/profile_page.dart';
-
+import 'package:poly_brewers/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() notifyParent;
@@ -15,10 +17,13 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   bool passwordVisibility = false;
 
+  String emailAddress = '';
+  String password = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
         child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -30,9 +35,7 @@ class LoginPageState extends State<LoginPage> {
               child: Text(
                 'Want more from Poly Brewers?',
                 style: TextStyle(
-                      fontSize: 50,
-                      color: Color.fromARGB(255, 16, 18, 19)
-                    ),
+                    fontSize: 50, color: Color.fromARGB(255, 16, 18, 19)),
               ),
             ),
             const Padding(
@@ -40,9 +43,7 @@ class LoginPageState extends State<LoginPage> {
               child: Text(
                 'Sign in or create an account to unlock all functionality',
                 style: TextStyle(
-                      fontSize: 25,
-                      color: Color.fromARGB(255, 16, 18, 19)
-                    ),
+                    fontSize: 25, color: Color.fromARGB(255, 16, 18, 19)),
               ),
             ),
             Padding(
@@ -68,7 +69,7 @@ class LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(
                       labelText: 'Your email address',
                       labelStyle: const TextStyle(
-                        color: Color.fromARGB(255, 87, 99, 108),  
+                        color: Color.fromARGB(255, 87, 99, 108),
                         fontSize: 14,
                       ),
                       //hintStyle: FlutterFlowTheme.of(context).bodyText2,
@@ -102,9 +103,13 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      contentPadding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                      contentPadding:
+                          const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
                     ),
                     //style: FlutterFlowTheme.of(context).bodyText1,
+                    onChanged: (String value) {
+                      emailAddress = value;
+                    },
                     maxLines: null,
                   ),
                 ),
@@ -133,15 +138,15 @@ class LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(
                       labelText: 'Password',
                       labelStyle: const TextStyle(
-                        color: Color.fromARGB(255, 87, 99, 108),  
+                        color: Color.fromARGB(255, 87, 99, 108),
                         fontSize: 14,
                       ),
                       hintStyle: const TextStyle(
-                        color: Color.fromARGB(255, 87, 99, 108),  
+                        color: Color.fromARGB(255, 87, 99, 108),
                         fontSize: 14,
                       ),
                       enabledBorder: OutlineInputBorder(
-                        borderSide: const  BorderSide(
+                        borderSide: const BorderSide(
                           color: Color(0x00000000),
                           width: 1,
                         ),
@@ -170,7 +175,8 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       filled: true,
                       fillColor: Colors.white,
-                      contentPadding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                      contentPadding:
+                          const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
                       suffixIcon: InkWell(
                         onTap: () => setState(
                           () => passwordVisibility = !passwordVisibility,
@@ -186,6 +192,9 @@ class LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     //style: FlutterFlowTheme.of(context).bodyText1,
+                    onChanged: (String value) {
+                      password = value;
+                    },
                   ),
                 ),
               ),
@@ -203,22 +212,31 @@ class LoginPageState extends State<LoginPage> {
                       Container(
                         height: 50,
                         decoration: const BoxDecoration(
-                          //color: FlutterFlowTheme.of(context).primaryBackground,
-                        ),
+                            //color: FlutterFlowTheme.of(context).primaryBackground,
+                            ),
                         alignment: const AlignmentDirectional(-1, 0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                           child: TextButton(
                             style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.hovered))
+                              foregroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered))
                                   return Color.fromARGB(255, 16, 18, 19);
-                              return Colors.grey; // null throus error in flutter 2.2+.
+                                return Colors
+                                    .grey; // null throus error in flutter 2.2+.
                               }),
                             ),
-                            onPressed: (){
-                              widget.notifyParent();
+                            onPressed: () {
+                              try {
+                                AuthService.emailPasswordLogin(
+                                    emailAddress, password);
+                                widget.notifyParent();
+                              } on Exception catch (err) {
+                                print(err);
+                              }
                             },
                             child: const Text(
                               'Sign In',
@@ -232,21 +250,26 @@ class LoginPageState extends State<LoginPage> {
                       Container(
                         height: 50,
                         decoration: const BoxDecoration(
-                          //color: FlutterFlowTheme.of(context).primaryBackground,
-                        ),
+                            //color: FlutterFlowTheme.of(context).primaryBackground,
+                            ),
                         alignment: const AlignmentDirectional(-1, 0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16, 0, 16, 0),
                           child: TextButton(
                             style: ButtonStyle(
-                              foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.hovered))
+                              foregroundColor:
+                                  MaterialStateProperty.resolveWith<Color>(
+                                      (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.hovered))
                                   return Color.fromARGB(255, 16, 18, 19);
-                              return Colors.grey; // null throus error in flutter 2.2+.
+                                return Colors
+                                    .grey; // null throus error in flutter 2.2+.
                               }),
                             ),
                             onPressed: () {
+                              AuthService.registerEmailUser(
+                                  emailAddress, password);
                               debugPrint("Sign Up");
                             },
                             child: const Text(
@@ -267,25 +290,24 @@ class LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                           child: IconButton(
                             icon: Image.asset(
                               'images/google_logo.png',
-                              fit:BoxFit.fill,
+                              fit: BoxFit.fill,
                             ),
 
                             onPressed: () async {
                               debugPrint("Sending to google log in");
                             },
-                          
-                              
-                          //borderColor: Colors.transparent,
-                          //borderRadius: 30,
-                          //borderWidth: 1,
-                          //buttonSize: 50,
-                          //fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-                          
-                                
+
+                            //borderColor: Colors.transparent,
+                            //borderRadius: 30,
+                            //borderWidth: 1,
+                            //buttonSize: 50,
+                            //fillColor: FlutterFlowTheme.of(context).secondaryBackground,
+
                             //color: Colors.red,
                             //size: 24,
                           ),
@@ -299,7 +321,6 @@ class LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-        
     );
   }
 }

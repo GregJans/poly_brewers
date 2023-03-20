@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/individual_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 class Recipe extends StatefulWidget {
   //make parameters for name and rating
-  const Recipe({Key? key, required this.name, required this.rating}) : super(key: key);
+  const Recipe({Key? key, required this.name, required this.rating})
+      : super(key: key);
   final String name;
   final double rating;
 
   @override
   State<Recipe> createState() => RecipeState();
-} 
+}
 
 class RecipeState extends State<Recipe> {
   Color buttonColor = const Color.fromARGB(255, 16, 18, 19);
@@ -63,13 +65,13 @@ class RecipeState extends State<Recipe> {
                       Text(
                         widget.name,
                         style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                          color: Color.fromARGB(255, 16, 18, 19)
-                        ),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            color: Color.fromARGB(255, 16, 18, 19)),
                       ),
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -85,7 +87,8 @@ class RecipeState extends State<Recipe> {
                               itemSize: 16,
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  8, 0, 0, 0),
                               child: Text(
                                 widget.rating.toString(),
                                 style: const TextStyle(
@@ -103,20 +106,22 @@ class RecipeState extends State<Recipe> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const IndividualPageWidget()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const IndividualPageWidget()));
                     },
                     onHover: (bool hovered) {
                       if (hovered) {
                         setState(() {
-                        buttonColor = Colors.purple;
-                      });
-                      }
-                      else {
+                          buttonColor = Colors.purple;
+                        });
+                      } else {
                         setState(() {
                           buttonColor = const Color.fromARGB(255, 16, 18, 19);
                         });
                       }
-                      
                     },
                     child: Container(
                       height: 32,
@@ -137,7 +142,7 @@ class RecipeState extends State<Recipe> {
                         ),
                       ),
                     ),
-                  ) 
+                  )
                 ],
               ),
             ),
@@ -145,6 +150,5 @@ class RecipeState extends State<Recipe> {
         ),
       ),
     );
-  }  
+  }
 }
-
