@@ -164,18 +164,6 @@ class LoginPageState extends State<LoginPage> {
                               color: Color.fromARGB(255, 87, 99, 108),
                               fontSize: 14,
                             ),
-                            onPressed: () {
-                              AuthService.emailPasswordLogin(
-                                  emailAddress, password);
-                              user = AuthService().user;
-                              if (user != null) {
-                                widget.notifyParent();
-                              }
-                            },
-                            child: const Text(
-                              'Sign In',
-                              style: TextStyle(
-                                fontSize: 20,
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
                                 color: Color(0x00000000),
@@ -261,14 +249,11 @@ class LoginPageState extends State<LoginPage> {
                                     }),
                                   ),
                                   onPressed: () {
-                                    try {
-                                      AuthService.emailPasswordLogin(
-                                          emailAddress, password);
-                                      user = AuthService().user;
-                                      if (user != null) {
-                                        widget.notifyParent();
-                                    } on Exception catch (err) {
-                                      print(err);
+                                    AuthService.emailPasswordLogin(
+                                        emailAddress, password);
+                                    user = AuthService().user;
+                                    if (user != null) {
+                                      widget.notifyParent();
                                     }
                                   },
                                   child: const Text(
@@ -331,11 +316,10 @@ class LoginPageState extends State<LoginPage> {
                                     fit: BoxFit.fill,
                                   ),
 
-                            onPressed: () async {
-                              debugPrint("Sending to google log in");
-                              AuthService.signInWithGoogle();
-                            },
-
+                                  onPressed: () async {
+                                    debugPrint("Sending to google log in");
+                                    AuthService.signInWithGoogle();
+                                  },
 
                                   //borderColor: Colors.transparent,
                                   //borderRadius: 30,
@@ -355,11 +339,9 @@ class LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-            )
+            ),
           ],
-        )
-        
-        
+        ),
       ),
     );
   }
