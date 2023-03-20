@@ -24,6 +24,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
   late Offset buttonPosition;
   bool isMenuOpen = false;
 
+/*
   @override
   void initState() {
     super.initState();
@@ -36,6 +37,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     textController?.dispose();
     super.dispose();
   }
+  */
 
   findButton() {
     RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
@@ -185,7 +187,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                               findButton();
                                               _overlayEntry =
                                                   _overlayEntryBuilder();
-                                              Overlay.of(context)!
+                                              Overlay.of(context)
                                                   .insert(_overlayEntry);
                                               isMenuOpen = !isMenuOpen;
                                             }
