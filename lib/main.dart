@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poly_brewers/home_page.dart';
 import 'package:poly_brewers/recipe_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:poly_brewers/services/check_logged_in.dart';
-import 'package:poly_brewers/login_page.dart';
 import 'firebase_options.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:provider/provider.dart';
 import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/models.dart';
@@ -41,14 +38,19 @@ class _AppState extends State<App> {
             'error',
             textDirection: TextDirection.ltr,
           );
-          ;
         }
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
+          //Stream provider hands data about current user stream to the rest of
+          //app down the tree
+
+          //Add multiprovider here, particularly for FutureProvider!
           return StreamProvider(
               create: (_) => FirestoreService().getUserInfo(),
               initialData: UserData(),
+
+              //maybe add checker widget here, then add material app to checker?
               child: MaterialApp(
                 title: 'Poly-Brewers',
                 theme: ThemeData(

@@ -1,10 +1,12 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
-
+import 'package:poly_brewers/services/firestore.dart';
+import 'package:poly_brewers/services/models.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/profile_page.dart';
 import 'package:poly_brewers/services/auth.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() notifyParent;
@@ -19,9 +21,12 @@ class LoginPageState extends State<LoginPage> {
 
   String emailAddress = '';
   String password = '';
+  var user = AuthService().user;
 
   @override
   Widget build(BuildContext context) {
+    //Maybe use StreamProvider here instead since it is more prevalent for
+    //data flow?
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
@@ -230,12 +235,11 @@ class LoginPageState extends State<LoginPage> {
                               }),
                             ),
                             onPressed: () {
-                              try {
-                                AuthService.emailPasswordLogin(
-                                    emailAddress, password);
+                              AuthService.emailPasswordLogin(
+                                  emailAddress, password);
+                              user = AuthService().user;
+                              if (user != null) {
                                 widget.notifyParent();
-                              } on Exception catch (err) {
-                                print(err);
                               }
                             },
                             child: const Text(
@@ -300,6 +304,7 @@ class LoginPageState extends State<LoginPage> {
 
                             onPressed: () async {
                               debugPrint("Sending to google log in");
+                              AuthService.signInWithGoogle();
                             },
 
                             //borderColor: Colors.transparent,
