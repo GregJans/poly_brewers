@@ -28,21 +28,12 @@ class AuthService {
 
   static Future<void> emailPasswordLogin(
       String emailAddress, String password) async {
+        
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-        throw Exception();
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      } else if (e.code == "invalid-email") {
-        print("Not a proper email format");
-        throw Exception();
-      } else if (e.code == 'invalid-password') {
-        print("Password must be of length 6");
-      }
+      throw e.message!.substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
     }
   }
 

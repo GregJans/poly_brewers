@@ -21,7 +21,40 @@ class LoginPageState extends State<LoginPage> {
 
   String emailAddress = '';
   String password = '';
-  var user = AuthService().user;
+  //var user = AuthService().user;
+  var user = null;
+  String? emailError;
+  String? pwError;
+
+  void authenticateUser() {
+
+    AuthService.emailPasswordLogin(emailAddress, password).catchError((e){
+      debugPrint(e);
+      if (mounted) {
+        setState(() {
+          //reset the error messages
+          emailError = null;
+          pwError = null;
+
+          if (e == 'user-not-found') {
+            emailError = 'No user found for that email.';
+          } else if (e == 'wrong-password') {
+            pwError = 'Wrong password provided for that user.';
+          } else if (e == "invalid-email") {
+            emailError = "Not a proper email format";
+          } else if (e == 'invalid-password') {
+            pwError = "Password must be of length 6";
+          }
+        });
+      }
+    });
+
+    user = AuthService().user;
+    if (user != null) {
+      widget.notifyParent();
+    }
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +119,7 @@ class LoginPageState extends State<LoginPage> {
                           //controller: textController1,
                           obscureText: false,
                           decoration: InputDecoration(
+                            errorText: emailError,
                             labelText: 'Your email address',
                             labelStyle: const TextStyle(
                               color: Color.fromARGB(255, 87, 99, 108),
@@ -122,14 +156,13 @@ class LoginPageState extends State<LoginPage> {
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding:
-                                const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                            contentPadding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
                           ),
                           //style: FlutterFlowTheme.of(context).bodyText1,
                           onChanged: (String value) {
                             emailAddress = value;
                           },
-                          maxLines: null,
+                          maxLines: 1,
                         ),
                       ),
                     ),
@@ -156,6 +189,7 @@ class LoginPageState extends State<LoginPage> {
                           obscureText: !passwordVisibility,
                           decoration: InputDecoration(
                             labelText: 'Password',
+                            errorText: pwError,
                             labelStyle: const TextStyle(
                               color: Color.fromARGB(255, 87, 99, 108),
                               fontSize: 14,
@@ -249,12 +283,7 @@ class LoginPageState extends State<LoginPage> {
                                     }),
                                   ),
                                   onPressed: () {
-                                    AuthService.emailPasswordLogin(
-                                        emailAddress, password);
-                                    user = AuthService().user;
-                                    if (user != null) {
-                                      widget.notifyParent();
-                                    }
+                                    authenticateUser();
                                   },
                                   child: const Text(
                                     'Sign In',
