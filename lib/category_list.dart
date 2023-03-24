@@ -56,7 +56,7 @@ class CategoryList extends StatelessWidget {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemCount: displayed,
-                  itemBuilder: (context, index) => const Recipe(
+                  itemBuilder: (context, index) => const RecipeCard(
                     name: "Beer name",
                     rating: 4.5,
                   ),
