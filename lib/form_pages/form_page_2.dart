@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/brew_form.dart';
 
 
 class FormPage2 extends StatefulWidget {
-  final Function({bool prev}) notifyParent;
-  const FormPage2({super.key, required this.notifyParent});
+  final Function(double, double, List<String>, int, List<String>, List<int>, String, List<String>) notifyParent;
+  final Function({bool prev}) update;
+  const FormPage2({super.key, required this.notifyParent, required this.update});
   
 
   @override
@@ -15,6 +17,14 @@ class FormPage2 extends StatefulWidget {
 class FormPage2State extends State<FormPage2> {
 
   final _formKey = GlobalKey<FormState>();
+  final ogController = TextEditingController();
+  final fgController = TextEditingController();
+  final extractController = TextEditingController();
+  final eLbsController = TextEditingController();
+  final hopsController = TextEditingController();
+  final hopsOzController = TextEditingController();
+  final yeastController = TextEditingController();
+  final grainsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +87,7 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 150,
                               child: TextFormField(
+                                controller: ogController,
                                 decoration: InputDecoration(
                                   isDense: true,
                                   border: OutlineInputBorder(
@@ -96,6 +107,9 @@ class FormPage2State extends State<FormPage2> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter gravity';
+                                  } 
+                                  else if (double.tryParse(value) == null) {
+                                    return 'Gravity must be a decimal value';
                                   }
                                   return null;
                                 },
@@ -124,6 +138,7 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 150,
                               child: TextFormField(
+                                controller: extractController,
                                 decoration: InputDecoration(
                                   isDense: true,
                                   border: OutlineInputBorder(
@@ -171,6 +186,7 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 150,
                               child: TextFormField(
+                                controller: hopsController,
                                 decoration: InputDecoration(
                                   isDense: true,
                                   border: OutlineInputBorder(
@@ -224,6 +240,7 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 150,
                               child: TextFormField(
+                                controller: fgController,
                                 decoration: InputDecoration(
                                   isDense: true,
                                   border: OutlineInputBorder(
@@ -243,6 +260,9 @@ class FormPage2State extends State<FormPage2> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter gravity';
+                                  } 
+                                  else if (double.tryParse(value) == null) {
+                                    return 'Gravity must be a decimal value';
                                   }
                                   return null;
                                 },
@@ -262,6 +282,7 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 50,
                               child: TextFormField(
+                                controller: eLbsController,
                                 decoration: InputDecoration(
                                   isDense: true,
                                   border: OutlineInputBorder(
@@ -280,7 +301,10 @@ class FormPage2State extends State<FormPage2> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return '';
+                                    return 'Please enter value';
+                                  } 
+                                  else if (int.tryParse(value) == null) {
+                                    return 'Value must be a number';
                                   }
                                   return null;
                                 },
@@ -310,6 +334,7 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 50,
                               child: TextFormField(
+                                controller: hopsOzController,
                                 decoration: InputDecoration(
                                   isDense: true,
                                   border: OutlineInputBorder(
@@ -370,6 +395,7 @@ class FormPage2State extends State<FormPage2> {
               SizedBox(
                 //height: 45,
                 child: TextFormField(
+                  controller: yeastController,
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -412,6 +438,7 @@ class FormPage2State extends State<FormPage2> {
               SizedBox(
                 //height: 45,
                 child: TextFormField(
+                  controller: grainsController,
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -457,8 +484,8 @@ class FormPage2State extends State<FormPage2> {
                       borderRadius: BorderRadius.all(Radius.circular(25))
                       ),
                       child: ElevatedButton(
-                        onPressed: () {
-                          widget.notifyParent(prev: true); 
+                        onPressed: () { 
+                          widget.update(prev: true);
                         },
                         child: const Text('Previous'),
                       ),
@@ -482,7 +509,18 @@ class FormPage2State extends State<FormPage2> {
                             );
                             Navigator.pop(context);
                             */
-                            widget.notifyParent();
+                            widget.notifyParent(
+                              double.parse(ogController.text),
+                              double.parse(fgController.text),
+                              extractController.text.split(', '),
+                              int.parse(eLbsController.text),
+                              hopsController.text.split(', '),
+                              hopsOzController.text.split(', ').map(int.parse).toList(),
+                              yeastController.text,
+                              grainsController.text.split(', ')
+                              );
+
+                            widget.update();
                           }
                         },
                         child: const Text('Next'),

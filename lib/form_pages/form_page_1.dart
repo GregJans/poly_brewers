@@ -4,8 +4,9 @@ const List<String> difficultyList = <String>['Novice', 'Adept', 'Cicerone'];
 const List<String> categoryList = <String>['Lager', 'IPA', 'Other'];
 
 class FormPage1 extends StatefulWidget {
-  final Function() notifyParent;
-  const FormPage1({super.key, required this.notifyParent});
+  final Function(String, String, String, double) notifyParent;
+  final Function({bool prev}) update;
+  const FormPage1({super.key, required this.notifyParent, required this.update});
   
 
   @override
@@ -17,6 +18,11 @@ class FormPage1 extends StatefulWidget {
 class FormPage1State extends State<FormPage1> {
 
   final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final bitternessController = TextEditingController();
+
+
+
   String? difficultyValue;
   String? styleValue;
   var isChecked = [false, false, false, false, false];
@@ -72,6 +78,7 @@ class FormPage1State extends State<FormPage1> {
               SizedBox(
                 //height: 45,
                 child: TextFormField(
+                  controller: nameController,
                   decoration: InputDecoration(
                     isDense: true,
                     border: OutlineInputBorder(
@@ -212,6 +219,7 @@ class FormPage1State extends State<FormPage1> {
                     SizedBox(
                       width: 150,
                       child: TextFormField(
+                        controller: bitternessController,
                         decoration: InputDecoration(
                           isDense: true,
                           border: OutlineInputBorder(
@@ -231,6 +239,9 @@ class FormPage1State extends State<FormPage1> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter IBU';
+                          } 
+                          else if (double.tryParse(value) == null) {
+                            return 'IBU must be a decimal value';
                           }
                           return null;
                         },
@@ -362,7 +373,14 @@ class FormPage1State extends State<FormPage1> {
                         );
                         Navigator.pop(context);
                         */
-                        widget.notifyParent();
+                        
+                        widget.notifyParent(
+                          nameController.text,
+                          difficultyValue!,
+                          styleValue!, 
+                          double.parse(bitternessController.text));
+
+                        widget.update();
                       }
                     },
                     child: const Text('Next'),

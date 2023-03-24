@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:poly_brewers/services/models.dart';
 
 class IndividualPageWidget extends StatefulWidget {
-  const IndividualPageWidget({Key? key}) : super(key: key);
+  const IndividualPageWidget({Key? key, required this.recipe}) : super(key: key);
+  final Recipie recipe;
 
   @override
   _IndividualPageWidgetState createState() => _IndividualPageWidgetState();
@@ -10,6 +12,7 @@ class IndividualPageWidget extends StatefulWidget {
 
 class _IndividualPageWidgetState extends State<IndividualPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +112,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                       Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
                             'Difficulty',
                             style: TextStyle(
@@ -120,7 +123,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                             child: Text(
-                              'Intermediate',
+                              widget.recipe.difficulty,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 18,
@@ -134,7 +137,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                             const EdgeInsetsDirectional.fromSTEB(32, 0, 0, 0),
                         child: Column(
                           mainAxisSize: MainAxisSize.max,
-                          children: const [
+                          children: [
                             Text(
                               'Style',
                               style: TextStyle(
@@ -148,7 +151,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                               child: Text(
-                                'IPA',
+                                widget.recipe.style,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                     fontSize: 18,
@@ -177,12 +180,12 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                             ),
                             Row(
                               mainAxisSize: MainAxisSize.max,
-                              children: const [
+                              children: [
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 4, 0, 0),
                                   child: Text(
-                                    '4.7',
+                                    widget.recipe.rating.toString(),
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                         fontSize: 18,
@@ -223,7 +226,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         'Origional Gravity',
                         style: TextStyle(
@@ -236,7 +239,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          '32g',
+                          widget.recipe.originalGravity.toString(),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 18,
@@ -250,7 +253,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           'Final Gravity',
                           style: TextStyle(
@@ -263,7 +266,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            '456g',
+                            widget.recipe.finalGravity.toString(),
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 18,
@@ -278,7 +281,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
+                      children: [
                         Text(
                           'IBU',
                           style: TextStyle(
@@ -291,7 +294,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            '1/17',
+                            widget.recipe.IBU.toString(),
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 18,
@@ -314,7 +317,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
                         'Estimated Brew Time',
                         style: TextStyle(
@@ -327,7 +330,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          '30 - 40 mins',
+                          '${widget.recipe.brewTime} minutes',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 18,
@@ -365,7 +368,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
+                                  children: [
                                     Text(
                                       'Yeast',
                                       style: TextStyle(
@@ -379,7 +382,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           0, 4, 0, 0),
                                       child: Text(
-                                        'Yeast',
+                                        widget.recipe.yeast.toString(),
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                             fontSize: 18,
@@ -398,11 +401,10 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
+                              children: [
                                 Text(
                                   'Specific Grains',
                                   style: TextStyle(
-                                    fontFamily: 'Lexend Deca',
                                     color: Color(0xFF95A1AC),
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
@@ -412,7 +414,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 4, 0, 0),
                                   child: Text(
-                                    'Wheat, Barley',
+                                    widget.recipe.grains.toString(),
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                         fontSize: 18,
@@ -438,11 +440,10 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     'Hops',
                                     style: TextStyle(
-                                      fontFamily: 'Lexend Deca',
                                       color: Color(0xFF95A1AC),
                                       fontSize: 14,
                                       fontWeight: FontWeight.normal,
@@ -452,7 +453,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 4, 0, 0),
                                     child: Text(
-                                      'Hops',
+                                      widget.recipe.hops.toString(),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -469,7 +470,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     'Hops Weight',
                                     style: TextStyle(
@@ -483,7 +484,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 4, 0, 0),
                                     child: Text(
-                                      '3oz',
+                                      '${widget.recipe.hopsWeight} oz',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -511,7 +512,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     'Extract',
                                     style: TextStyle(
@@ -525,7 +526,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 4, 0, 0),
                                     child: Text(
-                                      'Extracts',
+                                      widget.recipe.extractName.toString(),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontSize: 18,
@@ -542,7 +543,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     'Extract Weight',
                                     style: TextStyle(
@@ -553,10 +554,9 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 4, 0, 0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                                     child: Text(
-                                      '5lbs',
+                                      '${widget.recipe.extractWeight} lbs',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
                                           fontSize: 18,
