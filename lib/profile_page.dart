@@ -93,17 +93,18 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 */
-                                    const Padding(
+                                    Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          24, 140, 0, 0),
+                                          24, 150, 0, 0),
                                       child: Text(
-                                        "name",
+                                        uemail,
                                         style: TextStyle(
                                             fontSize: 22,
                                             color: Color.fromARGB(
                                                 255, 87, 99, 108)),
                                       ),
                                     ),
+                                    /*
                                     Align(
                                       alignment:
                                           const AlignmentDirectional(-1, 0),
@@ -120,6 +121,7 @@ class ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ),
                                     ),
+                                    */
                                   ],
                                 ),
                               ),

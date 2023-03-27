@@ -39,43 +39,6 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
   }
   */
 
-  findButton() {
-    RenderBox renderBox = _key.currentContext!.findRenderObject() as RenderBox;
-    buttonSize = renderBox.size;
-    buttonPosition = renderBox.localToGlobal(Offset(-widgetWidth, 15));
-  }
-
-  OverlayEntry _overlayEntryBuilder() {
-    return OverlayEntry(builder: (context) {
-      return Positioned(
-        top: buttonPosition.dy + buttonSize.height,
-        left: buttonPosition.dx,
-        width: widgetWidth,
-        child: Material(
-          color: Colors.transparent,
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: ClipPath(
-                  clipper: ArrowClipper(),
-                  child: Container(
-                    width: 17,
-                    height: 17,
-                    color: Color.fromARGB(150, 255, 255, 255),
-                  ),
-                ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(top: 17.0),
-                  child: FilterOverlay()),
-            ],
-          ),
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -180,17 +143,26 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                           icon: const Icon(
                                               Icons.filter_alt_rounded),
                                           onPressed: () {
-                                            if (isMenuOpen) {
-                                              _overlayEntry.remove();
-                                              isMenuOpen = !isMenuOpen;
-                                            } else {
-                                              findButton();
-                                              _overlayEntry =
-                                                  _overlayEntryBuilder();
-                                              Overlay.of(context)
-                                                  .insert(_overlayEntry);
-                                              isMenuOpen = !isMenuOpen;
-                                            }
+
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                //findButton();
+                                                return AlertDialog(
+                                                  alignment: AlignmentDirectional.topEnd,
+                                                  content: Stack(
+                                                    alignment: AlignmentDirectional.topCenter,
+                                                    children: [
+                                                      Positioned(
+                                                        width: widgetWidth,
+                                                        child: FilterOverlay()
+                                                      ),
+                                                    ],
+                                                  )
+                                               
+                                                );
+                                              }
+                                            );
                                           },
                                         ),
                                       ),
