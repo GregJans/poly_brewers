@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
@@ -7,25 +8,24 @@ import 'package:poly_brewers/services/models.dart';
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  /// Reads all recipies for display on home screen
-  /*Future<List<Recipie>> getRecipies() async {
-    var ref = _db.collection('Recipies');
-    var snapshot = await ref.get();
-    var data = snapshot.docs.map((s) => s.data());
-    var recipies = data.map((d) => Recipie.fromJson(d));
-    return recipies.toList();
-  }*/
-
-  /// Retrieves a single recipie
-  Future<Recipie> getRecipie(String recipieId) async {
+  Future<Recipe> getRecipe(String recipieId) async {
     //Here is the variable which will store the data of our recipie
-    var ref = _db.collection('Recipies').doc(recipieId);
+    var ref = _db.collection('Recipes').doc(recipieId);
 
     //Awaiting for the data to safely get here, and stores it's "snapshot"
     var snapshot = await ref.get();
 
     //Finally, fromJson, which returns the class of recipie
-    return Recipie.fromJson(snapshot.data() ?? {});
+    return Recipe.fromJson(snapshot.data() ?? {});
+  }
+
+  void sendRecipe(Recipe therec, UserData udata) async {
+    var currentUser = AuthService().user!;
+
+    String brewingNumber = _db.collection('Recipes').doc().id;
+    therec.brewID = brewingNumber;
+    await _db.collection('Recipes').doc(brewingNumber).set(therec.toJson());
+    udata.recipes.add(brewingNumber);
   }
 
   Stream<UserData> getUserInfo() {
@@ -37,5 +37,13 @@ class FirestoreService {
         return Stream.fromIterable([UserData()]);
       }
     });
+  }
+
+  void sendUserInfo() async {
+    User? currUser = AuthService().user!;
+
+    UserData newuser = UserData(uid: currUser.uid, fname: 'Nicholas III');
+
+    await _db.collection('User').doc(currUser.uid).set(newuser.toJson());
   }
 }

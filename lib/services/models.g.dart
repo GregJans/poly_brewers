@@ -6,7 +6,10 @@ part of 'models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Recipie _$RecipieFromJson(Map<String, dynamic> json) => Recipie(
+Recipe _$RecipieFromJson(Map<String, dynamic> json) => Recipe(
+      brewID: json['brewID'] as String? ?? '',
+      name: json['name'] as String? ?? '',
+      author: json['author'] as String? ?? '',
       difficulty: json['difficulty'] as String? ?? '',
       style: json['style'] as String? ?? '',
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
@@ -33,7 +36,10 @@ Recipie _$RecipieFromJson(Map<String, dynamic> json) => Recipie(
       extractWeight: json['extractWeight'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$RecipieToJson(Recipie instance) => <String, dynamic>{
+Map<String, dynamic> _$RecipieToJson(Recipe instance) => <String, dynamic>{
+      'brewID': instance.brewID,
+      'name': instance.name,
+      'author': instance.author,
       'difficulty': instance.difficulty,
       'style': instance.style,
       'rating': instance.rating,
@@ -49,19 +55,19 @@ Map<String, dynamic> _$RecipieToJson(Recipie instance) => <String, dynamic>{
       'extractWeight': instance.extractWeight,
     };
 
-UserData _$UserFromJson(Map<String, dynamic> json) => UserData(
+UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
       uid: json['uid'] as String? ?? '',
       fname: json['fname'] as String? ?? '',
       lname: json['lname'] as String? ?? '',
-      recipies: (json['recipies'] as List<dynamic>?)
+      recipes: (json['recipies'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
     );
 
-Map<String, dynamic> _$UserToJson(UserData instance) => <String, dynamic>{
+Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'uid': instance.uid,
       'fname': instance.fname,
       'lname': instance.lname,
-      'recipies': instance.recipies,
+      'recipies': instance.recipes,
     };

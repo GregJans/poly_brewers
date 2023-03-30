@@ -23,18 +23,20 @@ class BrewFormState extends State<BrewForm> {
 
   Map<String, dynamic> values = {};
 
-  late Recipie recipe;
+  late Recipe recipe;
 
   int step = 1;
 
-  processStep1(String name, String difficulty, String style, double bitterness){
+  processStep1(
+      String name, String difficulty, String style, double bitterness) {
     values.putIfAbsent('difficulty', () => difficulty);
     values.putIfAbsent('style', () => style);
     values.putIfAbsent('IBU', () => bitterness);
     //debugPrint(values.toString());
   }
 
-  processStep2(double og, double fg, List<String> extracts, int eLbs, List<String> hops, List<int> hopsOz, String yeast, List<String> grains){
+  processStep2(double og, double fg, List<String> extracts, int eLbs,
+      List<String> hops, List<int> hopsOz, String yeast, List<String> grains) {
     values.putIfAbsent('originalGravity', () => og);
     values.putIfAbsent('finalGravity', () => fg);
     values.putIfAbsent('extractName', () => extracts);
@@ -45,7 +47,7 @@ class BrewFormState extends State<BrewForm> {
     values.putIfAbsent('grains', () => grains);
     //debugPrint(values.toString());
 
-    recipe = Recipie.fromJson(values);
+    recipe = Recipe.fromJson(values);
     debugPrint(recipe.toString());
   }
 

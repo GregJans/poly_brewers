@@ -2,7 +2,10 @@ import 'package:json_annotation/json_annotation.dart';
 part 'models.g.dart';
 
 @JsonSerializable()
-class Recipie {
+class Recipe {
+  String brewID;
+  final String name;
+  final String author;
   final String difficulty;
   final String style;
   final double rating;
@@ -17,8 +20,11 @@ class Recipie {
   final List<String> extractName;
   final int extractWeight;
 
-  Recipie(
-      {this.difficulty = '',
+  Recipe(
+      {this.brewID = '',
+      this.name = '',
+      this.author = '',
+      this.difficulty = '',
       this.style = '',
       this.rating = 0.0,
       this.originalGravity = 0.0,
@@ -32,8 +38,7 @@ class Recipie {
       this.extractName = const [],
       this.extractWeight = 0});
 
-  factory Recipie.fromJson(Map<String, dynamic> json) =>
-      _$RecipieFromJson(json);
+  factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipieFromJson(json);
   Map<String, dynamic> toJson() => _$RecipieToJson(this);
 }
 
@@ -42,14 +47,15 @@ class UserData {
   final String uid;
   final String fname;
   final String lname;
-  final List<String> recipies;
+  final List<String> recipes;
 
   UserData(
       {this.uid = '',
       this.fname = '',
       this.lname = '',
-      this.recipies = const []});
+      this.recipes = const []});
 
-  factory UserData.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  factory UserData.fromJson(Map<String, dynamic> json) =>
+      _$UserDataFromJson(json);
+  Map<String, dynamic> toJson() => _$UserDataToJson(this);
 }
