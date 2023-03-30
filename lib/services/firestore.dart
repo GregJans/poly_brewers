@@ -22,9 +22,10 @@ class FirestoreService {
   void sendRecipe(Recipe therec, UserData udata) async {
     var currentUser = AuthService().user!;
 
-    String brewingNumber = _db.collection('Recipes').doc().id;
+    String brewingNumber = _db.collection('Recipe').doc().id;
     therec.brewID = brewingNumber;
-    await _db.collection('Recipes').doc(brewingNumber).set(therec.toJson());
+    await _db.collection('Recipe').doc(brewingNumber).set(therec.toJson());
+
     udata.recipes.add(brewingNumber);
 
   }

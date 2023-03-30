@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/brew_form.dart';
@@ -95,21 +96,11 @@ class ProfilePageState extends State<ProfilePage> {
                                 ),
                                 */
                                     Padding(
-<<<<<<< HEAD
-                                      padding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              24, 140, 0, 0),
-                                      child: Text(
-                                        //USER INFO DEMO FOR PIPING DATA
-                                        userInfo.fname,
-                                        style: const TextStyle(
-=======
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           24, 150, 0, 0),
                                       child: Text(
                                         uemail,
                                         style: TextStyle(
->>>>>>> 18719d6bce9a4901657927f2eff0595b0fff1aac
                                             fontSize: 22,
                                             color: Color.fromARGB(
                                                 255, 87, 99, 108)),
@@ -359,8 +350,19 @@ class ProfilePageState extends State<ProfilePage> {
                 const SizedBox(
                   height: 100,
                 ),
-                const CategoryList(name: "Saved Brews", amount: 5),
-                const CategoryList(name: "My Brews", amount: 4)
+                CategoryList(
+                  name: "Saved Brews",
+                  query: FirebaseFirestore.instance
+                  .collection('Recipe')
+                  .get(),
+                ),
+                CategoryList(
+                  name: "My Brews",
+                  query: FirebaseFirestore.instance
+                    .collection('Recipe')
+                    .where('author', isEqualTo: AuthService().user!.uid)
+                    .get()
+                )
               ],
             )));
   }

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class FormPage3 extends StatefulWidget {
   final Function({bool prev}) update;
   final Function(String, String) notifyParent;
-  const FormPage3({super.key, required this.update, required this.notifyParent});
+  final Map<String, dynamic> recData;
+  const FormPage3({super.key, required this.update, required this.notifyParent, required this.recData});
 
   @override
   FormPage3State createState() {
@@ -16,6 +17,13 @@ class FormPage3State extends State<FormPage3> {
 
   @override
   Widget build(BuildContext context) {
+    final notesController = TextEditingController(text: (widget.recData['notes'] == null) ? '' : widget.recData['notes'].toString());
+    final instController = TextEditingController(text: (widget.recData['instructions'] == null) ? '' : widget.recData['instructions'].toString());
+
+
+
+
+
     return Form(
       key: _formKey,
       child: Padding(
@@ -61,6 +69,7 @@ class FormPage3State extends State<FormPage3> {
             SizedBox(
               //height: 45,
               child: TextFormField(
+                controller: notesController,
                 decoration: InputDecoration(
                   isDense: true,
                   border: OutlineInputBorder(
@@ -95,6 +104,7 @@ class FormPage3State extends State<FormPage3> {
             SizedBox(
               height: MediaQuery.of(context).size.height / 3,
               child: TextFormField(
+                controller: instController,
                 maxLines: 100,
                 decoration: InputDecoration(
                   isDense: true,
@@ -148,6 +158,10 @@ class FormPage3State extends State<FormPage3> {
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
 
+                          widget.notifyParent(
+                            notesController.text,
+                            instController.text
+                          );
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('Brew Submitted')),
                           );

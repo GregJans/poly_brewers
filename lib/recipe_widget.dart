@@ -6,10 +6,10 @@ import 'package:poly_brewers/services/models.dart';
 
 class RecipeCard extends StatefulWidget {
   //make parameters for name and rating
-  const RecipeCard({Key? key, required this.name, required this.rating})
+  const RecipeCard({Key? key, required this.recipe})
       : super(key: key);
-  final String name;
-  final double rating;
+  
+  final Recipe recipe;
 
   @override
   State<RecipeCard> createState() => RecipeCardState();
@@ -64,7 +64,7 @@ class RecipeCardState extends State<RecipeCard> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.name,
+                        widget.recipe.name,
                         style: const TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 18,
@@ -82,7 +82,7 @@ class RecipeCardState extends State<RecipeCard> {
                                 color: Color(0xFF7A5C17),
                               ),
                               direction: Axis.horizontal,
-                              rating: widget.rating,
+                              rating: widget.recipe.rating,
                               unratedColor: const Color(0xFFABA6A6),
                               itemCount: 5,
                               itemSize: 16,
@@ -91,7 +91,7 @@ class RecipeCardState extends State<RecipeCard> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   8, 0, 0, 0),
                               child: Text(
-                                widget.rating.toString(),
+                                widget.recipe.rating.toString(),
                                 style: const TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
@@ -111,24 +111,7 @@ class RecipeCardState extends State<RecipeCard> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => IndividualPageWidget(
-                                    recipe: Recipe.fromJson({
-                                      'difficulty': 'Easy',
-                                      'style': 'lagger',
-                                      'rating': 4.7,
-                                      'originalGravity': 1.2,
-                                      'finalGravity': 1.7,
-                                      'IBU': 3.2,
-                                      'brewTime': 60,
-                                      'yeast': 'the best',
-                                      'grains': ['wheat', 'barley'],
-                                      'hops': ['hops', 'more hops'],
-                                      'hopsWeight': [3, 7],
-                                      'extractName': [
-                                        'first extract',
-                                        'second extract'
-                                      ],
-                                      'extractWeight': 8
-                                    }),
+                                    recipe: widget.recipe
                                   )));
                     },
                     onHover: (bool hovered) {

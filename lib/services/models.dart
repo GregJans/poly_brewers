@@ -21,6 +21,8 @@ class Recipe {
   final List<int> hopsWeight;
   final List<String> extractName;
   final int extractWeight;
+  final String notes;
+  final String instructions;
 
   Recipe(
       {this.brewID = '',
@@ -38,7 +40,10 @@ class Recipe {
       this.hops = const [],
       this.hopsWeight = const [],
       this.extractName = const [],
-      this.extractWeight = 0});
+      this.extractWeight = 0,
+      this.notes = '',
+      this.instructions = ''
+      });
 
 
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipieFromJson(json);

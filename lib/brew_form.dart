@@ -9,7 +9,6 @@ import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/models.dart';
 import 'package:provider/provider.dart';
-import 'package:poly_brewers/services/firestore.dart';
 
 
 class BrewForm extends StatefulWidget {
@@ -39,7 +38,6 @@ class BrewFormState extends State<BrewForm> {
     values.putIfAbsent('difficulty', () => difficulty);
     values.putIfAbsent('style', () => style);
     values.putIfAbsent('IBU', () => bitterness);
-    //debugPrint(values.toString());
   }
 
   processStep2(double og, double fg, List<String> extracts, int eLbs,
@@ -52,20 +50,18 @@ class BrewFormState extends State<BrewForm> {
     values.putIfAbsent('hopsWeight', () => hopsOz);
     values.putIfAbsent('yeast', () => yeast);
     values.putIfAbsent('grains', () => grains);
-    //debugPrint(values.toString());
-
-    recipe = Recipe.fromJson(values);
-    debugPrint(recipe.toString());
-
-    // need to add recipe to userData.recipies
-    // currently have no way to get recipeID
-    //Provider.of<UserData>(context).recipes.add(recipe);
-    // do not currently have write permissions
-    FirestoreService().sendRecipe(recipe, Provider.of<UserData>(context, listen: false));
   }
 
   processStep3(String notes, String inst) {
     // add notes and instructions
+    values.putIfAbsent('notes', () => notes);
+    values.putIfAbsent('instructions', () => inst);
+    values.putIfAbsent('author', () => Provider.of<UserData>(context, listen: false).uid);
+
+    recipe = Recipe.fromJson(values);
+    // do not currently have write permissions
+    FirestoreService().sendRecipe(recipe, Provider.of<UserData>(context, listen: false));
+    
   }
 
   refresh({bool prev = false}) {
@@ -96,9 +92,9 @@ class BrewFormState extends State<BrewForm> {
       FormPage3(
         update: refresh,
         notifyParent: processStep3,
+        recData: values
       )
     ];
-
     return SingleChildScrollView(child: steps[step - 1]);
   }
 }
