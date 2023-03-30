@@ -5,7 +5,8 @@ import 'package:poly_brewers/brew_form.dart';
 class FormPage2 extends StatefulWidget {
   final Function(double, double, List<String>, int, List<String>, List<int>, String, List<String>) notifyParent;
   final Function({bool prev}) update;
-  const FormPage2({super.key, required this.notifyParent, required this.update});
+  final Map<String, dynamic> recData;
+  const FormPage2({super.key, required this.notifyParent, required this.update, required this.recData});
   
 
   @override
@@ -17,17 +18,21 @@ class FormPage2 extends StatefulWidget {
 class FormPage2State extends State<FormPage2> {
 
   final _formKey = GlobalKey<FormState>();
-  final ogController = TextEditingController();
-  final fgController = TextEditingController();
-  final extractController = TextEditingController();
-  final eLbsController = TextEditingController();
-  final hopsController = TextEditingController();
-  final hopsOzController = TextEditingController();
-  final yeastController = TextEditingController();
-  final grainsController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
+
+    final ogController = TextEditingController(text: (widget.recData['originalGravity'] == null) ? '' : widget.recData['originalGravity'].toString());
+    final fgController = TextEditingController(text: (widget.recData['finalGravity'] == null) ? '' : widget.recData['finalGravity'].toString());
+    final extractController = TextEditingController(text: (widget.recData['extractName'] == null) ? '' : widget.recData['extractName'].toString());
+    final eLbsController = TextEditingController(text: (widget.recData['extractWeight'] == null) ? '' : widget.recData['extractWeight'].toString());
+    final hopsController = TextEditingController(text: (widget.recData['hops'] == null) ? '' : widget.recData['hops'].toString());
+    final hopsOzController = TextEditingController(text: (widget.recData['hopsWeight'] == null) ? '' : widget.recData['hopsWeight'].toString());
+    final yeastController = TextEditingController(text: (widget.recData['yeast'] == null) ? '' : widget.recData['yeast'].toString());
+    final grainsController = TextEditingController(text: (widget.recData['grains'] == null) ? '' : widget.recData['grains'].toString());
+
+
     return Form(
         key: _formKey,
         child: Padding(
@@ -87,6 +92,7 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 150,
                               child: TextFormField(
+                                //initialValue: (widget.recData['originalGravity'] == null) ? '' : widget.recData['originalGravity'].toString(),
                                 controller: ogController,
                                 decoration: InputDecoration(
                                   isDense: true,

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class FormPage3 extends StatefulWidget {
   final Function({bool prev}) update;
-  const FormPage3({super.key, required this.update});
+  final Function(String, String) notifyParent;
+  const FormPage3({super.key, required this.update, required this.notifyParent});
 
   @override
   FormPage3State createState() {
