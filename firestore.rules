@@ -7,4 +7,5 @@ service cloud.firestore {
       allow update: if request.auth.uid == userId;
 		}
 	}
+
 }

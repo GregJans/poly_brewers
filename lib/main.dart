@@ -67,6 +67,18 @@ class _AppState extends State<App> {
                 debugShowCheckedModeBanner: false,
                 home: const HomePage(),
               ));
+
+          //maybe add checker widget here, then add material app to checker?
+          // ignore: dead_code
+          /*MaterialApp(
+            title: 'Poly-Brewers',
+            theme: ThemeData(
+              primarySwatch: Colors.brown,
+              fontFamily: 'Poppins',
+            ),
+            debugShowCheckedModeBanner: false,
+            home: const HomePage(),
+          );*/
         }
 
         // Otherwise, show something whilst waiting for initialization to complete

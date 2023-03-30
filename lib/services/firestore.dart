@@ -26,6 +26,7 @@ class FirestoreService {
     therec.brewID = brewingNumber;
     await _db.collection('Recipes').doc(brewingNumber).set(therec.toJson());
     udata.recipes.add(brewingNumber);
+
   }
 
   Stream<UserData> getUserInfo() {

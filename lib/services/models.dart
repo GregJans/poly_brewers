@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'models.g.dart';
 
@@ -37,6 +39,7 @@ class Recipe {
       this.hopsWeight = const [],
       this.extractName = const [],
       this.extractWeight = 0});
+
 
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipieFromJson(json);
   Map<String, dynamic> toJson() => _$RecipieToJson(this);

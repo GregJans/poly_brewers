@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:poly_brewers/services/firestore.dart';
@@ -75,16 +76,38 @@ class LoginPageState extends State<LoginPage> {
       }
     });
 
-    user = AuthService().user;
-    if (user != null) {
+    curruser = AuthService().user;
+    if (curruser != null) {
+      widget.notifyParent();
+    }
+  }
+
+  void createUser() {
+    AuthService().registerEmailUser(emailAddress, password).catchError((e) {
+      debugPrint(e);
+      if (mounted) {
+        setState(() {
+          //reset the error messages
+          emailError = null;
+          pwError = null;
+
+          if (e == "invalid-email") {
+            emailError = "Not a proper email format";
+          } else if (e == 'invalid-password') {
+            pwError = "Password must be of length 6";
+          }
+        });
+      }
+    });
+
+    curruser = AuthService().user;
+    if (curruser != null) {
       widget.notifyParent();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    //Maybe use StreamProvider here instead since it is more prevalent for
-    //data flow?
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
@@ -348,9 +371,19 @@ class LoginPageState extends State<LoginPage> {
                                           .grey; // null throus error in flutter 2.2+.
                                     }),
                                   ),
+                                  /*
+
+                                HERE LIES A BIG BLOODY COMMENT TO DETERMINE 
+                                IF ITS SIGNIN PLACE
+
+
+
+
+                                  */
                                   onPressed: () {
                                     createNewUser();
                                     debugPrint("Sign Up");
+
                                   },
                                   child: const Text(
                                     'Sign Up',
@@ -378,10 +411,9 @@ class LoginPageState extends State<LoginPage> {
                                     'images/google_logo.png',
                                     fit: BoxFit.fill,
                                   ),
-
                                   onPressed: () async {
                                     debugPrint("Sending to google log in");
-                                    AuthService.signInWithGoogle();
+                                    AuthService().signInWithGoogle();
                                   },
 
                                   //borderColor: Colors.transparent,
