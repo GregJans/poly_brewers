@@ -22,12 +22,40 @@ class LoginPageState extends State<LoginPage> {
 
   String emailAddress = '';
   String password = '';
-  User? curruser = AuthService().user;
+  User? user;
   String? emailError;
   String? pwError;
 
+  void createNewUser() {
+    AuthService.registerEmailUser(emailAddress, password).catchError((e) {
+      debugPrint(e);
+      if (mounted) {
+        setState(() {
+          //reset the error messages
+          emailError = null;
+          pwError = null;
+
+          if (e == 'user-not-found') {
+            emailError = 'No user found for that email.';
+          } else if (e == 'wrong-password') {
+            pwError = 'Wrong password provided for that user.';
+          } else if (e == "invalid-email") {
+            emailError = "Not a proper email format";
+          } else if (e == 'invalid-password') {
+            pwError = "Password must be of length 6";
+          }
+        });
+      }
+    });
+
+    user = AuthService().user;
+    if (user != null) {
+      widget.notifyParent();
+    }
+  }
+
   void authenticateUser() {
-    AuthService().emailPasswordLogin(emailAddress, password).catchError((e) {
+    AuthService.emailPasswordLogin(emailAddress, password).catchError((e) {
       debugPrint(e);
       if (mounted) {
         setState(() {
@@ -311,14 +339,6 @@ class LoginPageState extends State<LoginPage> {
                                   ),
                                   onPressed: () {
                                     authenticateUser();
-                                    print('${curruser?.uid} + oof');
-                                    UserData userData = UserData(
-                                        uid: curruser?.uid ?? '',
-                                        fname: 'Nicholas II');
-                                    /*FirebaseFirestore.instance
-                                        .collection('User')
-                                        .doc(curruser?.uid)
-                                        .set(userData.toJson());*/
                                     FirestoreService().sendUserInfo();
                                   },
                                   child: const Text(
@@ -361,7 +381,9 @@ class LoginPageState extends State<LoginPage> {
 
                                   */
                                   onPressed: () {
-                                    createUser();
+                                    createNewUser();
+                                    debugPrint("Sign Up");
+
                                   },
                                   child: const Text(
                                     'Sign Up',

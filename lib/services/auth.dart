@@ -20,10 +20,10 @@ class AuthService {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      throw e.message!
-          .substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
+      throw e.message!.substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
     }
-  }
+
+    }
 
   Future<void> emailPasswordLogin(String emailAddress, String password) async {
     try {

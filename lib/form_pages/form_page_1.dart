@@ -6,7 +6,8 @@ const List<String> categoryList = <String>['Lager', 'IPA', 'Other'];
 class FormPage1 extends StatefulWidget {
   final Function(String, String, String, double) notifyParent;
   final Function({bool prev}) update;
-  const FormPage1({super.key, required this.notifyParent, required this.update});
+  final Map<String, dynamic> recData;
+  const FormPage1({super.key, required this.notifyParent, required this.update, required this.recData});
   
 
   @override
@@ -18,17 +19,20 @@ class FormPage1 extends StatefulWidget {
 class FormPage1State extends State<FormPage1> {
 
   final _formKey = GlobalKey<FormState>();
-  final nameController = TextEditingController();
-  final bitternessController = TextEditingController();
+  
 
 
 
-  String? difficultyValue;
-  String? styleValue;
-  var isChecked = [false, false, false, false, false];
+  static String? difficultyValue;
+  static String? styleValue;
+  static var isChecked = [false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
+
+    final nameController = TextEditingController(text: (widget.recData['name'] == null) ? '' : widget.recData['name'].toString());
+    final bitternessController = TextEditingController(text: (widget.recData['IBU'] == null) ? '' : widget.recData['IBU'].toString());
+
     return Form(
         key: _formKey,
         child: Padding(

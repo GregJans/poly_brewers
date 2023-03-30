@@ -51,14 +51,13 @@ class _AppState extends State<App> {
                 StreamProvider<UserData>(
                   create: (_) => FirestoreService().getUserInfo(),
                   initialData: UserData(),
-                  updateShouldNotify: (previous, current) =>
-                      (current != previous),
                 ),
                 FutureProvider<Recipe>(
-                  create: (_) => FirestoreService().getRecipie(Recipe().brewID),
-                  initialData: Recipe(),
-                )
+                    create: (_) =>
+                        FirestoreService().getRecipe(Recipe().brewID),
+                    initialData: Recipe())
               ],
+              //maybe add checker widget here, then add material app to checker?
               child: MaterialApp(
                 title: 'Poly-Brewers',
                 theme: ThemeData(
