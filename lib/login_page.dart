@@ -21,14 +21,12 @@ class LoginPageState extends State<LoginPage> {
 
   String emailAddress = '';
   String password = '';
-  //var user = AuthService().user;
-  var user = null;
+  User? user;
   String? emailError;
   String? pwError;
 
-  void authenticateUser() {
-
-    AuthService.emailPasswordLogin(emailAddress, password).catchError((e){
+  void createNewUser() {
+    AuthService.registerEmailUser(emailAddress, password).catchError((e) {
       debugPrint(e);
       if (mounted) {
         setState(() {
@@ -53,7 +51,34 @@ class LoginPageState extends State<LoginPage> {
     if (user != null) {
       widget.notifyParent();
     }
-    
+  }
+
+  void authenticateUser() {
+    AuthService.emailPasswordLogin(emailAddress, password).catchError((e) {
+      debugPrint(e);
+      if (mounted) {
+        setState(() {
+          //reset the error messages
+          emailError = null;
+          pwError = null;
+
+          if (e == 'user-not-found') {
+            emailError = 'No user found for that email.';
+          } else if (e == 'wrong-password') {
+            pwError = 'Wrong password provided for that user.';
+          } else if (e == "invalid-email") {
+            emailError = "Not a proper email format";
+          } else if (e == 'invalid-password') {
+            pwError = "Password must be of length 6";
+          }
+        });
+      }
+    });
+
+    user = AuthService().user;
+    if (user != null) {
+      widget.notifyParent();
+    }
   }
 
   @override
@@ -68,7 +93,8 @@ class LoginPageState extends State<LoginPage> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Opacity(opacity: 0.15,
+              child: Opacity(
+                opacity: 0.15,
                 child: Image.asset(
                   'images/logo.png',
                   height: MediaQuery.of(context).size.height * 0.7,
@@ -114,7 +140,8 @@ class LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                         child: TextFormField(
                           //controller: textController1,
                           obscureText: false,
@@ -156,7 +183,9 @@ class LoginPageState extends State<LoginPage> {
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                            contentPadding:
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    20, 24, 20, 24),
                           ),
                           //style: FlutterFlowTheme.of(context).bodyText1,
                           onChanged: (String value) {
@@ -183,7 +212,8 @@ class LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                         child: TextFormField(
                           //controller: textController2,
                           obscureText: !passwordVisibility,
@@ -229,7 +259,8 @@ class LoginPageState extends State<LoginPage> {
                             filled: true,
                             fillColor: Colors.white,
                             contentPadding:
-                                const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    20, 24, 20, 24),
                             suffixIcon: InkWell(
                               onTap: () => setState(
                                 () => passwordVisibility = !passwordVisibility,
@@ -269,14 +300,15 @@ class LoginPageState extends State<LoginPage> {
                                   ),
                               alignment: const AlignmentDirectional(-1, 0),
                               child: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 16, 0),
                                 child: TextButton(
                                   style: ButtonStyle(
                                     foregroundColor:
-                                        MaterialStateProperty.resolveWith<Color>(
-                                            (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.hovered))
+                                        MaterialStateProperty.resolveWith<
+                                            Color>((Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.hovered))
                                         return Color.fromARGB(255, 16, 18, 19);
                                       return Colors
                                           .grey; // null throus error in flutter 2.2+.
@@ -284,6 +316,7 @@ class LoginPageState extends State<LoginPage> {
                                   ),
                                   onPressed: () {
                                     authenticateUser();
+                                    FirestoreService().sendUserInfo();
                                   },
                                   child: const Text(
                                     'Sign In',
@@ -306,17 +339,17 @@ class LoginPageState extends State<LoginPage> {
                                 child: TextButton(
                                   style: ButtonStyle(
                                     foregroundColor:
-                                        MaterialStateProperty.resolveWith<Color>(
-                                            (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.hovered))
+                                        MaterialStateProperty.resolveWith<
+                                            Color>((Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.hovered))
                                         return Color.fromARGB(255, 16, 18, 19);
                                       return Colors
                                           .grey; // null throus error in flutter 2.2+.
                                     }),
                                   ),
                                   onPressed: () {
-                                    AuthService.registerEmailUser(
-                                        emailAddress, password);
+                                    createNewUser();
                                     debugPrint("Sign Up");
                                   },
                                   child: const Text(
@@ -331,14 +364,15 @@ class LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    8, 8, 8, 8),
                                 child: IconButton(
                                   icon: Image.asset(
                                     'images/google_logo.png',

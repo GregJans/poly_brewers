@@ -108,27 +108,28 @@ class RecipeCardState extends State<RecipeCard> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                            IndividualPageWidget(recipe: Recipie.fromJson({
-                              'difficulty': 'Easy',
-                              'style': 'lagger',
-                              'rating': 4.7,
-                              'originalGravity': 1.2,
-                              'finalGravity': 1.7,
-                              'IBU': 3.2,
-                              'brewTime': 60,
-                              'yeast': 'the best',
-                              'grains': ['wheat', 'barley'],
-                              'hops': ['hops', 'more hops'],
-                              'hopsWeight': [3, 7],
-                              'extractName': ['first extract', 'second extract'],
-                              'extractWeight': 8
-                              }),
-                            )
-                        )
-                      );
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IndividualPageWidget(
+                                    recipe: Recipe.fromJson({
+                                      'difficulty': 'Easy',
+                                      'style': 'lagger',
+                                      'rating': 4.7,
+                                      'originalGravity': 1.2,
+                                      'finalGravity': 1.7,
+                                      'IBU': 3.2,
+                                      'brewTime': 60,
+                                      'yeast': 'the best',
+                                      'grains': ['wheat', 'barley'],
+                                      'hops': ['hops', 'more hops'],
+                                      'hopsWeight': [3, 7],
+                                      'extractName': [
+                                        'first extract',
+                                        'second extract'
+                                      ],
+                                      'extractWeight': 8
+                                    }),
+                                  )));
                     },
                     onHover: (bool hovered) {
                       if (hovered) {

@@ -18,13 +18,9 @@ class AuthService {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      throw e.message!.substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
     }
-  }
+    }
 
   static Future<void> emailPasswordLogin(
       String emailAddress, String password) async {
