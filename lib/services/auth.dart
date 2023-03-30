@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
   //User stream can be thought of as a thread of activities the user can
@@ -7,14 +8,6 @@ class AuthService {
 
   //User is of course, the user using the specific user stream
   final user = FirebaseAuth.instance.currentUser;
-
-  Future<void> anonymousLogin() async {
-    try {
-      await FirebaseAuth.instance.signInAnonymously();
-    } on FirebaseAuthException {
-      // handle error
-    }
-  }
 
   static Future<void> registerEmailUser(
       String emailAddress, String password) async {
@@ -25,29 +18,37 @@ class AuthService {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        String message = 'The password provided is too weak.';
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
+      throw e.message!.substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
     }
-  }
+    }
 
   static Future<void> emailPasswordLogin(
       String emailAddress, String password) async {
+        
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      }
+      throw e.message!.substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
     }
+  }
+
+  static Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
   Future<void> signOut() async {
