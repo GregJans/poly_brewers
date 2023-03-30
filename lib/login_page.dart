@@ -27,7 +27,7 @@ class LoginPageState extends State<LoginPage> {
   String? pwError;
 
   void createNewUser() {
-    AuthService.registerEmailUser(emailAddress, password).catchError((e) {
+    AuthService().registerEmailUser(emailAddress, password).catchError((e) {
       debugPrint(e);
       if (mounted) {
         setState(() {
@@ -55,7 +55,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void authenticateUser() {
-    AuthService.emailPasswordLogin(emailAddress, password).catchError((e) {
+    AuthService().emailPasswordLogin(emailAddress, password).catchError((e) {
       debugPrint(e);
       if (mounted) {
         setState(() {
@@ -76,8 +76,8 @@ class LoginPageState extends State<LoginPage> {
       }
     });
 
-    curruser = AuthService().user;
-    if (curruser != null) {
+    user = AuthService().user;
+    if (user != null) {
       widget.notifyParent();
     }
   }
@@ -100,14 +100,17 @@ class LoginPageState extends State<LoginPage> {
       }
     });
 
-    curruser = AuthService().user;
-    if (curruser != null) {
+    user = AuthService().user;
+    if (user != null) {
       widget.notifyParent();
     }
   }
 
   @override
   Widget build(BuildContext context) {
+
+print(Provider.of<UserData>(context).recipes);
+
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),

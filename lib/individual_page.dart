@@ -97,13 +97,13 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                     child: Text(
-                      'Really Cool IPA',
+                      widget.recipe.name,
                       textAlign: TextAlign.start,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 30,
                       ),
                     ),
@@ -446,8 +446,8 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       'Brewer\'s Notes',
                       style: TextStyle(
                         //fontFamily: 'Lexend Deca',
@@ -457,11 +457,12 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                       child: Text(
-                        'The brew was decent with notes of caramel, lemongrass, slight hit of berry.\n',
+                        widget.recipe.notes,
+                        //'The brew was decent with notes of caramel, lemongrass, slight hit of berry.\n',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             color: Color.fromARGB(255, 16, 18, 19)),
                       ),
@@ -508,8 +509,8 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Padding(
+                  children: [
+                    const Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
                       child: Text(
                         'Instructions',
@@ -520,8 +521,9 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                       ),
                     ),
                     Text(
-                      'To achieve this brew, you first need to.....',
-                      style: TextStyle(
+                      widget.recipe.instructions,
+                      //'To achieve this brew, you first need to.....',
+                      style: const TextStyle(
                         color: Color.fromARGB(255, 16, 18, 19),
                         fontSize: 14,
                       ),

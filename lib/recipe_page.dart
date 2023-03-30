@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/filter_overlay.dart';
@@ -155,7 +156,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                                     children: [
                                                       Positioned(
                                                         width: widgetWidth,
-                                                        child: FilterOverlay()
+                                                        child: const FilterOverlay()
                                                       ),
                                                     ],
                                                   )
@@ -207,8 +208,8 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                   padding: const EdgeInsetsDirectional.fromSTEB(
                                       0, 8, 0, 16),
                                   child: Column(
-                                    children: const [
-                                      Divider(
+                                    children: [
+                                      const Divider(
                                         height: 8,
                                         thickness: 4,
                                         indent: 140,
@@ -217,15 +218,25 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                       ),
                                       CategoryList(
                                         name: "IPA",
-                                        amount: 4,
+                                        query: FirebaseFirestore.instance
+                                        .collection('Recipe')
+                                        .where('style', isEqualTo: 'IPA')
+                                        .get(), 
                                       ),
                                       CategoryList(
                                         name: "Lagers",
-                                        amount: 7,
+                                        query: FirebaseFirestore.instance
+                                        .collection('Recipe')
+                                        .where('style', isEqualTo: 'Lager')
+                                        .get()
+                                        
                                       ),
                                       CategoryList(
                                         name: "Others",
-                                        amount: 14,
+                                        query: FirebaseFirestore.instance
+                                        .collection('Recipe')
+                                        .where('style', isEqualTo: 'Other')
+                                        .get()
                                       )
                                     ],
                                   ),
