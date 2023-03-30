@@ -46,10 +46,17 @@ class _AppState extends State<App> {
           //app down the tree
 
           //Add multiprovider here, particularly for FutureProvider!
-          return StreamProvider(
-              create: (_) => FirestoreService().getUserInfo(),
-              initialData: UserData(),
-
+          return MultiProvider(
+              providers: [
+                StreamProvider<UserData>(
+                  create: (_) => FirestoreService().getUserInfo(),
+                  initialData: UserData(),
+                ),
+                FutureProvider<Recipe>(
+                    create: (_) =>
+                        FirestoreService().getRecipe(Recipe().brewID),
+                    initialData: Recipe())
+              ],
               //maybe add checker widget here, then add material app to checker?
               child: MaterialApp(
                 title: 'Poly-Brewers',
