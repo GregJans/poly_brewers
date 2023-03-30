@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:poly_brewers/services/firestore.dart';
@@ -21,13 +22,12 @@ class LoginPageState extends State<LoginPage> {
 
   String emailAddress = '';
   String password = '';
-  //var user = AuthService().user;
-  var user = null;
+  User? curruser = AuthService().user;
   String? emailError;
   String? pwError;
 
   void authenticateUser() {
-    AuthService.emailPasswordLogin(emailAddress, password).catchError((e) {
+    AuthService().emailPasswordLogin(emailAddress, password).catchError((e) {
       debugPrint(e);
       if (mounted) {
         setState(() {
@@ -48,18 +48,38 @@ class LoginPageState extends State<LoginPage> {
       }
     });
 
-    user = AuthService().user;
-    if (user != null) {
+    curruser = AuthService().user;
+    if (curruser != null) {
+      widget.notifyParent();
+    }
+  }
+
+  void createUser() {
+    AuthService().registerEmailUser(emailAddress, password).catchError((e) {
+      debugPrint(e);
+      if (mounted) {
+        setState(() {
+          //reset the error messages
+          emailError = null;
+          pwError = null;
+
+          if (e == "invalid-email") {
+            emailError = "Not a proper email format";
+          } else if (e == 'invalid-password') {
+            pwError = "Password must be of length 6";
+          }
+        });
+      }
+    });
+
+    curruser = AuthService().user;
+    if (curruser != null) {
       widget.notifyParent();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var rep = Provider.of<Recipe>(context);
-
-    //Maybe use StreamProvider here instead since it is more prevalent for
-    //data flow?
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
@@ -291,6 +311,15 @@ class LoginPageState extends State<LoginPage> {
                                   ),
                                   onPressed: () {
                                     authenticateUser();
+                                    print('${curruser?.uid} + oof');
+                                    UserData userData = UserData(
+                                        uid: curruser?.uid ?? '',
+                                        fname: 'Nicholas II');
+                                    /*FirebaseFirestore.instance
+                                        .collection('User')
+                                        .doc(curruser?.uid)
+                                        .set(userData.toJson());*/
+                                    FirestoreService().sendUserInfo();
                                   },
                                   child: const Text(
                                     'Sign In',
@@ -332,9 +361,7 @@ class LoginPageState extends State<LoginPage> {
 
                                   */
                                   onPressed: () {
-                                    AuthService.registerEmailUser(
-                                        emailAddress, password);
-                                    debugPrint("Sign Up");
+                                    createUser();
                                   },
                                   child: const Text(
                                     'Sign Up',
@@ -364,7 +391,7 @@ class LoginPageState extends State<LoginPage> {
                                   ),
                                   onPressed: () async {
                                     debugPrint("Sending to google log in");
-                                    AuthService.signInWithGoogle();
+                                    AuthService().signInWithGoogle();
                                   },
 
                                   //borderColor: Colors.transparent,

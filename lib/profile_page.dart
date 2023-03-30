@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/brew_form.dart';
 import 'package:poly_brewers/category_list.dart';
@@ -8,6 +9,7 @@ import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
 import 'package:provider/provider.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -29,9 +31,8 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    var userInfo = Provider.of<UserData>(context);
     var user = AuthService().user;
-
+    UserData userInfo = Provider.of<UserData>(context);
     String uemail = user?.email ?? "uemail";
 
     return (!loggedIn)
@@ -93,12 +94,14 @@ class ProfilePageState extends State<ProfilePage> {
                                   ),
                                 ),
                                 */
-                                    const Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          24, 140, 0, 0),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsetsDirectional.fromSTEB(
+                                              24, 140, 0, 0),
                                       child: Text(
-                                        "name",
-                                        style: TextStyle(
+                                        //USER INFO DEMO FOR PIPING DATA
+                                        userInfo.fname,
+                                        style: const TextStyle(
                                             fontSize: 22,
                                             color: Color.fromARGB(
                                                 255, 87, 99, 108)),

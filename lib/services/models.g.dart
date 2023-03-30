@@ -6,7 +6,7 @@ part of 'models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Recipie _$RecipieFromJson(Map<String, dynamic> json) => Recipie(
+Recipe _$RecipieFromJson(Map<String, dynamic> json) => Recipe(
       difficulty: json['difficulty'] as String? ?? '',
       style: json['style'] as String? ?? '',
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
@@ -33,7 +33,7 @@ Recipie _$RecipieFromJson(Map<String, dynamic> json) => Recipie(
       extractWeight: json['extractWeight'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$RecipieToJson(Recipie instance) => <String, dynamic>{
+Map<String, dynamic> _$RecipieToJson(Recipe instance) => <String, dynamic>{
       'difficulty': instance.difficulty,
       'style': instance.style,
       'rating': instance.rating,
@@ -53,7 +53,7 @@ UserData _$UserFromJson(Map<String, dynamic> json) => UserData(
       uid: json['uid'] as String? ?? '',
       fname: json['fname'] as String? ?? '',
       lname: json['lname'] as String? ?? '',
-      recipies: (json['recipies'] as List<dynamic>?)
+      recipes: (json['recipies'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           const [],
@@ -63,5 +63,5 @@ Map<String, dynamic> _$UserToJson(UserData instance) => <String, dynamic>{
       'uid': instance.uid,
       'fname': instance.fname,
       'lname': instance.lname,
-      'recipies': instance.recipies,
+      'recipies': instance.recipes,
     };

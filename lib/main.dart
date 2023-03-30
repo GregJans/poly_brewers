@@ -46,11 +46,19 @@ class _AppState extends State<App> {
           //app down the tree
 
           //Add multiprovider here, particularly for FutureProvider!
-          return StreamProvider(
-              create: (_) => FirestoreService().getUserInfo(),
-              initialData: UserData(),
-
-              //maybe add checker widget here, then add material app to checker?
+          return MultiProvider(
+              providers: [
+                StreamProvider<UserData>(
+                  create: (_) => FirestoreService().getUserInfo(),
+                  initialData: UserData(),
+                  updateShouldNotify: (previous, current) =>
+                      (current != previous),
+                ),
+                FutureProvider<Recipe>(
+                  create: (_) => FirestoreService().getRecipie(Recipe().brewID),
+                  initialData: Recipe(),
+                )
+              ],
               child: MaterialApp(
                 title: 'Poly-Brewers',
                 theme: ThemeData(
@@ -60,6 +68,18 @@ class _AppState extends State<App> {
                 debugShowCheckedModeBanner: false,
                 home: const HomePage(),
               ));
+
+          //maybe add checker widget here, then add material app to checker?
+          // ignore: dead_code
+          /*MaterialApp(
+            title: 'Poly-Brewers',
+            theme: ThemeData(
+              primarySwatch: Colors.brown,
+              fontFamily: 'Poppins',
+            ),
+            debugShowCheckedModeBanner: false,
+            home: const HomePage(),
+          );*/
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
