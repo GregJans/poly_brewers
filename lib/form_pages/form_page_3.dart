@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FormPage3 extends StatefulWidget {
-  final Function({bool prev}) notifyParent;
-  const FormPage3({super.key, required this.notifyParent});
+  final Function({bool prev}) update;
+  const FormPage3({super.key, required this.update});
 
   @override
   FormPage3State createState() {
@@ -129,7 +129,7 @@ class FormPage3State extends State<FormPage3> {
                         borderRadius: BorderRadius.all(Radius.circular(25))),
                     child: ElevatedButton(
                       onPressed: () {
-                        widget.notifyParent(prev: true);
+                        widget.update(prev: true);
                       },
                       child: const Text('Previous'),
                     ),

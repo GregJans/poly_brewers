@@ -95,6 +95,7 @@ class ProfilePageState extends State<ProfilePage> {
                                 ),
                                 */
                                     Padding(
+<<<<<<< HEAD
                                       padding:
                                           const EdgeInsetsDirectional.fromSTEB(
                                               24, 140, 0, 0),
@@ -102,11 +103,19 @@ class ProfilePageState extends State<ProfilePage> {
                                         //USER INFO DEMO FOR PIPING DATA
                                         userInfo.fname,
                                         style: const TextStyle(
+=======
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          24, 150, 0, 0),
+                                      child: Text(
+                                        uemail,
+                                        style: TextStyle(
+>>>>>>> 18719d6bce9a4901657927f2eff0595b0fff1aac
                                             fontSize: 22,
                                             color: Color.fromARGB(
                                                 255, 87, 99, 108)),
                                       ),
                                     ),
+                                    /*
                                     Align(
                                       alignment:
                                           const AlignmentDirectional(-1, 0),
@@ -123,6 +132,7 @@ class ProfilePageState extends State<ProfilePage> {
                                         ),
                                       ),
                                     ),
+                                    */
                                   ],
                                 ),
                               ),

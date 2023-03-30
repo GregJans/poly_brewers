@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:poly_brewers/individual_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:poly_brewers/services/models.dart';
 
-class Recipe extends StatefulWidget {
+class RecipeCard extends StatefulWidget {
   //make parameters for name and rating
-  const Recipe({Key? key, required this.name, required this.rating})
+  const RecipeCard({Key? key, required this.name, required this.rating})
       : super(key: key);
   final String name;
   final double rating;
 
   @override
-  State<Recipe> createState() => RecipeState();
+  State<RecipeCard> createState() => RecipeCardState();
 }
 
-class RecipeState extends State<Recipe> {
+class RecipeCardState extends State<RecipeCard> {
   Color buttonColor = const Color.fromARGB(255, 16, 18, 19);
 
   @override
@@ -107,10 +108,27 @@ class RecipeState extends State<Recipe> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const IndividualPageWidget()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                            IndividualPageWidget(recipe: Recipie.fromJson({
+                              'difficulty': 'Easy',
+                              'style': 'lagger',
+                              'rating': 4.7,
+                              'originalGravity': 1.2,
+                              'finalGravity': 1.7,
+                              'IBU': 3.2,
+                              'brewTime': 60,
+                              'yeast': 'the best',
+                              'grains': ['wheat', 'barley'],
+                              'hops': ['hops', 'more hops'],
+                              'hopsWeight': [3, 7],
+                              'extractName': ['first extract', 'second extract'],
+                              'extractWeight': 8
+                              }),
+                            )
+                        )
+                      );
                     },
                     onHover: (bool hovered) {
                       if (hovered) {
