@@ -27,8 +27,7 @@ class LoginPageState extends State<LoginPage> {
   String? pwError;
 
   void authenticateUser() {
-
-    AuthService.emailPasswordLogin(emailAddress, password).catchError((e){
+    AuthService.emailPasswordLogin(emailAddress, password).catchError((e) {
       debugPrint(e);
       if (mounted) {
         setState(() {
@@ -53,11 +52,12 @@ class LoginPageState extends State<LoginPage> {
     if (user != null) {
       widget.notifyParent();
     }
-    
   }
 
   @override
   Widget build(BuildContext context) {
+    var rep = Provider.of<Recipe>(context);
+
     //Maybe use StreamProvider here instead since it is more prevalent for
     //data flow?
     return Center(
@@ -68,7 +68,8 @@ class LoginPageState extends State<LoginPage> {
           children: [
             Align(
               alignment: Alignment.center,
-              child: Opacity(opacity: 0.15,
+              child: Opacity(
+                opacity: 0.15,
                 child: Image.asset(
                   'images/logo.png',
                   height: MediaQuery.of(context).size.height * 0.7,
@@ -114,7 +115,8 @@ class LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                         child: TextFormField(
                           //controller: textController1,
                           obscureText: false,
@@ -156,7 +158,9 @@ class LoginPageState extends State<LoginPage> {
                             ),
                             filled: true,
                             fillColor: Colors.white,
-                            contentPadding: const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                            contentPadding:
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    20, 24, 20, 24),
                           ),
                           //style: FlutterFlowTheme.of(context).bodyText1,
                           onChanged: (String value) {
@@ -183,7 +187,8 @@ class LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                         child: TextFormField(
                           //controller: textController2,
                           obscureText: !passwordVisibility,
@@ -229,7 +234,8 @@ class LoginPageState extends State<LoginPage> {
                             filled: true,
                             fillColor: Colors.white,
                             contentPadding:
-                                const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    20, 24, 20, 24),
                             suffixIcon: InkWell(
                               onTap: () => setState(
                                 () => passwordVisibility = !passwordVisibility,
@@ -269,14 +275,15 @@ class LoginPageState extends State<LoginPage> {
                                   ),
                               alignment: const AlignmentDirectional(-1, 0),
                               child: Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 16, 0),
                                 child: TextButton(
                                   style: ButtonStyle(
                                     foregroundColor:
-                                        MaterialStateProperty.resolveWith<Color>(
-                                            (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.hovered))
+                                        MaterialStateProperty.resolveWith<
+                                            Color>((Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.hovered))
                                         return Color.fromARGB(255, 16, 18, 19);
                                       return Colors
                                           .grey; // null throus error in flutter 2.2+.
@@ -306,14 +313,24 @@ class LoginPageState extends State<LoginPage> {
                                 child: TextButton(
                                   style: ButtonStyle(
                                     foregroundColor:
-                                        MaterialStateProperty.resolveWith<Color>(
-                                            (Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.hovered))
+                                        MaterialStateProperty.resolveWith<
+                                            Color>((Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.hovered))
                                         return Color.fromARGB(255, 16, 18, 19);
                                       return Colors
                                           .grey; // null throus error in flutter 2.2+.
                                     }),
                                   ),
+                                  /*
+
+                                HERE LIES A BIG BLOODY COMMENT TO DETERMINE 
+                                IF ITS SIGNIN PLACE
+
+
+
+
+                                  */
                                   onPressed: () {
                                     AuthService.registerEmailUser(
                                         emailAddress, password);
@@ -331,20 +348,20 @@ class LoginPageState extends State<LoginPage> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding:
-                                    const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    8, 8, 8, 8),
                                 child: IconButton(
                                   icon: Image.asset(
                                     'images/google_logo.png',
                                     fit: BoxFit.fill,
                                   ),
-
                                   onPressed: () async {
                                     debugPrint("Sending to google log in");
                                     AuthService.signInWithGoogle();
