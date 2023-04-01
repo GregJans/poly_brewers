@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/filter_overlay.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:poly_brewers/services/auth.dart';
+import 'package:poly_brewers/services/models.dart';
+import 'package:provider/provider.dart';
 
 class MainRecipePageWidget extends StatefulWidget {
   const MainRecipePageWidget({Key? key}) : super(key: key);
@@ -40,8 +43,20 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
   }
   */
 
+
+
   @override
   Widget build(BuildContext context) {
+    // print(Provider.of<UserData>(context, listen: false).recipes);
+    // var list = ['CnKCmREOU40XV4v0eyHD'];
+    // FirebaseFirestore.instance
+    //   .collection('User')
+    //   .doc(AuthService().user!.uid)
+    //   .update({'recipies': FieldValue.arrayUnion(list)});
+    //Provider.of<UserData>(context, listen: false).recipes.add('CnKCmREOU40XV4v0eyHD');
+    // print(Provider.of<UserData>(context, listen: false).recipes);
+
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: const Color.fromARGB(255, 241, 244, 248),
@@ -255,21 +270,5 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
         ),
       ),
     );
-  }
-}
-
-class ArrowClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.moveTo(0, size.height);
-    path.lineTo(size.width / 2, size.height / 2);
-    path.lineTo(size.width, size.height);
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return true;
   }
 }

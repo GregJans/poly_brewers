@@ -109,8 +109,6 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
 
-print(Provider.of<UserData>(context).recipes);
-
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
@@ -342,7 +340,7 @@ print(Provider.of<UserData>(context).recipes);
                                   ),
                                   onPressed: () {
                                     authenticateUser();
-                                    FirestoreService().sendUserInfo();
+                                    //FirestoreService().sendUserInfo();
                                   },
                                   child: const Text(
                                     'Sign In',

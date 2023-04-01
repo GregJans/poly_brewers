@@ -32,6 +32,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+
     var user = AuthService().user;
     UserData userInfo = Provider.of<UserData>(context);
     String uemail = user?.email ?? "uemail";
@@ -354,6 +355,7 @@ class ProfilePageState extends State<ProfilePage> {
                   name: "Saved Brews",
                   query: FirebaseFirestore.instance
                   .collection('Recipe')
+                  .where('brewID', whereIn: Provider.of<UserData>(context, listen: false).recipes)
                   .get(),
                 ),
                 CategoryList(
@@ -364,6 +366,8 @@ class ProfilePageState extends State<ProfilePage> {
                     .get()
                 )
               ],
-            )));
+            )
+          )
+        );
   }
 }
