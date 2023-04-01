@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:poly_brewers/category_list.dart';
+import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
+import 'package:provider/provider.dart';
 
 class IndividualPageWidget extends StatefulWidget {
-  const IndividualPageWidget({Key? key, required this.recipe})
+  const IndividualPageWidget({Key? key, required this.recipe, required this.updateParent})
       : super(key: key);
   final Recipe recipe;
+  final Function updateParent;
 
   @override
   _IndividualPageWidgetState createState() => _IndividualPageWidgetState();
@@ -13,9 +18,12 @@ class IndividualPageWidget extends StatefulWidget {
 
 class _IndividualPageWidgetState extends State<IndividualPageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final categoryKey = GlobalKey<CategoryListState>();
 
   @override
   Widget build(BuildContext context) {
+    bool saved = Provider.of<UserData>(context, listen: false).recipes.contains(widget.recipe.brewID);
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: const Color(0xFFF1F4F8),
@@ -42,6 +50,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     alignment: const AlignmentDirectional(-0.95, -0.55),
                     child: InkWell(
                       onTap: () async {
+                        widget.updateParent();
                         Navigator.pop(context);
                       },
                       child: Card(
@@ -67,7 +76,28 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     alignment: const AlignmentDirectional(0.9, -0.55),
                     child: InkWell(
                       onTap: () async {
-                        debugPrint('IconButton pressed ...');
+                        if (saved) {
+                          await FirebaseFirestore.instance
+                          .collection('User')
+                          .doc(AuthService().user!.uid)
+                          .update({'recipies': FieldValue.arrayRemove([widget.recipe.brewID])});
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Brew Removed')),
+                          );
+                          setState(() {saved = !saved;});
+                        }
+                        else {
+                          await FirebaseFirestore.instance
+                          .collection('User')
+                          .doc(AuthService().user!.uid)
+                          .update({'recipies': FieldValue.arrayUnion([widget.recipe.brewID])});
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Brew Saved')),
+                          );
+                          setState(() {saved = !saved;});
+                        } 
                       },
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -76,11 +106,10 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        child: const Padding(
-                          padding:
-                              EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                           child: Icon(
-                            Icons.add_to_photos_rounded,
+                            (saved) ? Icons.add_to_photos_rounded : Icons.add_to_photos_outlined,
                             color: Colors.purple,
                             size: 24,
                           ),
@@ -538,3 +567,4 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
     );
   }
 }
+

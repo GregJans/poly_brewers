@@ -32,6 +32,11 @@ class CategoryListState extends State<CategoryList> {
     });
   }
 
+  void refresh() {
+    initData();
+  }
+
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -43,6 +48,7 @@ class CategoryListState extends State<CategoryList> {
     int displayed =
         min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
   
+    print("category list changed");
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -86,6 +92,7 @@ class CategoryListState extends State<CategoryList> {
                   itemCount: displayed,
                   itemBuilder: (context, index) => RecipeCard(
                     recipe: recipeList[index],
+                    updateParent: refresh,
                   ),
                 ),
                 if (amount > displayed)

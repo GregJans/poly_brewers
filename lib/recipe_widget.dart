@@ -6,9 +6,9 @@ import 'package:poly_brewers/services/models.dart';
 
 class RecipeCard extends StatefulWidget {
   //make parameters for name and rating
-  const RecipeCard({Key? key, required this.recipe})
+  const RecipeCard({Key? key, required this.recipe, required this.updateParent})
       : super(key: key);
-  
+  final Function updateParent;
   final Recipe recipe;
 
   @override
@@ -111,7 +111,8 @@ class RecipeCardState extends State<RecipeCard> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => IndividualPageWidget(
-                                    recipe: widget.recipe
+                                    recipe: widget.recipe,
+                                    updateParent: widget.updateParent,
                                   )));
                     },
                     onHover: (bool hovered) {
