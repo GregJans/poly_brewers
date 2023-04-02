@@ -2,30 +2,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:poly_brewers/category_list.dart';
+import 'package:poly_brewers/profile_page.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
 import 'package:provider/provider.dart';
 
 class IndividualPageWidget extends StatefulWidget {
-  const IndividualPageWidget({Key? key, required this.recipe, required this.updateParent})
+  const IndividualPageWidget({Key? key, required this.recipe})
       : super(key: key);
   final Recipe recipe;
-  final Function updateParent;
 
   @override
   _IndividualPageWidgetState createState() => _IndividualPageWidgetState();
 }
 
 class _IndividualPageWidgetState extends State<IndividualPageWidget> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  final categoryKey = GlobalKey<CategoryListState>();
+  //final scaffoldKey = GlobalKey<ScaffoldState>();
+  //final categoryKey = GlobalKey<ProfilePageState>();
 
   @override
   Widget build(BuildContext context) {
     bool saved = Provider.of<UserData>(context, listen: false).recipes.contains(widget.recipe.brewID);
 
     return Scaffold(
-      key: scaffoldKey,
+      //key: scaffoldKey,
       backgroundColor: const Color(0xFFF1F4F8),
       body: SingleChildScrollView(
         child: Column(
@@ -50,7 +50,6 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     alignment: const AlignmentDirectional(-0.95, -0.55),
                     child: InkWell(
                       onTap: () async {
-                        widget.updateParent();
                         Navigator.pop(context);
                       },
                       child: Card(
@@ -70,11 +69,12 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           ),
                         ),
                       ),
-                    ),
+                    ),                    
                   ),
                   Align(
                     alignment: const AlignmentDirectional(0.9, -0.55),
-                    child: InkWell(
+                    child: (AuthService().user != null)
+                    ? InkWell(
                       onTap: () async {
                         if (saved) {
                           await FirebaseFirestore.instance
@@ -98,6 +98,8 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           );
                           setState(() {saved = !saved;});
                         } 
+                        //categoryKey.currentState!.refresh();
+                        
                       },
                       child: Card(
                         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -115,7 +117,8 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           ),
                         ),
                       ),
-                    ),
+                    )
+                    : SizedBox(),
                   ),
                 ],
               ),
@@ -247,7 +250,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            widget.recipe.hops.toString(),
+                            widget.recipe.hops.join(', '),
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 fontSize: 18,
@@ -268,7 +271,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            widget.recipe.extractName.toString(),
+                            widget.recipe.extractName.join(', '),
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 fontSize: 18,
@@ -355,7 +358,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            widget.recipe.grains.toString(),
+                            widget.recipe.grains.join(', '),
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 fontSize: 18,
@@ -376,7 +379,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            '${widget.recipe.hopsWeight} oz',
+                            '${widget.recipe.hopsWeight.join(', ')} oz',
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 fontSize: 18,
@@ -505,8 +508,8 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Required Equipment',
                     style: TextStyle(
                       //fontFamily: 'Lexend Deca',
@@ -516,11 +519,11 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                     child: Text(
-                      'Keg, Bottles',
+                      widget.recipe.equip.join(', '),
                       textAlign: TextAlign.start,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 18, color: Color.fromARGB(255, 16, 18, 19)),
                     ),
                   ),

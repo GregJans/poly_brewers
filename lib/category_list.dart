@@ -21,6 +21,7 @@ class CategoryList extends StatefulWidget {
 class CategoryListState extends State<CategoryList> {
   List<Recipe> recipeList = [];
   int amount = 0;
+  ScrollController scrollController = ScrollController();
 
 
   Future initData() async {
@@ -33,6 +34,7 @@ class CategoryListState extends State<CategoryList> {
   }
 
   void refresh() {
+    print("refreshing " + widget.name);
     initData();
   }
 
@@ -45,11 +47,10 @@ class CategoryListState extends State<CategoryList> {
 
   @override
   Widget build(BuildContext context) {
+
     int displayed =
         min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
   
-    print("category list changed");
-
     return Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,39 +76,42 @@ class CategoryListState extends State<CategoryList> {
           ),
         ),
         Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 50),
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 50),
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 206,
+            height: 230,
             decoration: const BoxDecoration(
               color: Color.fromARGB(255, 241, 244, 248),
             ),
-            child: Row(
-              children: [
-                ListView.builder(
-                  padding: EdgeInsets.zero,
-                  primary: false,
+            child: ScrollConfiguration(
+              behavior: MyCustomScrollBehavior(),
+              child: Scrollbar(
+                controller: scrollController,
+                thumbVisibility: (displayed < amount),
+                child: ListView.builder(
+                  padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                  controller: scrollController,
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: displayed,
+                  itemCount: amount,
                   itemBuilder: (context, index) => RecipeCard(
-                    recipe: recipeList[index],
-                    updateParent: refresh,
+                      recipe: recipeList[index],
                   ),
                 ),
-                if (amount > displayed)
-                  IconButton(
-                    onPressed: () {
-                      // when pressed, wipe screen and only show these (same as if they searched in the bar for this category)
-                      debugPrint("viewing all");
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios_rounded),
-                  ),
-              ],
+              ), 
             ),
           ),
         ),
       ],
     );
   }
+}
+
+class MyCustomScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => { 
+    PointerDeviceKind.touch,
+    PointerDeviceKind.mouse,
+  };
 }

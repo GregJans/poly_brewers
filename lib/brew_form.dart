@@ -33,11 +33,12 @@ class BrewFormState extends State<BrewForm> {
 
   int step = 1;
 
-  processStep1(String name, String difficulty, String style, double bitterness) {
+  processStep1(String name, String difficulty, String style, double bitterness, List<String> equip) {
     values.putIfAbsent('name', () => name);
     values.putIfAbsent('difficulty', () => difficulty);
     values.putIfAbsent('style', () => style);
     values.putIfAbsent('IBU', () => bitterness);
+    values.putIfAbsent('equip', () => equip);
   }
 
   processStep2(double og, double fg, List<String> extracts, int eLbs,

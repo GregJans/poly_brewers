@@ -4,7 +4,7 @@ const List<String> difficultyList = <String>['Novice', 'Adept', 'Cicerone'];
 const List<String> categoryList = <String>['Lager', 'IPA', 'Other'];
 
 class FormPage1 extends StatefulWidget {
-  final Function(String, String, String, double) notifyParent;
+  final Function(String, String, String, double, List<String>) notifyParent;
   final Function({bool prev}) update;
   final Map<String, dynamic> recData;
   const FormPage1({super.key, required this.notifyParent, required this.update, required this.recData});
@@ -26,6 +26,7 @@ class FormPage1State extends State<FormPage1> {
   static String? difficultyValue;
   static String? styleValue;
   static var isChecked = [false, false, false, false, false];
+  final equipValues = ['1-Gal', '2-Gal', '5-Gal', 'Keg', 'Bottles'];
 
   @override
   Widget build(BuildContext context) {
@@ -291,7 +292,7 @@ class FormPage1State extends State<FormPage1> {
                           });
                         }
                       ),
-                      Text("1-Gal"),
+                      Text(equipValues[0]),
                     ]
                   ),
 
@@ -305,7 +306,7 @@ class FormPage1State extends State<FormPage1> {
                           });
                         }
                       ),
-                      Text("2-Gal"),
+                      Text(equipValues[1]),
                     ]
                   ),
 
@@ -319,7 +320,7 @@ class FormPage1State extends State<FormPage1> {
                           });
                         }
                       ),
-                      Text("5-Gal"),
+                      Text(equipValues[2]),
                     ]
                   ),
 
@@ -333,7 +334,7 @@ class FormPage1State extends State<FormPage1> {
                           });
                         }
                       ),
-                      Text("Keg"),
+                      Text(equipValues[3]),
                     ]
                   ),
 
@@ -347,7 +348,7 @@ class FormPage1State extends State<FormPage1> {
                           });
                         }
                       ),
-                      Text("Bottles"),
+                      Text(equipValues[4]),
                     ]
                   ),
                   
@@ -369,20 +370,21 @@ class FormPage1State extends State<FormPage1> {
                     onPressed: () {
                       // Validate returns true if the form is valid, or false otherwise.
                       if (_formKey.currentState!.validate()) {
-                        // If the form is valid, display a snackbar. In the real world,
-                        // you'd often call a server or save the information in a database.
-                        /*
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Brew Submitted')),
-                        );
-                        Navigator.pop(context);
-                        */
+                        
+                        List<String> equip = [];
+                        for (int i=0; i < equipValues.length; i++) {
+                          if (isChecked[i]){
+                            equip.add(equipValues[i]);
+                          }
+                        }
                         
                         widget.notifyParent(
                           nameController.text,
                           difficultyValue!,
                           styleValue!, 
-                          double.parse(bitternessController.text));
+                          double.parse(bitternessController.text),
+                          equip
+                        );
 
                         widget.update();
                       }

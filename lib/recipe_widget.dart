@@ -6,9 +6,8 @@ import 'package:poly_brewers/services/models.dart';
 
 class RecipeCard extends StatefulWidget {
   //make parameters for name and rating
-  const RecipeCard({Key? key, required this.recipe, required this.updateParent})
+  const RecipeCard({Key? key, required this.recipe})
       : super(key: key);
-  final Function updateParent;
   final Recipe recipe;
 
   @override
@@ -59,52 +58,56 @@ class RecipeCardState extends State<RecipeCard> {
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        widget.recipe.name,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Color.fromARGB(255, 16, 18, 19)),
-                      ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            RatingBarIndicator(
-                              itemBuilder: (context, index) => const Icon(
-                                Icons.sports_bar_rounded,
-                                color: Color(0xFF7A5C17),
+                  SizedBox(
+                    width: 170,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.recipe.name,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
+                              color: Color.fromARGB(255, 16, 18, 19)),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              RatingBarIndicator(
+                                itemBuilder: (context, index) => const Icon(
+                                  Icons.sports_bar_rounded,
+                                  color: Color(0xFF7A5C17),
+                                ),
+                                direction: Axis.horizontal,
+                                rating: widget.recipe.rating,
+                                unratedColor: const Color(0xFFABA6A6),
+                                itemCount: 5,
+                                itemSize: 16,
                               ),
-                              direction: Axis.horizontal,
-                              rating: widget.recipe.rating,
-                              unratedColor: const Color(0xFFABA6A6),
-                              itemCount: 5,
-                              itemSize: 16,
-                            ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  8, 0, 0, 0),
-                              child: Text(
-                                widget.recipe.rating.toString(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 87, 99, 108),
-                                  fontStyle: FontStyle.italic,
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                                child: Text(
+                                  widget.recipe.rating.toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: Color.fromARGB(255, 87, 99, 108),
+                                    fontStyle: FontStyle.italic,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
+                  
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -112,7 +115,6 @@ class RecipeCardState extends State<RecipeCard> {
                           MaterialPageRoute(
                               builder: (context) => IndividualPageWidget(
                                     recipe: widget.recipe,
-                                    updateParent: widget.updateParent,
                                   )));
                     },
                     onHover: (bool hovered) {

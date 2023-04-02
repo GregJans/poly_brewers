@@ -25,12 +25,12 @@ class FormPage2State extends State<FormPage2> {
 
     final ogController = TextEditingController(text: (widget.recData['originalGravity'] == null) ? '' : widget.recData['originalGravity'].toString());
     final fgController = TextEditingController(text: (widget.recData['finalGravity'] == null) ? '' : widget.recData['finalGravity'].toString());
-    final extractController = TextEditingController(text: (widget.recData['extractName'] == null) ? '' : widget.recData['extractName'].toString());
+    final extractController = TextEditingController(text: (widget.recData['extractName'] == null) ? '' : widget.recData['extractName'].join(', '));
     final eLbsController = TextEditingController(text: (widget.recData['extractWeight'] == null) ? '' : widget.recData['extractWeight'].toString());
-    final hopsController = TextEditingController(text: (widget.recData['hops'] == null) ? '' : widget.recData['hops'].toString());
-    final hopsOzController = TextEditingController(text: (widget.recData['hopsWeight'] == null) ? '' : widget.recData['hopsWeight'].toString());
+    final hopsController = TextEditingController(text: (widget.recData['hops'] == null) ? '' : widget.recData['hops'].join(', '));
+    final hopsOzController = TextEditingController(text: (widget.recData['hopsWeight'] == null) ? '' : widget.recData['hopsWeight'].join(', '));
     final yeastController = TextEditingController(text: (widget.recData['yeast'] == null) ? '' : widget.recData['yeast'].toString());
-    final grainsController = TextEditingController(text: (widget.recData['grains'] == null) ? '' : widget.recData['grains'].toString());
+    final grainsController = TextEditingController(text: (widget.recData['grains'] == null) ? '' : widget.recData['grains'].join(', '));
 
 
     return Form(
@@ -507,14 +507,7 @@ class FormPage2State extends State<FormPage2> {
                         onPressed: () {
                           // Validate returns true if the form is valid, or false otherwise.
                           if (_formKey.currentState!.validate()) {
-                            // If the form is valid, display a snackbar. In the real world,
-                            // you'd often call a server or save the information in a database.
-                            /*
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Brew Submitted')),
-                            );
-                            Navigator.pop(context);
-                            */
+                            
                             widget.notifyParent(
                               double.parse(ogController.text),
                               double.parse(fgController.text),

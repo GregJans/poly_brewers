@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:poly_brewers/home_page.dart';
 import 'package:poly_brewers/recipe_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:poly_brewers/services/auth.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:poly_brewers/services/firestore.dart';
@@ -28,6 +29,11 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (AuthService().user != null) {
+      AuthService().signOut();
+    }
+
     return FutureBuilder(
       // Initialize FlutterFire:
       future: _initialization,
