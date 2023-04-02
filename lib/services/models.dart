@@ -23,6 +23,7 @@ class Recipe {
   final int extractWeight;
   final String notes;
   final String instructions;
+  final List<String> equip;
 
   Recipe(
       {this.brewID = '',
@@ -42,7 +43,8 @@ class Recipe {
       this.extractName = const [],
       this.extractWeight = 0,
       this.notes = '',
-      this.instructions = ''
+      this.instructions = '',
+      this.equip = const []
       });
 
 

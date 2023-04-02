@@ -36,6 +36,10 @@ Recipe _$RecipieFromJson(Map<String, dynamic> json) => Recipe(
       extractWeight: json['extractWeight'] as int? ?? 0,
       notes: json['notes'] as String? ?? '',
       instructions: json['instructions'] as String? ?? '',
+      equip: (json['equip'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$RecipieToJson(Recipe instance) => <String, dynamic>{
@@ -56,7 +60,8 @@ Map<String, dynamic> _$RecipieToJson(Recipe instance) => <String, dynamic>{
       'extractName': instance.extractName,
       'extractWeight': instance.extractWeight,
       'notes': instance.notes,
-      'instructions': instance.instructions
+      'instructions': instance.instructions,
+      'equip': instance.equip
     };
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
