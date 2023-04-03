@@ -48,8 +48,7 @@ class CategoryListState extends State<CategoryList> {
   @override
   Widget build(BuildContext context) {
 
-    int displayed =
-        min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
+    int displayed = min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
   
     return Column(
       mainAxisSize: MainAxisSize.max,

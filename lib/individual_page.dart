@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/profile_page.dart';
@@ -19,12 +20,61 @@ class IndividualPageWidget extends StatefulWidget {
 class _IndividualPageWidgetState extends State<IndividualPageWidget> {
   //final scaffoldKey = GlobalKey<ScaffoldState>();
   //final categoryKey = GlobalKey<ProfilePageState>();
+  bool rated = false;
 
   @override
   Widget build(BuildContext context) {
     bool saved = Provider.of<UserData>(context, listen: false).recipes.contains(widget.recipe.brewID);
 
     return Scaffold(
+      floatingActionButton: Visibility(
+        visible: !rated,
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                        child: Text("Let others know what you thought"),
+                      ),
+              
+                      RatingBar.builder(
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        itemCount: 5,
+                        itemSize: 36,
+                        itemBuilder: (context, index) => const Icon(
+                          Icons.sports_bar_rounded,
+                          color: Color(0xFF7A5C17),
+                        ),
+                        onRatingUpdate: (rating) {
+                          FirebaseFirestore.instance
+                            .collection('Recipe')
+                            .doc(widget.recipe.brewID)
+                            .update({
+                              'ratingTotal': (widget.recipe.ratingTotal + rating),
+                              'ratingsNum': (widget.recipe.ratingsNum + 1)
+                            });
+                          setState(() {
+                            rated = true;
+                          });
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              });
+          },
+          label: const Text("Leave a rating"),
+          icon: const Icon(Icons.sports_bar_outlined),
+        ),
+      ),
       //key: scaffoldKey,
       backgroundColor: const Color(0xFFF1F4F8),
       body: SingleChildScrollView(
@@ -73,52 +123,53 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                   ),
                   Align(
                     alignment: const AlignmentDirectional(0.9, -0.55),
-                    child: (AuthService().user != null)
-                    ? InkWell(
-                      onTap: () async {
-                        if (saved) {
-                          await FirebaseFirestore.instance
-                          .collection('User')
-                          .doc(AuthService().user!.uid)
-                          .update({'recipies': FieldValue.arrayRemove([widget.recipe.brewID])});
+                    child: Visibility(
+                      visible: (AuthService().user != null),
+                      child: InkWell(
+                        onTap: () async {
+                          if (saved) {
+                            await FirebaseFirestore.instance
+                            .collection('User')
+                            .doc(AuthService().user!.uid)
+                            .update({'recipies': FieldValue.arrayRemove([widget.recipe.brewID])});
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Brew Removed')),
-                          );
-                          setState(() {saved = !saved;});
-                        }
-                        else {
-                          await FirebaseFirestore.instance
-                          .collection('User')
-                          .doc(AuthService().user!.uid)
-                          .update({'recipies': FieldValue.arrayUnion([widget.recipe.brewID])});
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Brew Removed')),
+                            );
+                            setState(() {saved = !saved;});
+                          }
+                          else {
+                            await FirebaseFirestore.instance
+                            .collection('User')
+                            .doc(AuthService().user!.uid)
+                            .update({'recipies': FieldValue.arrayUnion([widget.recipe.brewID])});
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Brew Saved')),
-                          );
-                          setState(() {saved = !saved;});
-                        } 
-                        //categoryKey.currentState!.refresh();
-                        
-                      },
-                      child: Card(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        color: const Color(0xFFF5F5F5),
-                        elevation: 3,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                          child: Icon(
-                            (saved) ? Icons.add_to_photos_rounded : Icons.add_to_photos_outlined,
-                            color: Colors.purple,
-                            size: 24,
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Brew Saved')),
+                            );
+                            setState(() {saved = !saved;});
+                          } 
+                          //categoryKey.currentState!.refresh();
+                          
+                        },
+                        child: Card(
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          color: const Color(0xFFF5F5F5),
+                          elevation: 3,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                            child: Icon(
+                              (saved) ? Icons.add_to_photos_rounded : Icons.add_to_photos_outlined,
+                              color: Colors.purple,
+                              size: 24,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                    : SizedBox(),
+                      )
+                    ),
                   ),
                 ],
               ),
@@ -423,10 +474,11 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  0, 4, 0, 0),
+                              padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                               child: Text(
-                                widget.recipe.rating.toString(),
+                                (widget.recipe.ratingTotal / widget.recipe.ratingsNum).isNaN 
+                                ? '0' 
+                                : (widget.recipe.ratingTotal / widget.recipe.ratingsNum).toStringAsPrecision(2),
                                 textAlign: TextAlign.start,
                                 style: const TextStyle(
                                     fontSize: 18,
