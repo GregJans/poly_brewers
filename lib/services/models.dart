@@ -10,7 +10,8 @@ class Recipe {
   final String author;
   final String difficulty;
   final String style;
-  final double rating;
+  final double ratingTotal;
+  final int ratingsNum;
   final double originalGravity;
   final double finalGravity;
   final double IBU;
@@ -31,7 +32,8 @@ class Recipe {
       this.author = '',
       this.difficulty = '',
       this.style = '',
-      this.rating = 0.0,
+      this.ratingTotal = 0.0,
+      this.ratingsNum = 0,
       this.originalGravity = 0.0,
       this.finalGravity = 0.0,
       this.IBU = 0.0,

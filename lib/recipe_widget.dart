@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/individual_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
 
 class RecipeCard extends StatefulWidget {
@@ -16,9 +18,12 @@ class RecipeCard extends StatefulWidget {
 
 class RecipeCardState extends State<RecipeCard> {
   Color buttonColor = const Color.fromARGB(255, 16, 18, 19);
-
+  double rValue = 0;
+  
   @override
   Widget build(BuildContext context) {
+    rValue = (widget.recipe.ratingTotal / widget.recipe.ratingsNum).isNaN ? 0 : (widget.recipe.ratingTotal / widget.recipe.ratingsNum);
+
     return Padding(
       padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
       child: Container(
@@ -78,21 +83,38 @@ class RecipeCardState extends State<RecipeCard> {
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              RatingBarIndicator(
+
+                              RatingBar.builder(
+                                initialRating: rValue,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                itemCount: 5,
+                                itemSize: 25,
+                                allowHalfRating: true,
+                                ignoreGestures: true,
                                 itemBuilder: (context, index) => const Icon(
                                   Icons.sports_bar_rounded,
                                   color: Color(0xFF7A5C17),
                                 ),
-                                direction: Axis.horizontal,
-                                rating: widget.recipe.rating,
-                                unratedColor: const Color(0xFFABA6A6),
-                                itemCount: 5,
-                                itemSize: 16,
+                                onRatingUpdate: (value) {}, 
                               ),
+
+
+                              // RatingBarIndicator(
+                              //   itemBuilder: (context, index) => const Icon(
+                              //     Icons.sports_bar_rounded,
+                              //     color: Color(0xFF7A5C17),
+                              //   ),
+                              //   direction: Axis.horizontal,
+                              //   rating: widget.recipe.rating,
+                              //   unratedColor: const Color(0xFFABA6A6),
+                              //   itemCount: 5,
+                              //   itemSize: 16,
+                              // ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                                 child: Text(
-                                  widget.recipe.rating.toString(),
+                                  rValue.toStringAsPrecision(2),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
