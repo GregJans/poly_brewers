@@ -159,6 +159,8 @@ class ProfilePageState extends State<ProfilePage> {
                       children: [
                         InkWell(
                           onTap: () {
+                            print(MediaQuery.of(context).size.width);
+                            print(MediaQuery.of(context).size.height);
                             //Navigator.push(context, MaterialPageRoute(builder: (context) => const BrewForm()));
                             showDialog(
                                 context: context,

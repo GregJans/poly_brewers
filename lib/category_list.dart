@@ -3,16 +3,22 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/filter_overlay.dart';
+import 'package:poly_brewers/recipe_page.dart';
 import 'package:poly_brewers/recipe_widget.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/models.dart';
 
+
+List<CategoryListState> cats = [];
+
 class CategoryList extends StatefulWidget {
-  const CategoryList({Key? key, required this.name, required this.query})
+  const CategoryList({Key? key, required this.name, required this.query, this.filterable = false})
       : super(key: key);
   final String name;
   final Future<QuerySnapshot<Map<String, dynamic>>> query;
+  final bool filterable;
 
   @override
   State<CategoryList> createState() => CategoryListState();
@@ -26,28 +32,75 @@ class CategoryListState extends State<CategoryList> {
 
   Future initData() async {
     var data = await widget.query;
+    List<Recipe> temp = List.from(data.docs.map((doc) => Recipe.fromJson(doc.data())));
+
+    if (widget.filterable) {
+      temp = applyFilters(temp);
+    }
 
     setState(() {
-      recipeList = List.from(data.docs.map((doc) => Recipe.fromJson(doc.data())));
+      recipeList = temp;
       amount = recipeList.length;
     });
+    
   }
 
-  void refresh() {
-    print("refreshing " + widget.name);
-    initData();
+  List<Recipe> applyFilters(List<Recipe> temp) {
+    List<String> diffFilters = [];
+    List<String> equipFilters= [];
+    List<String> styleFilters = [];
+
+    diffList.forEach((element) {
+      if(element['checked'] as bool) {
+        diffFilters.add(element['title'] as String);
+      }
+    });
+
+    equipList.forEach((element) {
+      if(element['checked'] as bool) {
+        equipFilters.add(element['title'] as String);
+      }
+    });
+
+    styleList.forEach((element) {
+      if(element['checked'] as bool) {
+        styleFilters.add(element['title'] as String);
+      }
+    });
+
+    temp.removeWhere((element) => !diffFilters.contains(element.difficulty));
+    temp.removeWhere((element) => !styleFilters.contains(element.style));
+    temp.removeWhere((element) {
+      bool val = false;
+      element.equip.forEach((e) {
+        if (!equipFilters.contains(e)) val = true;
+      });
+      return val;
+    });
+    
+    return temp;
   }
+
+  
 
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     initData();
+    cats.add(this);
+  }
+
+  @override
+  void dispose() {
+    cats.remove(this);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
+    //if (!cats.contains(this)) cats.add(this);
+    
     int displayed = min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
   
     return Column(

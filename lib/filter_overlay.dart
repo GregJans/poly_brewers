@@ -5,6 +5,26 @@ import 'package:json_annotation/json_annotation.dart';
 
 double widgetWidth = 200;
 
+var diffList = [
+    {'title': "Novice", 'checked': true},
+    {'title': 'Adept', 'checked': true},
+    {'title': 'Cicerone', 'checked': true},
+  ];
+
+var equipList = [
+    {'title': "1-Gal", 'checked': true},
+    {'title': '2-Gal', 'checked': true},
+    {'title': '5-Gal', 'checked': true},
+    {'title': 'Keg', 'checked': true},
+    {'title': 'Bottles', 'checked': true},
+  ];
+
+  var styleList = [
+    {'title': "Lager", 'checked': true},
+    {'title': 'IPA', 'checked': true},
+    {'title': 'Other', 'checked': true},
+  ];
+
 class FilterOverlay extends StatefulWidget {
   const FilterOverlay({super.key});
 
@@ -13,27 +33,6 @@ class FilterOverlay extends StatefulWidget {
 }
 
 class _FilterOverlayState extends State<FilterOverlay> {
-  
-  static var equipList = [
-    {'title': "1-Gal", 'checked': false},
-    {'title': '2-Gal', 'checked': false},
-    {'title': '5-Gal', 'checked': false},
-    {'title': 'Keg', 'checked': false},
-    {'title': 'Bottles', 'checked': false},
-  ];
-
-  static var diffList = [
-    {'title': "Novice", 'checked': false},
-    {'title': 'Adept', 'checked': false},
-    {'title': 'Cicerone', 'checked': false},
-  ];
-
-  static var styleList = [
-    {'title': "Lager", 'checked': false},
-    {'title': 'IPA', 'checked': false},
-    {'title': 'Other', 'checked': false},
-  ];
-  
 
   @override
   Widget build(BuildContext context) {
