@@ -19,7 +19,7 @@ class FirestoreService {
     return Recipe.fromJson(snapshot.data() ?? {});
   }
 
-  void sendRecipe(Recipe therec, UserData udata) async {
+  Future sendRecipe(Recipe therec, UserData udata) async {
     var currentUser = AuthService().user!;
 
     String brewingNumber = _db.collection('Recipe').doc().id;

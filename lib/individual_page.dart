@@ -149,7 +149,6 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                             );
                             setState(() {saved = !saved;});
                           } 
-                          //categoryKey.currentState!.refresh();
                           
                         },
                         child: Card(

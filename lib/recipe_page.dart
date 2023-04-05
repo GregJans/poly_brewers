@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/brew_form.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/filter_overlay.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -21,12 +22,10 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
   TextEditingController? textController;
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-
-  GlobalKey _key = LabeledGlobalKey("button_icon");
-  late OverlayEntry _overlayEntry;
   late Size buttonSize;
   late Offset buttonPosition;
   bool isMenuOpen = false;
+
 
 /*
   @override
@@ -56,6 +55,8 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
     //Provider.of<UserData>(context, listen: false).recipes.add('CnKCmREOU40XV4v0eyHD');
     // print(Provider.of<UserData>(context, listen: false).recipes);
 
+
+    
 
     return Scaffold(
       key: scaffoldKey,
@@ -155,10 +156,38 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                           size: 16,
                                         ),
                                         suffixIcon: IconButton(
-                                          key: _key,
                                           icon: const Icon(
                                               Icons.filter_alt_rounded),
                                           onPressed: () {
+
+    //                                         showDialog(
+    // context: context,
+    // builder: (BuildContext context) {
+    //   return AlertDialog(
+    //     content: Stack(
+    //       children: [
+    //         const SizedBox(
+    //           width: 750,
+    //           height: 700,
+    //           child: BrewForm(),
+    //         ),
+            
+    //         Positioned(
+    //           right: 0,
+    //           top: 0,
+    //           child: IconButton(
+    //             hoverColor: Color.fromARGB(
+    //                 0, 241, 241, 241),
+    //             onPressed: () {
+    //               Navigator.of(context).pop();
+    //             },
+    //             icon: Icon(Icons.close),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // });
 
                                             showDialog(
                                               context: context,
@@ -178,7 +207,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                                
                                                 );
                                               }
-                                            );
+                                            ).then((value) => cats.forEach((element) {element.initData();}));
                                           },
                                         ),
                                       ),
@@ -233,6 +262,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                       ),
                                       CategoryList(
                                         name: "IPA",
+                                        filterable: true,
                                         query: FirebaseFirestore.instance
                                         .collection('Recipe')
                                         .where('style', isEqualTo: 'IPA')
@@ -240,6 +270,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                       ),
                                       CategoryList(
                                         name: "Lagers",
+                                        filterable: true,
                                         query: FirebaseFirestore.instance
                                         .collection('Recipe')
                                         .where('style', isEqualTo: 'Lager')
@@ -248,6 +279,7 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                       ),
                                       CategoryList(
                                         name: "Others",
+                                        filterable: true,
                                         query: FirebaseFirestore.instance
                                         .collection('Recipe')
                                         .where('style', isEqualTo: 'Other')

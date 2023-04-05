@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:poly_brewers/category_list.dart';
+import 'package:poly_brewers/filter_overlay.dart';
 import 'package:poly_brewers/form_pages/form_page_3.dart';
 import 'package:poly_brewers/form_pages/form_page_2.dart';
 import 'package:poly_brewers/form_pages/form_page_1.dart';
@@ -60,8 +62,10 @@ class BrewFormState extends State<BrewForm> {
     values.putIfAbsent('author', () => Provider.of<UserData>(context, listen: false).uid);
 
     recipe = Recipe.fromJson(values);
-    // do not currently have write permissions
-    FirestoreService().sendRecipe(recipe, Provider.of<UserData>(context, listen: false));
+    // .then() is not working 
+    // meant to refresh the "My Brews" category once a new one is added
+    FirestoreService().sendRecipe(recipe, Provider.of<UserData>(context, listen: false))
+      .then((value) => cats.forEach((element) {element.initData();}));
     
   }
 
@@ -79,6 +83,9 @@ class BrewFormState extends State<BrewForm> {
 
   @override
   Widget build(BuildContext context) {
+    //print();
+    print(MediaQuery.of(context).size.height);
+
     var steps = [
       FormPage1(
         update: refresh,

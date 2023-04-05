@@ -44,7 +44,7 @@ class FormPage1State extends State<FormPage1> {
             children: [
               Container(
                 height: 13,
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery.of(context).size.width / 3,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(25))
                 ),
@@ -85,6 +85,7 @@ class FormPage1State extends State<FormPage1> {
                 child: TextFormField(
                   controller: nameController,
                   decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(12),
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -116,7 +117,7 @@ class FormPage1State extends State<FormPage1> {
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(right: 20),
+                          padding: EdgeInsets.only(right: 10),
                           child: Text(
                             "Difficulty:",
                             style: TextStyle(
@@ -126,6 +127,7 @@ class FormPage1State extends State<FormPage1> {
                           ),
                         ),
                         Container(
+                          height: 40,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Color.fromARGB(134, 218, 218, 218),
@@ -133,11 +135,12 @@ class FormPage1State extends State<FormPage1> {
                           padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                           child: DropdownButton<String>(
                             value: difficultyValue,
+                            elevation: 4,
                             icon: const Icon(Icons.arrow_drop_down_rounded),
                             hint: const Text("Please select one"),
                             focusColor: Colors.transparent,
                             //elevation: 16,
-                            style: const TextStyle(color: Colors.deepPurple),
+                            //style: const TextStyle(color: Colors.deepPurple),
                             underline: Container(
                               height: 0,
                             ),
@@ -150,7 +153,12 @@ class FormPage1State extends State<FormPage1> {
                             items: difficultyList.map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value),
+                                child: Text(
+                                  value, 
+                                  style: TextStyle(
+                                    fontSize: 14
+                                  ),
+                                ),
                               );
                             }).toList(),
                           ),
@@ -160,7 +168,7 @@ class FormPage1State extends State<FormPage1> {
                     Row(
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(right: 20),
+                          padding: EdgeInsets.only(right: 10),
                           child: Text(
                             "Style:",
                             style: TextStyle(
@@ -170,6 +178,7 @@ class FormPage1State extends State<FormPage1> {
                           ),
                         ),
                         Container(
+                          height: 40,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Color.fromARGB(134, 218, 218, 218),
@@ -181,7 +190,7 @@ class FormPage1State extends State<FormPage1> {
                             hint: const Text("Please select one"),
                             //elevation: 16,
                             focusColor: Colors.transparent,
-                            style: const TextStyle(color: Colors.deepPurple),
+                            //style: const TextStyle(color: Colors.deepPurple),
                             underline: Container(
                               height: 0,
                             ),
@@ -194,7 +203,12 @@ class FormPage1State extends State<FormPage1> {
                             items: categoryList.map<DropdownMenuItem<String>>((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value),
+                                child: Text(
+                                  value, 
+                                  style: TextStyle(
+                                    fontSize: 14
+                                  ),
+                                ),
                               );
                             }).toList(),
                           ),
@@ -212,7 +226,7 @@ class FormPage1State extends State<FormPage1> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(right: 20),
+                      padding: EdgeInsets.only(right: 10),
                       child: Text(
                         "Bitterness:",
                         style: TextStyle(
@@ -222,10 +236,11 @@ class FormPage1State extends State<FormPage1> {
                       ),
                     ),
                     SizedBox(
-                      width: 150,
+                      width: 75,
                       child: TextFormField(
                         controller: bitternessController,
                         decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(12),
                           isDense: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),

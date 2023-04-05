@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/individual_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -100,17 +101,6 @@ class RecipeCardState extends State<RecipeCard> {
                               ),
 
 
-                              // RatingBarIndicator(
-                              //   itemBuilder: (context, index) => const Icon(
-                              //     Icons.sports_bar_rounded,
-                              //     color: Color(0xFF7A5C17),
-                              //   ),
-                              //   direction: Axis.horizontal,
-                              //   rating: widget.recipe.rating,
-                              //   unratedColor: const Color(0xFFABA6A6),
-                              //   itemCount: 5,
-                              //   itemSize: 16,
-                              // ),
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                                 child: Text(
@@ -132,12 +122,18 @@ class RecipeCardState extends State<RecipeCard> {
                   
                   InkWell(
                     onTap: () {
+                      
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => IndividualPageWidget(
                                     recipe: widget.recipe,
-                                  )));
+                              )
+                          )
+                      ).then((value) {
+                        cats.forEach((element) {element.initData();});
+                        //widget.notifyParent();
+                      });
                     },
                     onHover: (bool hovered) {
                       if (hovered) {
