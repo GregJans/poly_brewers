@@ -10,7 +10,7 @@ class AuthService {
   final userStream = FirebaseAuth.instance.authStateChanges();
 
   //User is of course, the user using the specific user stream
-  final User? user = FirebaseAuth.instance.currentUser;
+  var user = FirebaseAuth.instance.currentUser;
 
   Future<void> registerEmailUser(String emailAddress, String password) async {
     try {
@@ -19,15 +19,17 @@ class AuthService {
         email: emailAddress,
         password: password,
       );
+      user = credential.user;
+      FirestoreService().sendUserInfo(user);
     } on FirebaseAuthException catch (e) {
-      throw e.message!.substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
+      throw e.message!
+          .substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
     }
-
-    }
+  }
 
   Future<void> emailPasswordLogin(String emailAddress, String password) async {
     try {
-      await FirebaseAuth.instance
+      var credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
       throw e.message!
@@ -43,7 +45,12 @@ class AuthService {
     googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
     // Once signed in, return the UserCredential
+    /*
+      NOTE TO SELF GOOGLE USER ALSO NEEDS NEW SPOT IN DB
+    */
     return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+    //user = cred.user;
+    //FirestoreService().sendUserInfo(user);
   }
 
   Future<void> signOut() async {
