@@ -1,13 +1,10 @@
 import 'dart:ui';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/filter_overlay.dart';
 import 'package:poly_brewers/recipe_page.dart';
 import 'package:poly_brewers/recipe_widget.dart';
-import 'package:poly_brewers/services/auth.dart';
-import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/models.dart';
 
 
@@ -38,17 +35,27 @@ class CategoryListState extends State<CategoryList> {
       temp = applyFilters(temp);
     }
 
-    setState(() {
-      recipeList = temp;
-      amount = recipeList.length;
-    });
-    
+    if (mounted) {
+      setState(() {
+        recipeList = temp;
+        amount = recipeList.length;
+      });
+    }
+
   }
 
   List<Recipe> applyFilters(List<Recipe> temp) {
     List<String> diffFilters = [];
     List<String> equipFilters= [];
     List<String> styleFilters = [];
+    String search = textController.text;
+
+    if (search != '') {
+      temp.removeWhere((element) => 
+        !element.name.toLowerCase().contains(search.toLowerCase()) &&
+        !element.notes.toLowerCase().contains(search.toLowerCase())
+      );
+    }
 
     diffList.forEach((element) {
       if(element['checked'] as bool) {
@@ -103,7 +110,9 @@ class CategoryListState extends State<CategoryList> {
     
     int displayed = min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
   
-    return Column(
+    return (amount == 0)
+    ? const SizedBox()
+    : Column(
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -120,7 +129,7 @@ class CategoryListState extends State<CategoryList> {
         Padding(
           padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 0),
           child: Text(
-            'Found ${amount} brews',
+            'Found $amount brews',
             style: const TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
