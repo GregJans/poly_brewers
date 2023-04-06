@@ -1,16 +1,12 @@
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/brew_form.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/login_page.dart';
-import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
 import 'package:provider/provider.dart';
-import 'package:rxdart/rxdart.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -34,7 +30,6 @@ class ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
 
     var user = AuthService().user;
-    UserData userInfo = Provider.of<UserData>(context);
     String uemail = user?.email ?? "uemail";
 
     return (!loggedIn)
@@ -77,54 +72,16 @@ class ProfilePageState extends State<ProfilePage> {
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    /* Can be used for a profile picture if wanted
-                                Align(
-                                  alignment: const AlignmentDirectional(0.85, 0),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(0, 90, 0, 0),
-                                    child: Container(
-                                      width: 80,
-                                      height: 80,
-                                      clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: Image.asset(
-                                        'taps.jpg',
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                */
+                                   
                                     Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          24, 150, 0, 0),
+                                      padding: const EdgeInsetsDirectional.fromSTEB(24, 150, 0, 0),
                                       child: Text(
                                         uemail,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 22,
-                                            color: Color.fromARGB(
-                                                255, 87, 99, 108)),
+                                            color: Color.fromARGB(255, 87, 99, 108)),
                                       ),
                                     ),
-                                    /*
-                                    Align(
-                                      alignment:
-                                          const AlignmentDirectional(-1, 0),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional
-                                            .fromSTEB(24, 174, 0, 0),
-                                        child: Text(
-                                          uemail,
-                                          textAlign: TextAlign.start,
-                                          style: const TextStyle(
-                                              fontSize: 14,
-                                              color: Color.fromARGB(
-                                                  255, 87, 99, 108)),
-                                        ),
-                                      ),
-                                    ),
-                                    */
                                   ],
                                 ),
                               ),
@@ -158,39 +115,35 @@ class ProfilePageState extends State<ProfilePage> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         InkWell(
-                          onTap: () {
-                            print(MediaQuery.of(context).size.width);
-                            print(MediaQuery.of(context).size.height);
-                            //Navigator.push(context, MaterialPageRoute(builder: (context) => const BrewForm()));
+                          onTap: () {                         
                             showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    content: Stack(
-                                      children: [
-                                        const BrewForm(),
-                                        Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: IconButton(
-                                            hoverColor: Color.fromARGB(
-                                                0, 241, 241, 241),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            icon: Icon(Icons.close),
-                                          ),
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Stack(
+                                    children: [
+                                      const BrewForm(),
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: IconButton(
+                                          hoverColor: Colors.transparent,
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          icon: const Icon(Icons.close),
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                });
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            );
                           },
                           onHover: (bool hovered) {
                             if (hovered) {
                               setState(() {
-                                buttonColor[0] =
-                                    Color.fromARGB(255, 243, 243, 243);
+                                buttonColor[0] = const Color.fromARGB(255, 243, 243, 243);
                               });
                             } else {
                               setState(() {
@@ -209,8 +162,7 @@ class ProfilePageState extends State<ProfilePage> {
                               mainAxisSize: MainAxisSize.max,
                               children: const [
                                 Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      24, 0, 0, 0),
+                                  padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
                                   child: Text(
                                     'Submit A New Recipe',
                                     style: TextStyle(
@@ -243,8 +195,7 @@ class ProfilePageState extends State<ProfilePage> {
                         onHover: (bool hovered) {
                           if (hovered) {
                             setState(() {
-                              buttonColor[1] =
-                                  Color.fromARGB(255, 243, 243, 243);
+                              buttonColor[1] = const Color.fromARGB(255, 243, 243, 243);
                             });
                           } else {
                             setState(() {
@@ -263,10 +214,9 @@ class ProfilePageState extends State<ProfilePage> {
                             mainAxisSize: MainAxisSize.max,
                             children: const [
                               Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
+                                padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
                                 child: Text(
-                                  'Edit Profile',
+                                  'View Beginner\'s Guide',
                                   style: TextStyle(
                                       fontSize: 14,
                                       color: Color.fromARGB(255, 16, 18, 19)),
@@ -296,7 +246,7 @@ class ProfilePageState extends State<ProfilePage> {
                       onHover: (bool hovered) {
                         if (hovered) {
                           setState(() {
-                            buttonColor[2] = Color.fromARGB(144, 255, 96, 96);
+                            buttonColor[2] = const Color.fromARGB(144, 255, 96, 96);
                           });
                         } else {
                           setState(() {
@@ -305,8 +255,7 @@ class ProfilePageState extends State<ProfilePage> {
                         }
                       },
                       child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
+                        padding: const EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           children: [
@@ -321,14 +270,12 @@ class ProfilePageState extends State<ProfilePage> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: const [
                                   Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        24, 0, 0, 0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(24, 0, 0, 0),
                                     child: Text(
                                       'Log Out',
                                       style: TextStyle(
                                           fontSize: 14,
-                                          color:
-                                              Color.fromARGB(255, 16, 18, 19)),
+                                          color: Color.fromARGB(255, 16, 18, 19)),
                                     ),
                                   ),
                                   Expanded(

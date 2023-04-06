@@ -20,7 +20,7 @@ class AuthService {
         password: password,
       );
       user = credential.user;
-      FirestoreService().sendUserInfo(user);
+      FirestoreService().sendUserInfo();
     } on FirebaseAuthException catch (e) {
       throw e.message!
           .substring(e.message!.indexOf('/') + 1, e.message!.indexOf(')'));
