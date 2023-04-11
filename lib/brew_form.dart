@@ -35,12 +35,13 @@ class BrewFormState extends State<BrewForm> {
 
   int step = 1;
 
-  processStep1(String name, String difficulty, String style, double bitterness, List<String> equip) {
+  processStep1(String name, String difficulty, String style, double bitterness, List<String> equip, int time) {
     values.putIfAbsent('name', () => name);
     values.putIfAbsent('difficulty', () => difficulty);
     values.putIfAbsent('style', () => style);
     values.putIfAbsent('IBU', () => bitterness);
     values.putIfAbsent('equip', () => equip);
+    values.putIfAbsent('brewTime', () => time);
   }
 
   processStep2(double og, double fg, List<String> extracts, int eLbs,
@@ -62,8 +63,7 @@ class BrewFormState extends State<BrewForm> {
     values.putIfAbsent('author', () => Provider.of<UserData>(context, listen: false).uid);
 
     recipe = Recipe.fromJson(values);
-    // .then() is not working 
-    // meant to refresh the "My Brews" category once a new one is added
+    
     FirestoreService().sendRecipe(recipe, Provider.of<UserData>(context, listen: false))
       .then((value) => cats.forEach((element) {element.initData();}));
     
@@ -83,8 +83,6 @@ class BrewFormState extends State<BrewForm> {
 
   @override
   Widget build(BuildContext context) {
-    //print();
-    print(MediaQuery.of(context).size.height);
 
     var steps = [
       FormPage1(

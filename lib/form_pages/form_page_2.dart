@@ -55,7 +55,7 @@ class FormPage2State extends State<FormPage2> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 32),
                 child: Text(
                   "Step 2 of 3",
                   style: const TextStyle(
@@ -69,10 +69,7 @@ class FormPage2State extends State<FormPage2> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Padding(
+                  Padding(
                         padding: EdgeInsetsDirectional.only(top: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -96,6 +93,7 @@ class FormPage2State extends State<FormPage2> {
                                 controller: ogController,
                                 decoration: InputDecoration(
                                   isDense: true,
+
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -125,108 +123,7 @@ class FormPage2State extends State<FormPage2> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.only(top: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: Text(
-                                "Extract:",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 16, 18, 19),
-                                  fontSize: 14
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 150,
-                              child: TextFormField(
-                                controller: extractController,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(color: Colors.red)
-                                  ),
-                                  filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter extracts';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.only(top: 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(right: 20),
-                              child: Text(
-                                "Hops:",
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 16, 18, 19),
-                                  fontSize: 14
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 150,
-                              child: TextFormField(
-                                controller: hopsController,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide.none
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(color: Colors.red)
-                                  ),
-                                  filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter hops';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
+                  Padding(
                         padding: EdgeInsetsDirectional.only(top: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -278,6 +175,124 @@ class FormPage2State extends State<FormPage2> {
                           ],
                         ),
                       ),
+                ],
+              ),
+
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(right: 20),
+                    child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      
+                      Padding(
+                        padding: EdgeInsetsDirectional.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 20),
+                              child: Text(
+                                "Extract:",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 16, 18, 19),
+                                  fontSize: 14
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 400,
+                              child: TextFormField(
+                                controller: extractController,
+                                decoration: InputDecoration(
+                                  isDense: true,
+
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(color: Colors.red)
+                                  ),
+                                  filled: true,
+                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter extracts';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.only(top: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(right: 20),
+                              child: Text(
+                                "Hops:",
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 16, 18, 19),
+                                  fontSize: 14
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 400,
+                              child: TextFormField(
+                                controller: hopsController,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none
+                                  ),
+                                  errorBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(color: Colors.red)
+                                  ),
+                                  filled: true,
+                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter hops';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  ),
+                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      
                       Padding(
                         padding: EdgeInsetsDirectional.only(top: 30),
                         child: Row(
@@ -286,7 +301,7 @@ class FormPage2State extends State<FormPage2> {
                           children: [
                             
                             SizedBox(
-                              width: 50,
+                              width: 65,
                               child: TextFormField(
                                 controller: eLbsController,
                                 decoration: InputDecoration(
@@ -338,7 +353,7 @@ class FormPage2State extends State<FormPage2> {
                           children: [
                             
                             SizedBox(
-                              width: 50,
+                              width: 130,
                               child: TextFormField(
                                 controller: hopsOzController,
                                 decoration: InputDecoration(

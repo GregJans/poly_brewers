@@ -4,7 +4,7 @@ const List<String> difficultyList = <String>['Novice', 'Adept', 'Cicerone'];
 const List<String> categoryList = <String>['Lager', 'IPA', 'Other'];
 
 class FormPage1 extends StatefulWidget {
-  final Function(String, String, String, double, List<String>) notifyParent;
+  final Function(String, String, String, double, List<String>, int) notifyParent;
   final Function({bool prev}) update;
   final Map<String, dynamic> recData;
   const FormPage1({super.key, required this.notifyParent, required this.update, required this.recData});
@@ -28,12 +28,22 @@ class FormPage1State extends State<FormPage1> {
   static var isChecked = [false, false, false, false, false];
   final equipValues = ['1-Gal', '2-Gal', '5-Gal', 'Keg', 'Bottles'];
 
+  late TextEditingController nameController;
+  late TextEditingController bitternessController;
+  late TextEditingController timeController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    nameController = TextEditingController(text: (widget.recData['name'] == null) ? '' : widget.recData['name'].toString());
+    bitternessController = TextEditingController(text: (widget.recData['IBU'] == null) ? '' : widget.recData['IBU'].toString());
+    timeController = TextEditingController(text: (widget.recData['brewTime'] == null) ? '' : widget.recData['brewTime'].toString());
+  }
+  
+
   @override
   Widget build(BuildContext context) {
-
-    final nameController = TextEditingController(text: (widget.recData['name'] == null) ? '' : widget.recData['name'].toString());
-    final bitternessController = TextEditingController(text: (widget.recData['IBU'] == null) ? '' : widget.recData['IBU'].toString());
-
     return Form(
         key: _formKey,
         child: Padding(
@@ -85,7 +95,6 @@ class FormPage1State extends State<FormPage1> {
                 child: TextFormField(
                   controller: nameController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(12),
                     isDense: true,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -127,7 +136,7 @@ class FormPage1State extends State<FormPage1> {
                           ),
                         ),
                         Container(
-                          height: 40,
+                          height: 45,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Color.fromARGB(134, 218, 218, 218),
@@ -178,7 +187,7 @@ class FormPage1State extends State<FormPage1> {
                           ),
                         ),
                         Container(
-                          height: 40,
+                          height: 45,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Color.fromARGB(134, 218, 218, 218),
@@ -219,9 +228,11 @@ class FormPage1State extends State<FormPage1> {
                   ],
                 ),
               ),
-                    //SizedBox(width: MediaQuery.of(context).size.width / 4,),
-                    
-              Padding(
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
                 padding: EdgeInsets.only(top: 50),
                 child: Row(
                   children: [
@@ -240,7 +251,6 @@ class FormPage1State extends State<FormPage1> {
                       child: TextFormField(
                         controller: bitternessController,
                         decoration: InputDecoration(
-                          contentPadding: EdgeInsets.all(12),
                           isDense: true,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -280,6 +290,68 @@ class FormPage1State extends State<FormPage1> {
                   ],
                 ),
               ),
+                  Padding(
+                padding: EdgeInsets.only(top: 50),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Text(
+                        "Brew Time:",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 16, 18, 19),
+                          fontSize: 14
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 75,
+                      child: TextFormField(
+                        controller: timeController,
+                        decoration: InputDecoration(
+                          isDense: true,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: const BorderSide(color: Colors.red)
+                          ),
+                          filled: true,
+                          fillColor: Color.fromARGB(134, 218, 218, 218),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter time';
+                          } 
+                          else if (double.tryParse(value) == null) {
+                            return 'time must be an integer value';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Text(
+                        "mins",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 16, 18, 19),
+                          fontSize: 14
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+                ],
+              ),
+                    
+              
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 50, 0, 10),
                 child: Row(
@@ -370,6 +442,8 @@ class FormPage1State extends State<FormPage1> {
                   
                 ],
               ),
+
+              
               
 
               
@@ -398,7 +472,8 @@ class FormPage1State extends State<FormPage1> {
                           difficultyValue!,
                           styleValue!, 
                           double.parse(bitternessController.text),
-                          equip
+                          equip,
+                          int.parse(timeController.text)
                         );
 
                         widget.update();
