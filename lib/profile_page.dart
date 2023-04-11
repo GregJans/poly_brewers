@@ -122,7 +122,11 @@ class ProfilePageState extends State<ProfilePage> {
                                 return AlertDialog(
                                   content: Stack(
                                     children: [
-                                      const BrewForm(),
+                                      SizedBox(
+                                        width: 750,
+                                        height: 700,
+                                        child: BrewForm(),
+                                      ),
                                       Positioned(
                                         right: 0,
                                         top: 0,

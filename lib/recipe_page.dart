@@ -145,53 +145,53 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                     icon: const Icon(Icons.filter_alt_rounded),
                                     onPressed: () {
 
-  //                                         showDialog(
-  // context: context,
-  // builder: (BuildContext context) {
-  //   return AlertDialog(
-  //     content: Stack(
-  //       children: [
-  //         const SizedBox(
-  //           width: 750,
-  //           height: 700,
-  //           child: BrewForm(),
-  //         ),
+                                          showDialog(
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      content: Stack(
+        children: [
+          const SizedBox(
+            width: 750,
+            height: 700,
+            child: BrewForm(),
+          ),
       
-  //         Positioned(
-  //           right: 0,
-  //           top: 0,
-  //           child: IconButton(
-  //             hoverColor: Color.fromARGB(
-  //                 0, 241, 241, 241),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             icon: Icon(Icons.close),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // });
+          Positioned(
+            right: 0,
+            top: 0,
+            child: IconButton(
+              hoverColor: Color.fromARGB(
+                  0, 241, 241, 241),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.close),
+            ),
+          ),
+        ],
+      ),
+    );
+  });
 
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            alignment: AlignmentDirectional.topEnd,
-                                            content: Stack(
-                                              alignment: AlignmentDirectional.topCenter,
-                                              children: [
-                                                Positioned(
-                                                  width: widgetWidth,
-                                                  child: const FilterOverlay()
-                                                ),
-                                              ],
-                                            )
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (context) {
+                                      //     return AlertDialog(
+                                      //       alignment: AlignmentDirectional.topEnd,
+                                      //       content: Stack(
+                                      //         alignment: AlignmentDirectional.topCenter,
+                                      //         children: [
+                                      //           Positioned(
+                                      //             width: widgetWidth,
+                                      //             child: const FilterOverlay()
+                                      //           ),
+                                      //         ],
+                                      //       )
                                           
-                                          );
-                                        }
-                                      ).then((value) => cats.forEach((element) {element.initData();}));
+                                      //     );
+                                      //   }
+                                      // ).then((value) => cats.forEach((element) {element.initData();}));
                                     },
                                   ),
                                 ),
