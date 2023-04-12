@@ -106,7 +106,6 @@ class CategoryListState extends State<CategoryList> {
 
   @override
   Widget build(BuildContext context) {
-    //if (!cats.contains(this)) cats.add(this);
     
     int displayed = min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
   

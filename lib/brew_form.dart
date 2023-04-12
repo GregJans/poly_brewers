@@ -1,13 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:poly_brewers/category_list.dart';
-import 'package:poly_brewers/filter_overlay.dart';
 import 'package:poly_brewers/form_pages/form_page_3.dart';
 import 'package:poly_brewers/form_pages/form_page_2.dart';
 import 'package:poly_brewers/form_pages/form_page_1.dart';
-import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/firestore.dart';
 import 'package:poly_brewers/services/models.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +52,6 @@ class BrewFormState extends State<BrewForm> {
   }
 
   processStep3(String notes, String inst) {
-    // add notes and instructions
     values.putIfAbsent('notes', () => notes);
     values.putIfAbsent('instructions', () => inst);
     values.putIfAbsent('author', () => Provider.of<UserData>(context, listen: false).uid);
