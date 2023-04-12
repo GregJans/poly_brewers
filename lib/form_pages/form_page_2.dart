@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:poly_brewers/brew_form.dart';
 
 
 class FormPage2 extends StatefulWidget {
@@ -54,11 +53,11 @@ class FormPage2State extends State<FormPage2> {
                   color: const Color(0xFF6FF163),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 32),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 32),
                 child: Text(
                   "Step 2 of 3",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 10,
                     color: Color(0xFF95A1AC),
                     fontStyle: FontStyle.italic
@@ -70,13 +69,13 @@ class FormPage2State extends State<FormPage2> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                        padding: EdgeInsetsDirectional.only(top: 20),
+                        padding: const EdgeInsetsDirectional.only(top: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           mainAxisSize: MainAxisSize.max,
 
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(right: 20),
                               child: Text(
                                 "Original Gravity:",
@@ -89,7 +88,6 @@ class FormPage2State extends State<FormPage2> {
                             SizedBox(
                               width: 150,
                               child: TextFormField(
-                                //initialValue: (widget.recData['originalGravity'] == null) ? '' : widget.recData['originalGravity'].toString(),
                                 controller: ogController,
                                 decoration: InputDecoration(
                                   isDense: true,
@@ -106,7 +104,7 @@ class FormPage2State extends State<FormPage2> {
                                     borderSide: const BorderSide(color: Colors.red)
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                  fillColor: const Color.fromARGB(134, 218, 218, 218),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -124,13 +122,13 @@ class FormPage2State extends State<FormPage2> {
                         ),
                       ),
                   Padding(
-                        padding: EdgeInsetsDirectional.only(top: 20),
+                        padding: const EdgeInsetsDirectional.only(top: 20),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           mainAxisSize: MainAxisSize.max,
 
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(right: 20),
                               child: Text(
                                 "Final Gravity:",
@@ -158,7 +156,7 @@ class FormPage2State extends State<FormPage2> {
                                     borderSide: const BorderSide(color: Colors.red)
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                  fillColor: const Color.fromARGB(134, 218, 218, 218),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -183,18 +181,18 @@ class FormPage2State extends State<FormPage2> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(right: 20),
+                    padding: const EdgeInsets.only(right: 20),
                     child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       
                       Padding(
-                        padding: EdgeInsetsDirectional.only(top: 30),
+                        padding: const EdgeInsetsDirectional.only(top: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(right: 20),
                               child: Text(
                                 "Extract:",
@@ -223,7 +221,7 @@ class FormPage2State extends State<FormPage2> {
                                     borderSide: const BorderSide(color: Colors.red)
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                  fillColor: const Color.fromARGB(134, 218, 218, 218),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -238,12 +236,12 @@ class FormPage2State extends State<FormPage2> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.only(top: 30),
+                        padding: const EdgeInsetsDirectional.only(top: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(right: 20),
                               child: Text(
                                 "Hops:",
@@ -271,7 +269,7 @@ class FormPage2State extends State<FormPage2> {
                                     borderSide: const BorderSide(color: Colors.red)
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                  fillColor: const Color.fromARGB(134, 218, 218, 218),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -294,7 +292,7 @@ class FormPage2State extends State<FormPage2> {
                     children: [
                       
                       Padding(
-                        padding: EdgeInsetsDirectional.only(top: 30),
+                        padding: const EdgeInsetsDirectional.only(top: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           mainAxisSize: MainAxisSize.max,
@@ -318,7 +316,7 @@ class FormPage2State extends State<FormPage2> {
                                     borderSide: const BorderSide(color: Colors.red)
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                  fillColor: const Color.fromARGB(134, 218, 218, 218),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -331,7 +329,7 @@ class FormPage2State extends State<FormPage2> {
                                 },
                               ),
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: Text(
                                 "lbs",
@@ -346,7 +344,7 @@ class FormPage2State extends State<FormPage2> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsetsDirectional.only(top: 30),
+                        padding: const EdgeInsetsDirectional.only(top: 30),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           mainAxisSize: MainAxisSize.max,
@@ -370,7 +368,7 @@ class FormPage2State extends State<FormPage2> {
                                     borderSide: const BorderSide(color: Colors.red)
                                   ),
                                   filled: true,
-                                  fillColor: Color.fromARGB(134, 218, 218, 218),
+                                  fillColor: const Color.fromARGB(134, 218, 218, 218),
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -380,7 +378,7 @@ class FormPage2State extends State<FormPage2> {
                                 },
                               ),
                             ),
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.only(left: 20),
                               child: Text(
                                 "oz",
@@ -494,7 +492,7 @@ class FormPage2State extends State<FormPage2> {
 
 
               Padding(
-                padding: EdgeInsets.only(top: 100),
+                padding: const EdgeInsets.only(top: 100),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -511,7 +509,7 @@ class FormPage2State extends State<FormPage2> {
                         child: const Text('Previous'),
                       ),
                     ),
-                    Padding(padding: EdgeInsetsDirectional.only(start: 10)),
+                    const Padding(padding: EdgeInsetsDirectional.only(start: 10)),
                     Container(
                       width: MediaQuery.of(context).size.width / 8,
                       height: 50,
