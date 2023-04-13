@@ -1,4 +1,18 @@
+/*
+  Description: The second page of the brew form. 
+    Used to iput OG, FG, extracts, extract lbs, hops, hops oz, yeast, and grains
+    Has a callback to brew_form to send the data that is entered and a seperate callback to change the page
+    Takes in a JSON object as the current data for when a user returns to this page from another form page
+
+  Used By: brew_form.dart and profile_page.dart indirectly
+
+  Created By: Gregory Jans
+
+*/
+
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 
 class FormPage2 extends StatefulWidget {
@@ -21,7 +35,7 @@ class FormPage2State extends State<FormPage2> {
 
   @override
   Widget build(BuildContext context) {
-
+    // controllers set the default values when the page loads and lets us get the data to send to parent
     final ogController = TextEditingController(text: (widget.recData['originalGravity'] == null) ? '' : widget.recData['originalGravity'].toString());
     final fgController = TextEditingController(text: (widget.recData['finalGravity'] == null) ? '' : widget.recData['finalGravity'].toString());
     final extractController = TextEditingController(text: (widget.recData['extractName'] == null) ? '' : widget.recData['extractName'].join(', '));
@@ -46,11 +60,11 @@ class FormPage2State extends State<FormPage2> {
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(25))
                 ),
-                child: LinearProgressIndicator(
+                child: const LinearProgressIndicator(
                   value: 2 / 3,
                   semanticsLabel: "Progress of form completion",
-                  backgroundColor: const Color(0xFFE7E7E7),
-                  color: const Color(0xFF6FF163),
+                  backgroundColor: Color(0xFFE7E7E7),
+                  color: Color(0xFF6FF163),
                 ),
               ),
               const Padding(
@@ -91,7 +105,7 @@ class FormPage2State extends State<FormPage2> {
                                 controller: ogController,
                                 decoration: InputDecoration(
                                   isDense: true,
-
+                                  hintText: 'ex: 1.000',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -112,6 +126,9 @@ class FormPage2State extends State<FormPage2> {
                                   } 
                                   else if (double.tryParse(value) == null) {
                                     return 'Gravity must be a decimal value';
+                                  }
+                                  else if (double.parse(value) < 1.000 || double.parse(value) > 1.190) {
+                                    return 'Value out of range';
                                   }
                                   return null;
                                 },
@@ -144,6 +161,7 @@ class FormPage2State extends State<FormPage2> {
                                 controller: fgController,
                                 decoration: InputDecoration(
                                   isDense: true,
+                                  hintText: 'ex: 1.120',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -164,6 +182,9 @@ class FormPage2State extends State<FormPage2> {
                                   } 
                                   else if (double.tryParse(value) == null) {
                                     return 'Gravity must be a decimal value';
+                                  }
+                                  else if (double.parse(value) < 1.000 || double.parse(value) > 1.190) {
+                                    return 'Value out of range';
                                   }
                                   return null;
                                 },
@@ -208,7 +229,7 @@ class FormPage2State extends State<FormPage2> {
                                 controller: extractController,
                                 decoration: InputDecoration(
                                   isDense: true,
-
+                                  hintText: 'ex: extract1, extract2',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -257,6 +278,7 @@ class FormPage2State extends State<FormPage2> {
                                 controller: hopsController,
                                 decoration: InputDecoration(
                                   isDense: true,
+                                  hintText: 'ex: hops1, hops2',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -304,6 +326,7 @@ class FormPage2State extends State<FormPage2> {
                                 controller: eLbsController,
                                 decoration: InputDecoration(
                                   isDense: true,
+                                  hintText: 'ex: 3',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -318,6 +341,7 @@ class FormPage2State extends State<FormPage2> {
                                   filled: true,
                                   fillColor: const Color.fromARGB(134, 218, 218, 218),
                                 ),
+                                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Please enter value';
@@ -356,6 +380,7 @@ class FormPage2State extends State<FormPage2> {
                                 controller: hopsOzController,
                                 decoration: InputDecoration(
                                   isDense: true,
+                                  hintText: 'ex: 1, 3',
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -373,6 +398,9 @@ class FormPage2State extends State<FormPage2> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return '';
+                                  }
+                                  else if (value.split(', ').length != hopsController.text.split(', ').length) {
+                                    return 'Hops and weight list must be the same length';
                                   }
                                   return null;
                                 },
@@ -417,6 +445,7 @@ class FormPage2State extends State<FormPage2> {
                   controller: yeastController,
                   decoration: InputDecoration(
                     isDense: true,
+                    hintText: 'ex: yeast',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -460,6 +489,7 @@ class FormPage2State extends State<FormPage2> {
                   controller: grainsController,
                   decoration: InputDecoration(
                     isDense: true,
+                    hintText: 'ex: grains1, grains2, ...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

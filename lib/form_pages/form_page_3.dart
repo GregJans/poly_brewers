@@ -1,3 +1,15 @@
+/*
+  Description: The final page of the brew form. 
+    Used to iput notes and instructions
+    Has a callback to brew_form to send the data that is entered and a seperate callback to change the page
+    Takes in a JSON object as the current data for when a user returns to this page from another form page
+
+  Used By: brew_form.dart and profile_page.dart indirectly
+
+  Created By: Gregory Jans
+
+*/
+
 import 'package:flutter/material.dart';
 
 class FormPage3 extends StatefulWidget {
@@ -17,11 +29,9 @@ class FormPage3State extends State<FormPage3> {
 
   @override
   Widget build(BuildContext context) {
+    // controllers set the default values when the page loads and lets us get the data to send to parent
     final notesController = TextEditingController(text: (widget.recData['notes'] == null) ? '' : widget.recData['notes'].toString());
     final instController = TextEditingController(text: (widget.recData['instructions'] == null) ? '' : widget.recData['instructions'].toString());
-
-
-
 
 
     return Form(
@@ -37,18 +47,18 @@ class FormPage3State extends State<FormPage3> {
               width: MediaQuery.of(context).size.width / 2,
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(25))),
-              child: LinearProgressIndicator(
+              child: const LinearProgressIndicator(
                 value: 3 / 3,
                 semanticsLabel: "Progress of form completion",
-                backgroundColor: const Color(0xFFE7E7E7),
-                color: const Color(0xFF6FF163),
+                backgroundColor: Color(0xFFE7E7E7),
+                color: Color(0xFF6FF163),
               ),
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
+            const Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
               child: Text(
                 "Step 3 of 3",
-                style: const TextStyle(
+                style: TextStyle(
                     fontSize: 10,
                     color: Color(0xFF95A1AC),
                     fontStyle: FontStyle.italic),
@@ -67,11 +77,11 @@ class FormPage3State extends State<FormPage3> {
               ),
             ),
             SizedBox(
-              //height: 45,
               child: TextFormField(
                 controller: notesController,
                 decoration: InputDecoration(
                   isDense: true,
+                  hintText: 'ex: notes of chocolate and coconut',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -129,7 +139,7 @@ class FormPage3State extends State<FormPage3> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 100),
+              padding: const EdgeInsets.only(top: 100),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -145,7 +155,7 @@ class FormPage3State extends State<FormPage3> {
                       child: const Text('Previous'),
                     ),
                   ),
-                  Padding(padding: EdgeInsetsDirectional.only(start: 10)),
+                  const Padding(padding: EdgeInsetsDirectional.only(start: 10)),
                   Container(
                     width: MediaQuery.of(context).size.width / 8,
                     height: 50,
@@ -155,9 +165,7 @@ class FormPage3State extends State<FormPage3> {
                       onPressed: () {
                         // Validate returns true if the form is valid, or false otherwise.
                         if (_formKey.currentState!.validate()) {
-                          // If the form is valid, display a snackbar. In the real world,
-                          // you'd often call a server or save the information in a database.
-
+                          
                           widget.notifyParent(
                             notesController.text,
                             instController.text

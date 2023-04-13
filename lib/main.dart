@@ -1,6 +1,17 @@
+/*
+  Description: The main widget of the application. 
+    This is what is actually run to start the website
+    App() widget is the root of the widget tree
+
+  Used By: NA
+
+  Created By: Gregory Jans, Nicholas Porter
+
+*/
+
+
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/home_page.dart';
-import 'package:poly_brewers/recipe_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'firebase_options.dart';
@@ -73,18 +84,6 @@ class _AppState extends State<App> {
                 debugShowCheckedModeBanner: false,
                 home: const HomePage(),
               ));
-
-          //maybe add checker widget here, then add material app to checker?
-          // ignore: dead_code
-          /*MaterialApp(
-            title: 'Poly-Brewers',
-            theme: ThemeData(
-              primarySwatch: Colors.brown,
-              fontFamily: 'Poppins',
-            ),
-            debugShowCheckedModeBanner: false,
-            home: const HomePage(),
-          );*/
         }
 
         // Otherwise, show something whilst waiting for initialization to complete
@@ -95,21 +94,4 @@ class _AppState extends State<App> {
       },
     );
   }
-
-/*class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Poly-Brewers',
-      theme: ThemeData(
-        primarySwatch: Colors.brown,
-        fontFamily: 'Poppins',
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const CheckLoggedIn(),
-    );
-  }*/
 }

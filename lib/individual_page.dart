@@ -1,9 +1,19 @@
+/*
+  Description: Page to view each individual recipe. 
+    Gets an instance of a Recipe object to populate the data
+    Rating popup on bottom will only be visible if the recipe has not been rated yet by the user and will dissaper after
+    Option to save recipe is only available when user is logged in
+    This page is a seperate overlay on top of the rest of the website
+
+  Called By: recipe_widget.dart, recipe_page.dart and profile_page.dart
+
+  Created By: Gregory Jans
+
+*/
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:poly_brewers/category_list.dart';
-import 'package:poly_brewers/profile_page.dart';
 import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
 import 'package:provider/provider.dart';
@@ -14,12 +24,11 @@ class IndividualPageWidget extends StatefulWidget {
   final Recipe recipe;
 
   @override
-  _IndividualPageWidgetState createState() => _IndividualPageWidgetState();
+  IndividualPageWidgetState createState() => IndividualPageWidgetState();
 }
 
-class _IndividualPageWidgetState extends State<IndividualPageWidget> {
-  //final scaffoldKey = GlobalKey<ScaffoldState>();
-  //final categoryKey = GlobalKey<ProfilePageState>();
+class IndividualPageWidgetState extends State<IndividualPageWidget> {
+  
   bool rated = false;
 
   @override
@@ -75,7 +84,6 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
           icon: const Icon(Icons.sports_bar_outlined),
         ),
       ),
-      //key: scaffoldKey,
       backgroundColor: const Color(0xFFF1F4F8),
       body: SingleChildScrollView(
         child: Column(
@@ -131,25 +139,26 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                             await FirebaseFirestore.instance
                             .collection('User')
                             .doc(AuthService().user!.uid)
-                            .update({'recipies': FieldValue.arrayRemove([widget.recipe.brewID])});
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Brew Removed')),
-                            );
-                            setState(() {saved = !saved;});
+                            .update({'recipies': FieldValue.arrayRemove([widget.recipe.brewID])})
+                            .then((value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Brew Removed')),
+                              );
+                              setState(() {saved = !saved;});
+                            });
                           }
                           else {
                             await FirebaseFirestore.instance
                             .collection('User')
                             .doc(AuthService().user!.uid)
-                            .update({'recipies': FieldValue.arrayUnion([widget.recipe.brewID])});
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Brew Saved')),
-                            );
-                            setState(() {saved = !saved;});
-                          } 
-                          
+                            .update({'recipies': FieldValue.arrayUnion([widget.recipe.brewID])})
+                            .then((value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('Brew Saved')),
+                              );
+                              setState(() {saved = !saved;});
+                            });
+                          }
                         },
                         child: Card(
                           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -237,7 +246,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            widget.recipe.originalGravity.toString(),
+                            widget.recipe.originalGravity.toStringAsPrecision(4),
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 fontSize: 18,
@@ -367,7 +376,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                           padding:
                               const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                           child: Text(
-                            widget.recipe.finalGravity.toString(),
+                            widget.recipe.finalGravity.toStringAsPrecision(4),
                             textAlign: TextAlign.start,
                             style: const TextStyle(
                                 fontSize: 18,
@@ -533,17 +542,14 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     const Text(
                       'Brewer\'s Notes',
                       style: TextStyle(
-                        //fontFamily: 'Lexend Deca',
                         color: Color(0xFF95A1AC),
                         fontSize: 14,
-                        //fontWeight: FontWeight.normal,
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                       child: Text(
                         widget.recipe.notes,
-                        //'The brew was decent with notes of caramel, lemongrass, slight hit of berry.\n',
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                             fontSize: 18,
@@ -563,10 +569,8 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                   const Text(
                     'Required Equipment',
                     style: TextStyle(
-                      //fontFamily: 'Lexend Deca',
                       color: Color(0xFF95A1AC),
                       fontSize: 14,
-                      //fontWeight: FontWeight.normal,
                     ),
                   ),
                   Padding(
@@ -574,8 +578,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     child: Text(
                       widget.recipe.equip.join(', '),
                       textAlign: TextAlign.start,
-                      style: const TextStyle(
-                          fontSize: 18, color: Color.fromARGB(255, 16, 18, 19)),
+                      style: const TextStyle(fontSize: 18, color: Color.fromARGB(255, 16, 18, 19)),
                     ),
                   ),
                 ],
@@ -583,7 +586,7 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
             ),
             const Divider(
               height: 50,
-              color: Color(0x00F11818),
+              color: Colors.transparent,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width,
@@ -605,7 +608,6 @@ class _IndividualPageWidgetState extends State<IndividualPageWidget> {
                     ),
                     Text(
                       widget.recipe.instructions,
-                      //'To achieve this brew, you first need to.....',
                       style: const TextStyle(
                         color: Color.fromARGB(255, 16, 18, 19),
                         fontSize: 14,
