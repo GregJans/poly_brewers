@@ -1,3 +1,14 @@
+/*
+  Description: Page to view profile, add brews, and view beginner's page. 
+    Defaults to login page if user is not authenticated
+    login page can refresh the widget to show the profile
+
+  Used By: login_page.dart indirectly, home_page.dart
+
+  Created By: Gregory Jans
+
+*/
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +41,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   didChangeDependencies() {
+    super.didChangeDependencies();
     getRecipes().then((value) => setState(() {
       
     },));
@@ -328,6 +340,7 @@ class ProfilePageState extends State<ProfilePage> {
             const SizedBox(
               height: 100,
             ),
+            // Will not show if the recipe list cannot be retrieved or is empty
             (Provider.of<UserData>(context, listen: false).recipes.isNotEmpty) 
             ? CategoryList(
               name: "Saved Brews",
@@ -351,6 +364,8 @@ class ProfilePageState extends State<ProfilePage> {
   }
 }
 
+// Used to show PDF viewer
+// Called by Beginner's page to show the manual
 class Iframe extends StatelessWidget {
   Iframe() {
     // ignore: undefined_prefixed_name

@@ -1,7 +1,17 @@
+/*
+  Description: The basis for the app structure. 
+    This is what causes the bottom navigation to work and allows swapping between pages
+    both the recipe page and login/profile page are shown in the main section of this widget
+
+  Used By: NA
+
+  Created By: Gregory Jans
+
+*/
+
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/profile_page.dart';
 import 'package:poly_brewers/recipe_page.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,9 +26,6 @@ class HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //fieldText will store the data entered into search bar
-    //final fieldText = TextEditingController();
-
     return Scaffold(
       body: pages[currentPage],
       bottomNavigationBar: NavigationBar(

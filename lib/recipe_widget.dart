@@ -1,14 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*
+  Description: Individual card for a recipe. 
+    Picture is hard-codded although ideally would be uploaded by user in the future
+    Given an instance of a Recipe object to fill out the data
+    Passes that instance to the individual page if the view button is clicked
+
+  Used By: category_list.dart
+
+  Created By: Gregory Jans
+
+*/
+
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/individual_page.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:poly_brewers/services/auth.dart';
 import 'package:poly_brewers/services/models.dart';
 
 class RecipeCard extends StatefulWidget {
-  //make parameters for name and rating
   const RecipeCard({Key? key, required this.recipe})
       : super(key: key);
   final Recipe recipe;
@@ -23,6 +31,8 @@ class RecipeCardState extends State<RecipeCard> {
   
   @override
   Widget build(BuildContext context) {
+    // if there are no ratings yet then we cannot calculate a number
+    // at that point we default it to 0
     rValue = (widget.recipe.ratingTotal / widget.recipe.ratingsNum).isNaN ? 0 : (widget.recipe.ratingTotal / widget.recipe.ratingsNum);
 
     return Padding(

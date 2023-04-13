@@ -1,3 +1,16 @@
+/*
+  Description: Displays a single row of recipe cards. 
+    Can be given a specific name to distinguish each category
+    Will be given a querey to call to the database in order to populate the list
+    Will be refreshed when the database data changes
+    can be marked as un-filterable, menaing that any filters will not impact the list (such as the lists in profile page)
+
+  Used By: profile_page.dart and recipe_page.dart
+
+  Created By: Gregory Jans
+
+*/
+
 import 'dart:ui';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -7,7 +20,9 @@ import 'package:poly_brewers/recipe_page.dart';
 import 'package:poly_brewers/recipe_widget.dart';
 import 'package:poly_brewers/services/models.dart';
 
-
+// public array of all category lists on the website
+// used to refresh all when the database is changed (ex: a user adds or saves a recipe)
+// lists can be removed from here when they are destroyed
 List<CategoryListState> cats = [];
 
 class CategoryList extends StatefulWidget {
@@ -26,9 +41,11 @@ class CategoryListState extends State<CategoryList> {
   int amount = 0;
   ScrollController scrollController = ScrollController();
 
-
+  // only called once when the list is built
+  // queries the database and gets the results
   Future initData() async {
     var data = await widget.query;
+    // initial results before filtering
     List<Recipe> temp = List.from(data.docs.map((doc) => Recipe.fromJson(doc.data())));
 
     if (widget.filterable) {
@@ -44,37 +61,39 @@ class CategoryListState extends State<CategoryList> {
 
   }
 
+  // Will gradually remove values from the provided list based on filter properties
   List<Recipe> applyFilters(List<Recipe> temp) {
     List<String> diffFilters = [];
     List<String> equipFilters= [];
     List<String> styleFilters = [];
     String search = textController.text;
 
+    // remove any that dont match keywords in search
     if (search != '') {
       temp.removeWhere((element) => 
         !element.name.toLowerCase().contains(search.toLowerCase()) &&
         !element.notes.toLowerCase().contains(search.toLowerCase())
       );
     }
-
+    // get list of difficulties that are checked
     diffList.forEach((element) {
       if(element['checked'] as bool) {
         diffFilters.add(element['title'] as String);
       }
     });
-
+    // get list of equipment that are checked
     equipList.forEach((element) {
       if(element['checked'] as bool) {
         equipFilters.add(element['title'] as String);
       }
     });
-
+    // get list of styles that are checked
     styleList.forEach((element) {
       if(element['checked'] as bool) {
         styleFilters.add(element['title'] as String);
       }
     });
-
+    // remove anything that does not have something in the list of checked items
     temp.removeWhere((element) => !diffFilters.contains(element.difficulty));
     temp.removeWhere((element) => !styleFilters.contains(element.style));
     temp.removeWhere((element) {
@@ -87,9 +106,6 @@ class CategoryListState extends State<CategoryList> {
     
     return temp;
   }
-
-  
-
 
   @override
   void didChangeDependencies() {
@@ -109,6 +125,7 @@ class CategoryListState extends State<CategoryList> {
     
     int displayed = min(((MediaQuery.of(context).size.width - 40) / 302).floor(), amount);
   
+    // If the query gives nothing, the category list is removed
     return (amount == 0)
     ? const SizedBox()
     : Column(
@@ -167,6 +184,7 @@ class CategoryListState extends State<CategoryList> {
   }
 }
 
+// Custom Scroll Controller to allow for the horizontal scroll bar to work on non-touch screens
 class MyCustomScrollBehavior extends MaterialScrollBehavior {
   // Override behavior methods and getters like dragDevices
   @override

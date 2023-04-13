@@ -1,13 +1,17 @@
-import 'dart:math';
-import 'package:cloud_firestore/cloud_firestore.dart';
+/*
+  Description: The page to log into the applicaiton. 
+    Loaded by default when going to the profile page unless user was authenticated
+    Has a callback to profile_page to refresh once logged in
+
+  Used By: profile_page.dart
+
+  Created By: Gregory Jans, Nicholas Porter
+
+*/
+
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:poly_brewers/services/firestore.dart';
-import 'package:poly_brewers/services/models.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_brewers/profile_page.dart';
 import 'package:poly_brewers/services/auth.dart';
-import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() notifyParent;
@@ -46,12 +50,14 @@ class LoginPageState extends State<LoginPage> {
           }
         });
       }
+    }).then((value) {
+      user = AuthService().user;
+      if (user != null) {
+        widget.notifyParent();
+      }
     });
 
-    user = AuthService().user;
-    if (user != null) {
-      widget.notifyParent();
-    }
+    
   }
 
   void authenticateUser() {
@@ -73,38 +79,16 @@ class LoginPageState extends State<LoginPage> {
             pwError = "Password must be of length 6";
           }
         });
+      } // This is only run if there is no error thrown
+    }).then((value) {
+      user = AuthService().user;
+      // Checks if user exists / is authenticated
+      if (user != null) {
+        widget.notifyParent();
       }
     });
-
-    user = AuthService().user;
-    if (user != null) {
-      widget.notifyParent();
-    }
   }
 
-  void createUser() {
-    AuthService().registerEmailUser(emailAddress, password).catchError((e) {
-      debugPrint(e);
-      if (mounted) {
-        setState(() {
-          //reset the error messages
-          emailError = null;
-          pwError = null;
-
-          if (e == "invalid-email") {
-            emailError = "Not a proper email format";
-          } else if (e == 'invalid-password') {
-            pwError = "Password must be of length 6";
-          }
-        });
-      }
-    });
-
-    user = AuthService().user;
-    if (user != null) {
-      widget.notifyParent();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,7 +151,6 @@ class LoginPageState extends State<LoginPage> {
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                         child: TextFormField(
-                          //controller: textController1,
                           obscureText: false,
                           decoration: InputDecoration(
                             errorText: emailError,
@@ -176,31 +159,30 @@ class LoginPageState extends State<LoginPage> {
                               color: Color.fromARGB(255, 87, 99, 108),
                               fontSize: 14,
                             ),
-                            //hintStyle: FlutterFlowTheme.of(context).bodyText2,
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
@@ -208,10 +190,8 @@ class LoginPageState extends State<LoginPage> {
                             filled: true,
                             fillColor: Colors.white,
                             contentPadding:
-                                const EdgeInsetsDirectional.fromSTEB(
-                                    20, 24, 20, 24),
+                                const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
                           ),
-                          //style: FlutterFlowTheme.of(context).bodyText1,
                           onChanged: (String value) {
                             emailAddress = value;
                           },
@@ -239,7 +219,6 @@ class LoginPageState extends State<LoginPage> {
                         padding:
                             const EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
                         child: TextFormField(
-                          //controller: textController2,
                           obscureText: !passwordVisibility,
                           decoration: InputDecoration(
                             labelText: 'Password',
@@ -254,28 +233,28 @@ class LoginPageState extends State<LoginPage> {
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             errorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             focusedErrorBorder: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                color: Color(0x00000000),
+                                color: Colors.transparent,
                                 width: 1,
                               ),
                               borderRadius: BorderRadius.circular(12),
@@ -299,7 +278,6 @@ class LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           ),
-                          //style: FlutterFlowTheme.of(context).bodyText1,
                           onChanged: (String value) {
                             password = value;
                           },
@@ -320,27 +298,19 @@ class LoginPageState extends State<LoginPage> {
                             Container(
                               height: 50,
                               decoration: const BoxDecoration(
-                                  //color: FlutterFlowTheme.of(context).primaryBackground,
                                   ),
                               alignment: const AlignmentDirectional(-1, 0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0, 0, 16, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.resolveWith<
-                                            Color>((Set<MaterialState> states) {
-                                      if (states
-                                          .contains(MaterialState.hovered))
-                                        return Color.fromARGB(255, 16, 18, 19);
-                                      return Colors
-                                          .grey; // null throus error in flutter 2.2+.
+                                    foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                                      if (states.contains(MaterialState.hovered)) return const Color.fromARGB(255, 16, 18, 19);
+                                      return Colors.grey;
                                     }),
                                   ),
                                   onPressed: () {
                                     authenticateUser();
-                                    //FirestoreService().sendUserInfo();
                                   },
                                   child: const Text(
                                     'Sign In',
@@ -353,38 +323,18 @@ class LoginPageState extends State<LoginPage> {
                             ),
                             Container(
                               height: 50,
-                              decoration: const BoxDecoration(
-                                  //color: FlutterFlowTheme.of(context).primaryBackground,
-                                  ),
                               alignment: const AlignmentDirectional(-1, 0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16, 0, 16, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    foregroundColor:
-                                        MaterialStateProperty.resolveWith<
-                                            Color>((Set<MaterialState> states) {
-                                      if (states
-                                          .contains(MaterialState.hovered))
-                                        return Color.fromARGB(255, 16, 18, 19);
-                                      return Colors
-                                          .grey; // null throus error in flutter 2.2+.
+                                    foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+                                      if (states.contains(MaterialState.hovered)) return const Color.fromARGB(255, 16, 18, 19);
+                                      return Colors.grey;
                                     }),
                                   ),
-                                  /*
-
-                                HERE LIES A BIG BLOODY COMMENT TO DETERMINE 
-                                IF ITS SIGNIN PLACE
-
-
-
-
-                                  */
                                   onPressed: () {
                                     createNewUser();
-                                    debugPrint("Sign Up");
-
                                   },
                                   child: const Text(
                                     'Sign Up',
@@ -416,15 +366,6 @@ class LoginPageState extends State<LoginPage> {
                                     debugPrint("Sending to google log in");
                                     AuthService().signInWithGoogle();
                                   },
-
-                                  //borderColor: Colors.transparent,
-                                  //borderRadius: 30,
-                                  //borderWidth: 1,
-                                  //buttonSize: 50,
-                                  //fillColor: FlutterFlowTheme.of(context).secondaryBackground,
-
-                                  //color: Colors.red,
-                                  //size: 24,
                                 ),
                               ),
                             ],

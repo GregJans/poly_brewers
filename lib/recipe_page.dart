@@ -1,13 +1,18 @@
+/*
+  Description: Main landing page and place to view recipes. 
+    consists of three main categories which can be filtered
+
+  Used By: home_page.dart
+
+  Created By: Gregory Jans
+
+*/
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:poly_brewers/brew_form.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/filter_overlay.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:poly_brewers/services/auth.dart';
-import 'package:poly_brewers/services/models.dart';
-import 'package:provider/provider.dart';
 
 TextEditingController textController = TextEditingController();
 
@@ -15,35 +20,13 @@ class MainRecipePageWidget extends StatefulWidget {
   const MainRecipePageWidget({Key? key}) : super(key: key);
 
   @override
-  _MainRecipePageWidgetState createState() => _MainRecipePageWidgetState();
+  MainRecipePageWidgetState createState() => MainRecipePageWidgetState();
 }
 
-class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
-    with TickerProviderStateMixin {
+class MainRecipePageWidgetState extends State<MainRecipePageWidget> {
   
   final _unfocusNode = FocusNode();
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  //late Size buttonSize;
-  //late Offset buttonPosition;
-  //bool isMenuOpen = false;
-
-
-/*
-  @override
-  void initState() {
-    super.initState();
-    textController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _unfocusNode.dispose();
-    textController?.dispose();
-    super.dispose();
-  }
-  */
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -143,36 +126,6 @@ class _MainRecipePageWidgetState extends State<MainRecipePageWidget>
                                   suffixIcon: IconButton(
                                     icon: const Icon(Icons.filter_alt_rounded),
                                     onPressed: () {
-
-  //                                         showDialog(
-  // context: context,
-  // builder: (BuildContext context) {
-  //   return AlertDialog(
-  //     content: Stack(
-  //       children: [
-  //         const SizedBox(
-  //           width: 750,
-  //           height: 700,
-  //           child: BrewForm(),
-  //         ),
-      
-  //         Positioned(
-  //           right: 0,
-  //           top: 0,
-  //           child: IconButton(
-  //             hoverColor: Color.fromARGB(
-  //                 0, 241, 241, 241),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             icon: Icon(Icons.close),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // });
-
                                       showDialog(
                                         context: context,
                                         builder: (context) {

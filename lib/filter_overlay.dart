@@ -1,8 +1,19 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:json_annotation/json_annotation.dart';
+/*
+  Description: Displays an overlay with categories of check boxes. 
+    Checkboxes can be used to filter out data
+    By default, everything is checked
+    Category lists are refreshed when the popup disapears
 
+  Used By: recipe_page.dart
+
+  Created By: Gregory Jans
+
+*/
+
+import 'package:flutter/material.dart';
+
+// left outside of classes to be public
+// lists are needed by category_list.dart
 double widgetWidth = 200;
 
 var diffList = [
@@ -37,7 +48,7 @@ class _FilterOverlayState extends State<FilterOverlay> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       width: widgetWidth,
       decoration: const BoxDecoration(
         color: Color.fromARGB(255, 255, 255, 255),
@@ -52,7 +63,7 @@ class _FilterOverlayState extends State<FilterOverlay> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ExpansionTile(
-            title: Text("Equipment"),
+            title: const Text("Equipment"),
             children: List.generate(
               equipList.length,
               (index) {
@@ -76,7 +87,7 @@ class _FilterOverlayState extends State<FilterOverlay> {
           ),
 
           ExpansionTile(
-            title: Text("Difficulty"),
+            title: const Text("Difficulty"),
             children: List.generate(
               diffList.length,
               (index) {
@@ -100,7 +111,7 @@ class _FilterOverlayState extends State<FilterOverlay> {
           ),
 
           ExpansionTile(
-            title: Text("Style"),
+            title: const Text("Style"),
             children: List.generate(
               styleList.length,
               (index) {

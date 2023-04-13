@@ -1,5 +1,19 @@
-import 'package:flutter/material.dart';
+/*
+  Description: The first page of the brew form. 
+    Used to iput name, difficulty, style, bitterness, brew time, required equipment
+    Has a callback to brew_form to send the data that is entered and a seperate callback to change the page
+    Takes in a JSON object as the current data for when a user returns to the first page from another form page
 
+  Used By: brew_form.dart and profile_page.dart indirectly
+
+  Created By: Gregory Jans
+
+*/
+
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+// left outside of a class to be public
 const List<String> difficultyList = <String>['Novice', 'Adept', 'Cicerone'];
 const List<String> categoryList = <String>['Lager', 'IPA', 'Other'];
 
@@ -22,16 +36,18 @@ class FormPage1State extends State<FormPage1> {
   
 
 
-
+  // static variables are used to remember what the user entered in case they want to go back from another page
   static String? difficultyValue;
   static String? styleValue;
   static var isChecked = [false, false, false, false, false];
   final equipValues = ['1-Gal', '2-Gal', '5-Gal', 'Keg', 'Bottles'];
 
+  // controllers set the default values when the page loads and lets us get the data to send to parent
   late TextEditingController nameController;
   late TextEditingController bitternessController;
   late TextEditingController timeController;
 
+  // function is only ever run on the first build, not subsequent builds
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -91,7 +107,6 @@ class FormPage1State extends State<FormPage1> {
                 ),
               ), 
               SizedBox(
-                //height: 45,
                 child: TextFormField(
                   controller: nameController,
                   decoration: InputDecoration(
@@ -119,13 +134,13 @@ class FormPage1State extends State<FormPage1> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 50),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(right: 10),
                           child: Text(
                             "Difficulty:",
@@ -141,15 +156,13 @@ class FormPage1State extends State<FormPage1> {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Color.fromARGB(134, 218, 218, 218),
                           ),
-                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                           child: DropdownButton<String>(
                             value: difficultyValue,
                             elevation: 4,
                             icon: const Icon(Icons.arrow_drop_down_rounded),
                             hint: const Text("Please select one"),
                             focusColor: Colors.transparent,
-                            //elevation: 16,
-                            //style: const TextStyle(color: Colors.deepPurple),
                             underline: Container(
                               height: 0,
                             ),
@@ -164,7 +177,7 @@ class FormPage1State extends State<FormPage1> {
                                 value: value,
                                 child: Text(
                                   value, 
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14
                                   ),
                                 ),
@@ -176,7 +189,7 @@ class FormPage1State extends State<FormPage1> {
                     ),
                     Row(
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsets.only(right: 10),
                           child: Text(
                             "Style:",
@@ -192,14 +205,12 @@ class FormPage1State extends State<FormPage1> {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             color: Color.fromARGB(134, 218, 218, 218),
                           ),
-                          padding: EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(5, 0, 5, 0),
                           child: DropdownButton<String>(
                             value: styleValue,
                             icon: const Icon(Icons.arrow_drop_down_rounded),
                             hint: const Text("Please select one"),
-                            //elevation: 16,
                             focusColor: Colors.transparent,
-                            //style: const TextStyle(color: Colors.deepPurple),
                             underline: Container(
                               height: 0,
                             ),
@@ -214,15 +225,14 @@ class FormPage1State extends State<FormPage1> {
                                 value: value,
                                 child: Text(
                                   value, 
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 14
                                   ),
                                 ),
                               );
                             }).toList(),
                           ),
-                        ),
-                        
+                        ), 
                       ],
                     ),
                   ],
@@ -233,10 +243,10 @@ class FormPage1State extends State<FormPage1> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
-                padding: EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 50),
                 child: Row(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Text(
                         "Bitterness:",
@@ -252,6 +262,7 @@ class FormPage1State extends State<FormPage1> {
                         controller: bitternessController,
                         decoration: InputDecoration(
                           isDense: true,
+                          hintText: 'ex: 20',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -264,8 +275,9 @@ class FormPage1State extends State<FormPage1> {
                             borderSide: const BorderSide(color: Colors.red)
                           ),
                           filled: true,
-                          fillColor: Color.fromARGB(134, 218, 218, 218),
+                          fillColor: const Color.fromARGB(134, 218, 218, 218),
                         ),
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter IBU';
@@ -273,11 +285,14 @@ class FormPage1State extends State<FormPage1> {
                           else if (double.tryParse(value) == null) {
                             return 'IBU must be a decimal value';
                           }
+                          else if (double.parse(value) < 0 || double.parse(value) > 60) {
+                            return 'Value out of range';
+                          }
                           return null;
                         },
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
                         "IBU",
@@ -290,11 +305,11 @@ class FormPage1State extends State<FormPage1> {
                   ],
                 ),
               ),
-                  Padding(
-                padding: EdgeInsets.only(top: 50),
+              Padding(
+                padding: const EdgeInsets.only(top: 50),
                 child: Row(
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(right: 10),
                       child: Text(
                         "Brew Time:",
@@ -310,6 +325,7 @@ class FormPage1State extends State<FormPage1> {
                         controller: timeController,
                         decoration: InputDecoration(
                           isDense: true,
+                          hintText: 'ex: 90',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -322,20 +338,21 @@ class FormPage1State extends State<FormPage1> {
                             borderSide: const BorderSide(color: Colors.red)
                           ),
                           filled: true,
-                          fillColor: Color.fromARGB(134, 218, 218, 218),
+                          fillColor: const Color.fromARGB(134, 218, 218, 218),
                         ),
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter time';
                           } 
-                          else if (double.tryParse(value) == null) {
+                          else if (int.tryParse(value) == null) {
                             return 'time must be an integer value';
                           }
                           return null;
                         },
                       ),
                     ),
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.only(left: 10),
                       child: Text(
                         "mins",
@@ -437,18 +454,13 @@ class FormPage1State extends State<FormPage1> {
                       ),
                       Text(equipValues[4]),
                     ]
-                  ),
-                  
-                  
+                  ),  
                 ],
               ),
 
-              
-              
-
-              
+            
               Padding(
-                padding: EdgeInsets.only(top: 100),
+                padding: const EdgeInsets.only(top: 100),
                 child: Container(
                   width: MediaQuery.of(context).size.width / 4,
                   height: 50,
@@ -466,7 +478,7 @@ class FormPage1State extends State<FormPage1> {
                             equip.add(equipValues[i]);
                           }
                         }
-                        
+                        // send the data to the parent
                         widget.notifyParent(
                           nameController.text,
                           difficultyValue!,
@@ -475,7 +487,7 @@ class FormPage1State extends State<FormPage1> {
                           equip,
                           int.parse(timeController.text)
                         );
-
+                        // refresh the page
                         widget.update();
                       }
                     },

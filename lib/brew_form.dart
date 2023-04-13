@@ -1,3 +1,15 @@
+/*
+  Description: The popup to submit a brew to the database 
+    Consists of three child widgets (a seperate widget for each page of the form)
+    After each stage is completed, the data is stored in a JSON object
+    After the last page, the JSON is converted into a recipe and sent to the databse
+
+  Used By: profile_page.dart
+
+  Created By: Gregory Jans
+
+*/
+
 import 'package:flutter/material.dart';
 import 'package:poly_brewers/category_list.dart';
 import 'package:poly_brewers/form_pages/form_page_3.dart';
@@ -18,7 +30,6 @@ class BrewForm extends StatefulWidget {
 }
 
 class BrewFormState extends State<BrewForm> {
-  final _formKey = GlobalKey<FormState>();
 
   String? difficultyValue;
   String? styleValue;
