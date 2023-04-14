@@ -16,3 +16,15 @@ All code within the lib folder and its subfolders was created by a member of the
 
 ## External Dependancies
 This project depends on Firebase services provided by Google, the flutter_rating_bar package and the rxdart package. Flutter_rating_bar is used to create the interactable rating bar within the individual recipe page while the rxdart package is used to help display the beginner's manual pdf. A full list of required dependancies can be found in the pubspec.yaml file.
+
+## Build Directions
+In order to build Poly Brewers locally, the following process is recommentded. Please note that flutter must be installed on the system:
+
+1. Download and extract the zip file
+2. Navigate to the extracted folder from the command prompt
+3. Run the following command: ```flutter run```
+4. If prompted to select a device, please select the apropriate option for Chrome (chrome) 
+
+Notes:
+  * choosing other options may cause unintended errors
+  * the running process may take several minutes
