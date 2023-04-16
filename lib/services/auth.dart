@@ -1,3 +1,15 @@
+/*
+  Description: The AuthService class, the primary means of abstracting the
+  Firebase authentication business logic for the rest of the application. Covers
+  the registration of User Email and password, email-password login, and Google
+  account authentication services
+
+  Used By: login_page.dart and main.dart for Provider class.
+
+  Created By: Nicholas Porter, Gregory Jans
+
+*/
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:poly_brewers/services/firestore.dart';
@@ -12,13 +24,18 @@ class AuthService {
   //User is of course, the user using the specific user stream
   var user = FirebaseAuth.instance.currentUser;
 
+//registerEmailUser, the means of establishing a new user in the firebase
+//authentication server. Takes the emailAddress and password from the frontend.
+//Also creates new UserData entry in firestore database.
   Future<void> registerEmailUser(String emailAddress, String password) async {
     try {
+      //send new credential information to firestore
       var credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
+      //Send new user data upon creation to firestore database.
       user = credential.user;
       FirestoreService().sendUserInfo();
     } on FirebaseAuthException catch (e) {
@@ -27,6 +44,8 @@ class AuthService {
     }
   }
 
+//emailPassowrdLogin, the means of logging in a user in the firebase
+//authentication server. Takes the emailAddress and password from the frontend.
   Future<void> emailPasswordLogin(String emailAddress, String password) async {
     try {
       var credential = await FirebaseAuth.instance
