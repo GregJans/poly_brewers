@@ -44,11 +44,15 @@ class AuthService {
         .addScope('https://www.googleapis.com/auth/contacts.readonly');
     googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
 
-    // Once signed in, return the UserCredential
-    /*
-      NOTE TO SELF GOOGLE USER ALSO NEEDS NEW SPOT IN DB
-    */
-    return await FirebaseAuth.instance.signInWithPopup(googleProvider);
+    var credential =
+        await FirebaseAuth.instance.signInWithPopup(googleProvider);
+    user = credential.user;
+    if (credential.additionalUserInfo!.isNewUser) {
+      FirestoreService().sendUserInfo();
+      return credential;
+    }
+
+    return credential;
     //user = cred.user;
     //FirestoreService().sendUserInfo(user);
   }

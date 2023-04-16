@@ -56,8 +56,6 @@ class LoginPageState extends State<LoginPage> {
         widget.notifyParent();
       }
     });
-
-    
   }
 
   void authenticateUser() {
@@ -89,10 +87,37 @@ class LoginPageState extends State<LoginPage> {
     });
   }
 
+  void signInWithGoogle() {
+    AuthService().signInWithGoogle().catchError((e) {
+      debugPrint(e);
+      if (mounted) {
+        setState(() {
+          //reset the error messages
+          emailError = null;
+          pwError = null;
+
+          if (e == 'user-not-found') {
+            emailError = 'No user found for that email.';
+          } else if (e == 'wrong-password') {
+            pwError = 'Wrong password provided for that user.';
+          } else if (e == "invalid-email") {
+            emailError = "Not a proper email format";
+          } else if (e == 'invalid-password') {
+            pwError = "Password must be of length 6";
+          }
+        });
+      } // This is only run if there is no error thrown
+    }).then((value) {
+      user = AuthService().user;
+      // Checks if user exists / is authenticated
+      if (user != null) {
+        widget.notifyParent();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsetsDirectional.fromSTEB(24, 24, 24, 24),
@@ -190,7 +215,8 @@ class LoginPageState extends State<LoginPage> {
                             filled: true,
                             fillColor: Colors.white,
                             contentPadding:
-                                const EdgeInsetsDirectional.fromSTEB(20, 24, 20, 24),
+                                const EdgeInsetsDirectional.fromSTEB(
+                                    20, 24, 20, 24),
                           ),
                           onChanged: (String value) {
                             emailAddress = value;
@@ -297,15 +323,20 @@ class LoginPageState extends State<LoginPage> {
                           children: [
                             Container(
                               height: 50,
-                              decoration: const BoxDecoration(
-                                  ),
+                              decoration: const BoxDecoration(),
                               alignment: const AlignmentDirectional(-1, 0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(0, 0, 16, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    0, 0, 16, 0),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.hovered)) return const Color.fromARGB(255, 16, 18, 19);
+                                    foregroundColor:
+                                        MaterialStateProperty.resolveWith<
+                                            Color>((Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.hovered))
+                                        return const Color.fromARGB(
+                                            255, 16, 18, 19);
                                       return Colors.grey;
                                     }),
                                   ),
@@ -325,11 +356,17 @@ class LoginPageState extends State<LoginPage> {
                               height: 50,
                               alignment: const AlignmentDirectional(-1, 0),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16, 0, 16, 0),
                                 child: TextButton(
                                   style: ButtonStyle(
-                                    foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
-                                      if (states.contains(MaterialState.hovered)) return const Color.fromARGB(255, 16, 18, 19);
+                                    foregroundColor:
+                                        MaterialStateProperty.resolveWith<
+                                            Color>((Set<MaterialState> states) {
+                                      if (states
+                                          .contains(MaterialState.hovered))
+                                        return const Color.fromARGB(
+                                            255, 16, 18, 19);
                                       return Colors.grey;
                                     }),
                                   ),
@@ -364,7 +401,7 @@ class LoginPageState extends State<LoginPage> {
                                   ),
                                   onPressed: () async {
                                     debugPrint("Sending to google log in");
-                                    AuthService().signInWithGoogle();
+                                    signInWithGoogle();
                                   },
                                 ),
                               ),
