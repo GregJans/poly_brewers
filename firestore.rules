@@ -5,7 +5,13 @@ service cloud.firestore {
     match /User/{userId} {
    		allow read: if request.auth.uid == userId;
       allow update: if request.auth.uid == userId;
+      allow write: if request.auth.uid == userId;
 		}
+    
+    match /Recipe/{brewId}{
+    		allow read: if true;
+        allow write: if true;
+        allow update: if true;
+    }
 	}
-
 }
