@@ -371,7 +371,7 @@ class Iframe extends StatelessWidget {
     // ignore: undefined_prefixed_name
     ui.platformViewRegistry.registerViewFactory('iframe', (int viewId) {
       var iframe = html.IFrameElement();
-      iframe.src = 'assets/docs/PolyBrewers_Deliverable2.pdf';
+      iframe.src = 'assets/docs/ThePolyBrewersManifesto.pdf'; 
       iframe.style.height = '100%';
       iframe.style.width = '100%';
       return iframe;
