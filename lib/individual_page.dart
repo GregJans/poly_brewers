@@ -613,7 +613,7 @@ class IndividualPageWidgetState extends State<IndividualPageWidget> {
                     ),
                   ),
                   Text(
-                    widget.recipe.instructions.replaceAll(RegExp('\n'), ' '),
+                    widget.recipe.instructions,
                     style: const TextStyle(
                       color: Color.fromARGB(255, 16, 18, 19),
                       fontSize: 14,
