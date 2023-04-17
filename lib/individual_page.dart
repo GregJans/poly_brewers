@@ -209,265 +209,273 @@ class IndividualPageWidgetState extends State<IndividualPageWidget> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Difficulty',
-                          style: TextStyle(
-                            color: Color(0xFF95A1AC),
-                            fontSize: 14,
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.difficulty,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Divider(
-                          height: 75,
-                          thickness: 1,
-                          color: Colors.transparent,
-                        ),
-                        const Text(
-                          'Origional Gravity',
-                          style: TextStyle(
-                            color: Color(0xFF95A1AC),
-                            fontSize: 14,
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.originalGravity.toStringAsPrecision(4),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            'Estimated Brew Time',
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Difficulty',
                             style: TextStyle(
                               color: Color(0xFF95A1AC),
                               fontSize: 14,
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            '${widget.recipe.brewTime} minutes',
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              widget.recipe.difficulty,
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 16, 18, 19)),
+                            ),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            'Yeast',
+                          const Divider(
+                            height: 75,
+                            thickness: 1,
+                            color: Colors.transparent,
+                          ),
+                          const Text(
+                            'Origional Gravity',
                             style: TextStyle(
                               color: Color(0xFF95A1AC),
                               fontSize: 14,
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.yeast.toString(),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            'Hops',
-                            style: TextStyle(
-                              color: Color(0xFF95A1AC),
-                              fontSize: 14,
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              widget.recipe.originalGravity.toStringAsPrecision(4),
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 16, 18, 19)),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.hops.join(', '),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            'Extract',
-                            style: TextStyle(
-                              color: Color(0xFF95A1AC),
-                              fontSize: 14,
+                          const Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                            child: Text(
+                              'Estimated Brew Time',
+                              style: TextStyle(
+                                color: Color(0xFF95A1AC),
+                                fontSize: 14,
+                              ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.extractName.join(', '),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              '${widget.recipe.brewTime} minutes',
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 16, 18, 19)),
+                            ),
                           ),
-                        ),
-                      ],
+                          const Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                            child: Text(
+                              'Yeast',
+                              style: TextStyle(
+                                color: Color(0xFF95A1AC),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              widget.recipe.yeast.toString(),
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 16, 18, 19)),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                            child: Text(
+                              'Hops',
+                              style: TextStyle(
+                                color: Color(0xFF95A1AC),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              widget.recipe.hops.join(', '),
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 16, 18, 19)),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                            child: Text(
+                              'Extract',
+                              style: TextStyle(
+                                color: Color(0xFF95A1AC),
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            child: Text(
+                              widget.recipe.extractName.join(', '),
+                              textAlign: TextAlign.start,
+                              style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Color.fromARGB(255, 16, 18, 19)),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Style',
-                          style: TextStyle(
-                            color: Color(0xFF95A1AC),
-                            fontSize: 14,
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.style,
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Divider(
-                          height: 75,
-                          thickness: 1,
-                          color: Colors.transparent,
-                        ),
-                        const Text(
-                          'Final Gravity',
-                          style: TextStyle(
-                            color: Color(0xFF95A1AC),
-                            fontSize: 14,
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.finalGravity.toStringAsPrecision(4),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            ' ',
-                            style: TextStyle(
-                              color: Color(0xFF95A1AC),
-                              fontSize: 14,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Style',
+                              style: TextStyle(
+                                color: Color(0xFF95A1AC),
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            ' ',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            'Specific Grains',
-                            style: TextStyle(
-                              color: Color(0xFF95A1AC),
-                              fontSize: 14,
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                              child: Text(
+                                widget.recipe.style,
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 16, 18, 19)),
+                              ),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            widget.recipe.grains.join(', '),
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            'Hops Weight',
-                            style: TextStyle(
-                              color: Color(0xFF95A1AC),
-                              fontSize: 14,
+                            const Divider(
+                              height: 75,
+                              thickness: 1,
+                              color: Colors.transparent,
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            '${widget.recipe.hopsWeight.join(', ')} oz',
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                          child: Text(
-                            'Extract Weight',
-                            style: TextStyle(
-                              color: Color(0xFF95A1AC),
-                              fontSize: 14,
+                            const Text(
+                              'Final Gravity',
+                              style: TextStyle(
+                                color: Color(0xFF95A1AC),
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                              child: Text(
+                                widget.recipe.finalGravity.toStringAsPrecision(4),
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 16, 18, 19)),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                              child: Text(
+                                ' ',
+                                style: TextStyle(
+                                  color: Color(0xFF95A1AC),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                              child: Text(
+                                ' ',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 16, 18, 19)),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                              child: Text(
+                                'Specific Grains',
+                                style: TextStyle(
+                                  color: Color(0xFF95A1AC),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                              child: Text(
+                                widget.recipe.grains.join(', '),
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.visible,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 16, 18, 19)),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                              child: Text(
+                                'Hops Weight',
+                                style: TextStyle(
+                                  color: Color(0xFF95A1AC),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                              child: Text(
+                                '${widget.recipe.hopsWeight.join(', ')} oz',
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 16, 18, 19)),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                              child: Text(
+                                'Extract Weight',
+                                style: TextStyle(
+                                  color: Color(0xFF95A1AC),
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                              child: Text(
+                                '${widget.recipe.extractWeight} lbs',
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 16, 18, 19)),
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding:
-                              const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                          child: Text(
-                            '${widget.recipe.extractWeight} lbs',
-                            textAlign: TextAlign.start,
-                            style: const TextStyle(
-                                fontSize: 18,
-                                color: Color.fromARGB(255, 16, 18, 19)),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
+                    
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -588,33 +596,30 @@ class IndividualPageWidgetState extends State<IndividualPageWidget> {
               height: 50,
               color: Colors.transparent,
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 36),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
-                      child: Text(
-                        'Instructions',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 87, 99, 108),
-                          fontSize: 22,
-                        ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 50),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                    child: Text(
+                      'Instructions',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 87, 99, 108),
+                        fontSize: 22,
                       ),
                     ),
-                    Text(
-                      widget.recipe.instructions,
-                      style: const TextStyle(
-                        color: Color.fromARGB(255, 16, 18, 19),
-                        fontSize: 14,
-                      ),
+                  ),
+                  Text(
+                    widget.recipe.instructions.replaceAll(RegExp('\n'), ' '),
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 16, 18, 19),
+                      fontSize: 14,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ],
